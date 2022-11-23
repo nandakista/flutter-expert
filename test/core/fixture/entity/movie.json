@@ -1,0 +1,19 @@
+{
+  "adult": false,
+  "backdrop_path": "/url.jpg",
+  "genre_ids": [
+    28,
+    14,
+    878
+  ],
+  "id": 436270,
+  "original_title": "Black Adam",
+  "overview": "Some Overview",
+  "popularity": 23828.993,
+  "poster_path": "/url.jpg",
+  "release_date": "2022-10-19",
+  "title": "Black Adam",
+  "video": false,
+  "vote_average": 6.8,
+  "vote_count": 1270
+}
