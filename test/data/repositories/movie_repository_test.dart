@@ -36,8 +36,7 @@ void main() {
         ],
         id: 436270,
         originalTitle: 'Black Adam',
-        overview:
-            'After being bitten by a genetically altered spider, nerdy high school student Peter Parker is endowed with amazing powers to become the Amazing superhero known as Spider-Man.',
+        overview: 'Some Overview',
         popularity: 23828.993,
         posterPath: '/url.jpg',
         releaseDate: '2022-10-19',

@@ -24,17 +24,16 @@ class PopularProvider extends ChangeNotifier {
   Future<void> loadData() async {
     _state = NetworkState.loading;
     notifyListeners();
-
     final result = await getPopularMovies();
     result.fold(
-          (failure) {
-        _state = NetworkState.error;
+      (failure) {
         _message = failure.message;
+        _state = NetworkState.error;
         notifyListeners();
       },
-          (moviesData) {
-        _state = NetworkState.loaded;
+      (moviesData) {
         _data = moviesData;
+        _state = NetworkState.loaded;
         notifyListeners();
       },
     );

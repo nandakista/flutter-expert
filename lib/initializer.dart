@@ -28,8 +28,6 @@ void init() {
   locator.registerFactory(
     () => HomeProvider(
       getNowPlayingMovies: locator<GetNowPlayingMovies>(),
-      getPopularMovies: locator<GetPopularMovies>(),
-      getTopRatedMovies: locator<GetTopRatedMovies>(),
     ),
   );
 

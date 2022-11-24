@@ -18,48 +18,55 @@ class DetailProvider extends ChangeNotifier {
   String _message = '';
   String get message => _message;
 
-  NetworkState _movieState = NetworkState.empty;
-  NetworkState get movieState => _movieState;
-  late MovieDetail _movie;
-  MovieDetail get movie => _movie;
+  NetworkState _detailState = NetworkState.empty;
+  NetworkState get detailState => _detailState;
+  late MovieDetail _detailMovie;
+  MovieDetail get detailMovie => _detailMovie;
 
-  NetworkState _recommendationState = NetworkState.empty;
-  NetworkState get recommendationState => _recommendationState;
-  List<Movie> _movieRecommendations = [];
-  List<Movie> get movieRecommendations => _movieRecommendations;
-
+  NetworkState _recommendedState = NetworkState.empty;
+  NetworkState get recommendationState => _recommendedState;
+  List<Movie> _recommendedMovies = [];
+  List<Movie> get recommendedMovies => _recommendedMovies;
 
   DetailProvider init(int id) {
-    fetchMovieDetail(id);
+    loadMovieDetail(id);
+    loadRecommendedMovie(id);
     return this;
   }
 
-  Future<void> fetchMovieDetail(int id) async {
-    _movieState = NetworkState.loading;
+  Future<void> loadMovieDetail(int id) async {
+    _detailState = NetworkState.loading;
     notifyListeners();
+
     final detailResult = await getDetailMovie(id);
-    final recommendationResult = await getRecommendationsMovies(id);
     detailResult.fold(
       (failure) {
-        _movieState = NetworkState.error;
+        _detailState = NetworkState.error;
         _message = failure.message;
         notifyListeners();
       },
       (movie) {
-        _recommendationState = NetworkState.loading;
-        _movie = movie;
+        _detailMovie = movie;
+        _detailState = NetworkState.loaded;
         notifyListeners();
-        recommendationResult.fold(
-          (failure) {
-            _recommendationState = NetworkState.error;
-            _message = failure.message;
-          },
-          (movies) {
-            _recommendationState = NetworkState.loaded;
-            _movieRecommendations = movies;
-          },
-        );
-        _movieState = NetworkState.loaded;
+      },
+    );
+  }
+
+  Future<void> loadRecommendedMovie(int id) async {
+    _recommendedState = NetworkState.loading;
+    notifyListeners();
+
+    final recommendationResult = await getRecommendationsMovies(id);
+    recommendationResult.fold(
+      (failure) {
+        _message = failure.message;
+        _recommendedState = NetworkState.error;
+        notifyListeners();
+      },
+      (movies) {
+        _recommendedMovies = movies;
+        _recommendedState = NetworkState.loaded;
         notifyListeners();
       },
     );

@@ -22,14 +22,14 @@ class SearchProvider extends ChangeNotifier {
 
     final result = await searchMovie(query);
     result.fold(
-          (failure) {
-        _state = NetworkState.error;
+      (failure) {
         _message = failure.message;
+        _state = NetworkState.error;
         notifyListeners();
       },
-          (moviesData) {
-        _state = NetworkState.loaded;
+      (moviesData) {
         _data = moviesData;
+        _state = NetworkState.loaded;
         notifyListeners();
       },
     );

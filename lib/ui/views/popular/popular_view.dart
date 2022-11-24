@@ -13,7 +13,9 @@ class PopularView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Popular Movies'),),
+      appBar: AppBar(
+        title: const Text('Popular Movies'),
+      ),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(8.0),

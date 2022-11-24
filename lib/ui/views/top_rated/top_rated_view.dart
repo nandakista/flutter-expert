@@ -13,7 +13,9 @@ class TopRatedView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Top Rated Movies'),),
+      appBar: AppBar(
+        title: const Text('Top Rated Movies'),
+      ),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(8.0),

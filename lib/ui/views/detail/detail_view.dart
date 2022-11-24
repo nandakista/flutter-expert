@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:submission/core/theme/app_style.dart';
+import 'package:submission/ui/views/detail/components/recommended_component.dart';
 import 'package:submission/ui/views/detail/detail_provider.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
@@ -12,6 +13,7 @@ import '../../../domain/entities/movie_detail.dart';
 
 class DetailView extends StatefulWidget {
   static const route = '/detail';
+
   const DetailView({Key? key, required this.id}) : super(key: key);
 
   final int id;
@@ -34,16 +36,16 @@ class _DetailViewState extends State<DetailView> {
     return Scaffold(
       body: Consumer<DetailProvider>(
         builder: (context, provider, child) {
-          if (provider.movieState == NetworkState.loading) {
+          if (provider.detailState == NetworkState.loading) {
             return const Center(
               child: CircularProgressIndicator(),
             );
-          } else if (provider.movieState == NetworkState.loaded) {
-            final movie = provider.movie;
+          } else if (provider.detailState == NetworkState.loaded) {
+            final movie = provider.detailMovie;
             return SafeArea(
               child: DetailContent(
                 movie: movie,
-                recommendations: provider.movieRecommendations,
+                recommendations: provider.recommendedMovies,
                 // isAddedWatchlist: provider.isAddedToWatchlist,,
               ),
             );
@@ -61,8 +63,12 @@ class DetailContent extends StatelessWidget {
   final List<Movie>? recommendations;
   final bool? isAddedWatchlist;
 
-  const DetailContent(
-      {super.key, this.movie, this.recommendations, this.isAddedWatchlist});
+  const DetailContent({
+    super.key,
+    this.movie,
+    this.recommendations,
+    this.isAddedWatchlist,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -180,67 +186,7 @@ class DetailContent extends StatelessWidget {
                               '${movie?.overview}',
                             ),
                             const SizedBox(height: 16),
-                            Text(
-                              'Recommendations',
-                              style: AppStyle.subtitle4,
-                            ),
-                            Consumer<DetailProvider>(
-                              builder: (context, data, child) {
-                                if (data.recommendationState ==
-                                    NetworkState.loading) {
-                                  return const Center(
-                                    child: CircularProgressIndicator(),
-                                  );
-                                } else if (data.recommendationState ==
-                                    NetworkState.error) {
-                                  return Text(data.message);
-                                } else if (data.recommendationState ==
-                                    NetworkState.loaded) {
-                                  return Container(
-                                    height: 150,
-                                    child: ListView.builder(
-                                      scrollDirection: Axis.horizontal,
-                                      itemCount: recommendations?.length,
-                                      itemBuilder: (context, index) {
-                                        final movie = recommendations?[index];
-                                        return Padding(
-                                          padding: const EdgeInsets.all(4.0),
-                                          child: InkWell(
-                                            onTap: () {
-                                              Navigator.pushReplacementNamed(
-                                                context,
-                                                DetailView.route,
-                                                arguments: movie?.id,
-                                              );
-                                            },
-                                            child: ClipRRect(
-                                              borderRadius:
-                                                  const BorderRadius.all(
-                                                Radius.circular(8),
-                                              ),
-                                              child: CachedNetworkImage(
-                                                imageUrl:
-                                                    'https://image.tmdb.org/t/p/w500${movie?.posterPath}',
-                                                placeholder: (context, url) =>
-                                                    const Center(
-                                                  child:
-                                                      CircularProgressIndicator(),
-                                                ),
-                                                errorWidget:
-                                                    (context, url, error) =>
-                                                        const Icon(Icons.error),
-                                              ),
-                                            ),
-                                          ),
-                                        );
-                                      },
-                                    ),
-                                  );
-                                } else {
-                                  return Container();
-                                }
-                              },
-                            ),
+                            const RecommendedComponent()
                           ],
                         ),
                       ),

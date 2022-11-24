@@ -28,13 +28,13 @@ class TopRatedProvider extends ChangeNotifier {
     final result = await getTopRatedMovies();
     result.fold(
       (failure) {
-        _state = NetworkState.error;
         _message = failure.message;
+        _state = NetworkState.error;
         notifyListeners();
       },
       (moviesData) {
-        _state = NetworkState.loaded;
         _data = moviesData;
+        _state = NetworkState.loaded;
         notifyListeners();
       },
     );
