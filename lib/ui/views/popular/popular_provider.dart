@@ -11,7 +11,7 @@ class PopularProvider extends ChangeNotifier {
   String _message = '';
   String get message => _message;
 
-  NetworkState _state = NetworkState.empty;
+  NetworkState _state = NetworkState.initial;
   NetworkState get state => _state;
   List<Movie> _data = <Movie>[];
   List<Movie> get data => _data;
@@ -32,9 +32,15 @@ class PopularProvider extends ChangeNotifier {
         notifyListeners();
       },
       (moviesData) {
-        _data = moviesData;
-        _state = NetworkState.loaded;
-        notifyListeners();
+        if(moviesData.isEmpty) {
+          _state = NetworkState.empty;
+          _message = 'Empty Popular Movies';
+          notifyListeners();
+        } else {
+          _data = moviesData;
+          _state = NetworkState.loaded;
+          notifyListeners();
+        }
       },
     );
   }

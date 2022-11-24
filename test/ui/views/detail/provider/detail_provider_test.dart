@@ -31,8 +31,8 @@ void main() {
   });
 
   test('''Initial State and data should be empty''', () {
-    expect(provider.detailState, NetworkState.empty);
-    expect(provider.recommendationState, NetworkState.empty);
+    expect(provider.detailState, NetworkState.initial);
+    expect(provider.recommendationState, NetworkState.initial);
     expect(provider.recommendedMovies, List<Movie>.empty());
     expect(provider.message, '');
   });
@@ -158,8 +158,8 @@ void main() {
       expect(provider.message, '');
     });
 
-    test('''Should GET Recommended Movie data from usecase 
-    and change state to Loaded''', () async {
+    test('''Should GET Recommended Movie data from usecase and data is not empty
+    then change state to Loaded''', () async {
       // Arrange
       when(mockGetRecommendedMovies(tMovieId))
           .thenAnswer((_) async => Right(tMovieList));
@@ -168,9 +168,28 @@ void main() {
       final result = provider.recommendedMovies;
       // Assert
       verify(mockGetRecommendedMovies(tMovieId));
+      assert(result.isNotEmpty);
       expect(provider.recommendationState, NetworkState.loaded);
       expect(result, tMovieList);
       expect(provider.message, '');
+      expect(providerCalledCount, 2);
+    });
+
+    test('''Should GET Recommended Movie data from usecase and data is empty
+  then change state to Empty''', () async {
+      final tMovieList = <Movie>[];
+      // Arrange
+      when(mockGetRecommendedMovies(tMovieId))
+          .thenAnswer((_) async => Right(tMovieList));
+      // Act
+      await provider.loadRecommendedMovie(tMovieId);
+      final result = provider.recommendedMovies;
+      // Assert
+      verify(mockGetRecommendedMovies(tMovieId));
+      assert(result.isEmpty);
+      expect(provider.recommendationState, NetworkState.empty);
+      expect(result, tMovieList);
+      expect(provider.message, 'No Recommendations Found');
       expect(providerCalledCount, 2);
     });
 

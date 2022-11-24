@@ -26,7 +26,10 @@ class _DetailViewState extends State<DetailView> {
   @override
   void initState() {
     Future.microtask(() {
-      Provider.of<DetailProvider>(context, listen: false).init(widget.id);
+      Provider.of<DetailProvider>(context, listen: false)
+          .loadMovieDetail(widget.id);
+      Provider.of<DetailProvider>(context, listen: false)
+          .loadRecommendedMovie(widget.id);
     });
     super.initState();
   }
@@ -44,13 +47,17 @@ class _DetailViewState extends State<DetailView> {
             final movie = provider.detailMovie;
             return SafeArea(
               child: DetailContent(
+                key: const Key('detail_content'),
                 movie: movie,
                 recommendations: provider.recommendedMovies,
                 // isAddedWatchlist: provider.isAddedToWatchlist,,
               ),
             );
           } else {
-            return Text(provider.message);
+            return Text(
+              key: const Key('error_message'),
+              provider.message,
+            );
           }
         },
       ),

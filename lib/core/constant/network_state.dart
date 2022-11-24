@@ -1,1 +1,1 @@
-enum NetworkState { empty, loading, loaded, error }
+enum NetworkState { initial, empty, loading, loaded, error }

@@ -11,10 +11,12 @@ class SearchProvider extends ChangeNotifier {
   String _message = '';
   String get message => _message;
 
-  NetworkState _state = NetworkState.empty;
+  NetworkState _state = NetworkState.initial;
   NetworkState get state => _state;
   List<Movie> _data = <Movie>[];
   List<Movie> get data => _data;
+
+  void toInitial() => _state = NetworkState.initial;
 
   Future<void> onSearchMovie(String query) async {
     _state = NetworkState.loading;
@@ -28,9 +30,15 @@ class SearchProvider extends ChangeNotifier {
         notifyListeners();
       },
       (moviesData) {
-        _data = moviesData;
-        _state = NetworkState.loaded;
-        notifyListeners();
+        if(moviesData.isEmpty) {
+          _state = NetworkState.empty;
+          _message = 'Oops we could not find what you were looking for!';
+          notifyListeners();
+        } else {
+          _data = moviesData;
+          _state = NetworkState.loaded;
+          notifyListeners();
+        }
       },
     );
   }

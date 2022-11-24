@@ -24,7 +24,7 @@ void main() {
   });
 
   test('''Initial State and data should be empty''', () {
-    expect(provider.state, NetworkState.empty);
+    expect(provider.state, NetworkState.initial);
     expect(provider.data, List<Movie>.empty());
     expect(provider.message, '');
   });
@@ -41,8 +41,8 @@ void main() {
     expect(provider.message, '');
   });
 
-  test('''Should GET Popular Movie data from usecase 
-  and change state to Loaded''', () async {
+  test('''Should GET Popular Movie data from usecase and data is not empty
+  then change state to Loaded''', () async {
     final tMovieList = [
       const Movie(
         adult: false,
@@ -71,7 +71,25 @@ void main() {
     final result = provider.data;
     // Assert
     verify(mockGetPopularMovies());
+    assert(result.isNotEmpty);
     expect(provider.state, NetworkState.loaded);
+    expect(result, tMovieList);
+    expect(providerCalledCount, 2);
+  });
+
+  test('''Should GET Popular Movie data from usecase and data is empty
+  then change state to Empty''', () async {
+    final tMovieList = <Movie>[];
+    // Arrange
+    when(mockGetPopularMovies()).thenAnswer((_) async => Right(tMovieList));
+    // Act
+    await provider.loadData();
+    final result = provider.data;
+    // Assert
+    verify(mockGetPopularMovies());
+    assert(result.isEmpty);
+    expect(provider.state, NetworkState.empty);
+    expect(provider.message, 'Empty Popular Movies');
     expect(result, tMovieList);
     expect(providerCalledCount, 2);
   });

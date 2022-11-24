@@ -11,40 +11,52 @@ class NowPlayingComponents extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Text(
-          'Now Playing',
-          style: AppStyle.subtitle2,
-        ),
-        const SizedBox(height: 12),
-        Consumer<HomeProvider>(
-          builder: (context, provider, child) {
-            switch (provider.state) {
-              case NetworkState.empty:
-                return const Text('Empty Movie');
-              case NetworkState.loading:
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
-              case NetworkState.loaded:
-                return SizedBox(
-                  height: 200,
-                  child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: provider.data.length,
-                    itemBuilder: (context, index) {
-                      final item = provider.data[index];
-                      return MovieItem(data: item);
-                    },
-                  ),
-                );
-              case NetworkState.error:
-                return Text('Failed : ${provider.message}');
-            }
-          },
-        )
-      ],
+    return Material(
+      child: Column(
+        children: [
+          Text(
+            'Now Playing',
+            style: AppStyle.subtitle2,
+          ),
+          const SizedBox(height: 12),
+          Consumer<HomeProvider>(
+            builder: (context, provider, child) {
+              switch (provider.state) {
+                case NetworkState.initial:
+                  return Container();
+                case NetworkState.empty:
+                  return const Text(
+                    key: Key('now_playing_component_empty'),
+                    'Empty Movie',
+                  );
+                case NetworkState.loading:
+                  return const Center(
+                    child: CircularProgressIndicator(
+                      key: Key('now_playing_component_loading'),
+                    ),
+                  );
+                case NetworkState.loaded:
+                  return SizedBox(
+                    height: 200,
+                    child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: provider.data.length,
+                      itemBuilder: (context, index) {
+                        final item = provider.data[index];
+                        return MovieItem(data: item);
+                      },
+                    ),
+                  );
+                case NetworkState.error:
+                  return Text(
+                    key: const Key('now_playing_component_error'),
+                    'Failed : ${provider.message}',
+                  );
+              }
+            },
+          )
+        ],
+      ),
     );
   }
 }

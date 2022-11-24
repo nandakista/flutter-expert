@@ -18,21 +18,15 @@ class DetailProvider extends ChangeNotifier {
   String _message = '';
   String get message => _message;
 
-  NetworkState _detailState = NetworkState.empty;
+  NetworkState _detailState = NetworkState.initial;
   NetworkState get detailState => _detailState;
   late MovieDetail _detailMovie;
   MovieDetail get detailMovie => _detailMovie;
 
-  NetworkState _recommendedState = NetworkState.empty;
+  NetworkState _recommendedState = NetworkState.initial;
   NetworkState get recommendationState => _recommendedState;
   List<Movie> _recommendedMovies = [];
   List<Movie> get recommendedMovies => _recommendedMovies;
-
-  DetailProvider init(int id) {
-    loadMovieDetail(id);
-    loadRecommendedMovie(id);
-    return this;
-  }
 
   Future<void> loadMovieDetail(int id) async {
     _detailState = NetworkState.loading;
@@ -65,9 +59,15 @@ class DetailProvider extends ChangeNotifier {
         notifyListeners();
       },
       (movies) {
-        _recommendedMovies = movies;
-        _recommendedState = NetworkState.loaded;
-        notifyListeners();
+        if(movies.isEmpty) {
+          _message = 'No Recommendations Found';
+          _recommendedState = NetworkState.empty;
+          notifyListeners();
+        } else {
+          _recommendedMovies = movies;
+          _recommendedState = NetworkState.loaded;
+          notifyListeners();
+        }
       },
     );
   }

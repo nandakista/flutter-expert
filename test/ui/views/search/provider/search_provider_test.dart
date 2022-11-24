@@ -24,7 +24,7 @@ void main() {
   });
 
   test('''Initial State and data should be empty''', () {
-    expect(provider.state, NetworkState.empty);
+    expect(provider.state, NetworkState.initial);
     expect(provider.data, List<Movie>.empty());
     expect(provider.message, '');
   });
@@ -42,8 +42,8 @@ void main() {
     expect(provider.message, '');
   });
 
-  test('''Should GET (Search) Movie data from usecase 
-  and change state to Loaded''', () async {
+  test('''Should GET (Search) Movie data from usecase and data is not empty 
+  then change state to Loaded''', () async {
     const tQuery = 'test';
     final tMovieList = [
       const Movie(
@@ -73,9 +73,29 @@ void main() {
     final result = provider.data;
     // Assert
     verify(mockSearchMovie(tQuery));
+    assert(result.isNotEmpty);
     expect(provider.state, NetworkState.loaded);
     expect(result, tMovieList);
     expect(provider.message, '');
+    expect(providerCalledCount, 2);
+  });
+
+  test('''Should GET (Search) Movie data from usecase and data is empty
+  then change state to Empty''', () async {
+    const tQuery = 'test';
+    final tMovieList = <Movie>[];
+    // Arrange
+    when(mockSearchMovie(tQuery)).thenAnswer((_) async => Right(tMovieList));
+    // Act
+    await provider.onSearchMovie(tQuery);
+    final result = provider.data;
+    // Assert
+    verify(mockSearchMovie(tQuery));
+    assert(result.isEmpty);
+    expect(provider.state, NetworkState.empty);
+    expect(
+        provider.message, 'Oops we could not find what you were looking for!');
+    expect(result, tMovieList);
     expect(providerCalledCount, 2);
   });
 
@@ -84,7 +104,7 @@ void main() {
     const tQuery = 'test';
     // Arrange
     when(mockSearchMovie(tQuery)).thenAnswer(
-          (_) async => const Left(ServerFailure('')),
+      (_) async => const Left(ServerFailure('')),
     );
     // Act
     await provider.onSearchMovie(tQuery);
@@ -100,7 +120,7 @@ void main() {
     const tQuery = 'test';
     // Arrange
     when(mockSearchMovie(tQuery)).thenAnswer(
-          (_) async => const Left(ConnectionFailure('No Internet Connection')),
+      (_) async => const Left(ConnectionFailure('No Internet Connection')),
     );
     // Act
     await provider.onSearchMovie(tQuery);

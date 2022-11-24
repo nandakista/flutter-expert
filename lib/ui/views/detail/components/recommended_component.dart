@@ -13,6 +13,7 @@ class RecommendedComponent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           'Recommendations',
@@ -21,9 +22,14 @@ class RecommendedComponent extends StatelessWidget {
         Consumer<DetailProvider>(
           builder: (context, provider, child) {
             switch (provider.recommendationState) {
+              case NetworkState.initial:
+                return Container();
               case NetworkState.empty:
                 return const Center(
-                  child: Text('No Recommendations'),
+                  child: Text(
+                    key: Key('empty_recommend_message'),
+                    'No Recommendations',
+                  ),
                 );
               case NetworkState.loading:
                 return const Center(
@@ -31,8 +37,8 @@ class RecommendedComponent extends StatelessWidget {
                 );
               case NetworkState.loaded:
                 if (provider.recommendedMovies.isEmpty) {
-                  return const Center(
-                    child: Text('No Recommendations Found'),
+                  return Center(
+                    child: Text(provider.message),
                   );
                 } else {
                   return SizedBox(
@@ -74,7 +80,10 @@ class RecommendedComponent extends StatelessWidget {
                 }
               case NetworkState.error:
                 return Center(
-                  child: Text(provider.message),
+                  child: Text(
+                    key: const Key('error_recommend_message'),
+                    provider.message,
+                  ),
                 );
             }
           },

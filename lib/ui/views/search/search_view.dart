@@ -12,6 +12,8 @@ class SearchView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<SearchProvider>(context, listen: false)
+      ..toInitial();
     return Scaffold(
       appBar: AppBar(
         title: const Text('Search'),
@@ -23,8 +25,7 @@ class SearchView extends StatelessWidget {
           children: [
             TextField(
               onSubmitted: (query) {
-                Provider.of<SearchProvider>(context, listen: false)
-                    .onSearchMovie(query);
+                provider.onSearchMovie(query);
               },
               decoration: const InputDecoration(
                 hintText: 'Search title',
@@ -40,26 +41,40 @@ class SearchView extends StatelessWidget {
             ),
             Consumer<SearchProvider>(
               builder: (context, provider, child) {
-                if (provider.state == NetworkState.loading) {
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
-                } else if (provider.state == NetworkState.loaded) {
-                  final result = provider.data;
-                  return Expanded(
-                    child: ListView.builder(
-                      padding: const EdgeInsets.all(8),
-                      itemBuilder: (context, index) {
-                        final movie = provider.data[index];
-                        return MovieItemList(data: movie);
-                      },
-                      itemCount: result.length,
-                    ),
-                  );
-                } else {
-                  return Expanded(
-                    child: Container(),
-                  );
+                switch (provider.state) {
+                  case NetworkState.initial:
+                    return Container();
+                  case NetworkState.empty:
+                    return Center(
+                      child: Text(
+                        key: const Key('empty_message'),
+                        provider.message,
+                      ),
+                    );
+                  case NetworkState.loading:
+                    return const Center(
+                      child: CircularProgressIndicator(
+                        key: Key('loading_indicator_state'),
+                      ),
+                    );
+                  case NetworkState.loaded:
+                    return Expanded(
+                      child: ListView.builder(
+                        itemCount: provider.data.length,
+                        padding: const EdgeInsets.all(8),
+                        itemBuilder: (context, index) {
+                          final movie = provider.data[index];
+                          return MovieItemList(data: movie);
+                        },
+                      ),
+                    );
+                  case NetworkState.error:
+                    return Center(
+                      child: Text(
+                        key: const Key('error_message'),
+                        provider.message,
+                      ),
+                    );
                 }
               },
             ),

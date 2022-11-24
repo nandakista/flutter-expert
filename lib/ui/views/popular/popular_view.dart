@@ -21,22 +21,35 @@ class PopularView extends StatelessWidget {
           padding: const EdgeInsets.all(8.0),
           child: Consumer<PopularProvider>(
             builder: (context, provider, child) {
-              if (provider.state == NetworkState.loading) {
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
-              } else if (provider.state == NetworkState.loaded) {
-                return ListView.builder(
-                  itemCount: provider.data.length,
-                  itemBuilder: (context, index) {
-                    final movie = provider.data[index];
-                    return MovieItemList(data: movie);
-                  },
-                );
-              } else {
-                return Center(
-                  child: Text(provider.message),
-                );
+              switch (provider.state) {
+                case NetworkState.initial:
+                  return Container();
+                case NetworkState.empty:
+                  return Center(
+                    child: Text(
+                      key: const Key('empty_message'),
+                      provider.message,
+                    ),
+                  );
+                case NetworkState.loading:
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                case NetworkState.loaded:
+                  return ListView.builder(
+                    itemCount: provider.data.length,
+                    itemBuilder: (context, index) {
+                      final movie = provider.data[index];
+                      return MovieItemList(data: movie);
+                    },
+                  );
+                case NetworkState.error:
+                  return Center(
+                    child: Text(
+                      key: const Key('error_message'),
+                      provider.message,
+                    ),
+                  );
               }
             },
           ),
