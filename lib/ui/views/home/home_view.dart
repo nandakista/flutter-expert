@@ -49,17 +49,21 @@ class HomeView extends StatelessWidget {
           )
         ],
       ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: const [
-            NowPlayingComponents(),
-            SizedBox(height: 12),
-            PopularComponents(),
-            SizedBox(height: 12),
-            TopRatedComponents(),
-          ],
+      body: SafeArea(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.symmetric(vertical: 16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: const [
+              NowPlayingComponents(),
+              SizedBox(height: 4),
+              Divider(thickness: 1, height: 24,),
+              PopularComponents(),
+              SizedBox(height: 4),
+              Divider(thickness: 1, height: 24,),
+              TopRatedComponents(),
+            ],
+          ),
         ),
       ),
     );

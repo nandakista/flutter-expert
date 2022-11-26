@@ -91,7 +91,7 @@ void main() {
     when(mockProvider.state).thenReturn(NetworkState.loaded);
     when(mockProvider.data).thenReturn(tMovieList);
     // ActNowPlayingComponents
-    final listViewFinder = find.byType(ListView);
+    final listViewFinder = find.byType(GridView);
     await tester.pumpWidget(makeTestableWidget(const NowPlayingComponents()));
     // Assert
     expect(listViewFinder, findsOneWidget);

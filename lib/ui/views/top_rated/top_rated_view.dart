@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:submission/ui/views/top_rated/top_rated_provider.dart';
-import 'package:submission/ui/widgets/movie_item_list.dart';
+import 'package:submission/ui/widgets/movie_item.dart';
 
 import '../../../core/constant/network_state.dart';
 
@@ -40,7 +40,7 @@ class TopRatedView extends StatelessWidget {
                     itemCount: provider.data.length,
                     itemBuilder: (context, index) {
                       final movie = provider.data[index];
-                      return MovieItemList(data: movie);
+                      return MovieItem(data: movie);
                     },
                   );
                 case NetworkState.error:

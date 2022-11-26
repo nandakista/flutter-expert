@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:submission/ui/views/popular/popular_provider.dart';
 
 import '../../../core/constant/network_state.dart';
-import '../../widgets/movie_item_list.dart';
+import '../../widgets/movie_item.dart';
 
 class PopularView extends StatelessWidget {
   static const route = '/popular';
@@ -40,7 +40,7 @@ class PopularView extends StatelessWidget {
                     itemCount: provider.data.length,
                     itemBuilder: (context, index) {
                       final movie = provider.data[index];
-                      return MovieItemList(data: movie);
+                      return MovieItem(data: movie);
                     },
                   );
                 case NetworkState.error:

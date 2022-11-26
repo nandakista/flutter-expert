@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:submission/core/theme/app_style.dart';
 import 'package:submission/core/constant/network_state.dart';
 import 'package:submission/ui/views/search/search_provider.dart';
-import 'package:submission/ui/widgets/movie_item_list.dart';
+import 'package:submission/ui/widgets/movie_item.dart';
 
 class SearchView extends StatelessWidget {
   static const route = '/search';
@@ -64,7 +64,7 @@ class SearchView extends StatelessWidget {
                         padding: const EdgeInsets.all(8),
                         itemBuilder: (context, index) {
                           final movie = provider.data[index];
-                          return MovieItemList(data: movie);
+                          return MovieItem(data: movie);
                         },
                       ),
                     );

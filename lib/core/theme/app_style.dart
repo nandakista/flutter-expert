@@ -59,7 +59,7 @@ class AppStyle {
   );
 
   static TextStyle body1 = const TextStyle(fontSize: 14);
-  static TextStyle body2 = const TextStyle(fontSize: 13);
+  static TextStyle body2 = const TextStyle(fontSize: 13, height: 1.4);
   static TextStyle body3 = const TextStyle(fontSize: 11);
   static TextStyle small = const TextStyle(fontSize: 9);
   static TextStyle verySmall = const TextStyle(fontSize: 8);

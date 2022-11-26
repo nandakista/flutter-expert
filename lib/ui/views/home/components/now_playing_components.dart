@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:submission/core/constant/network_state.dart';
 import 'package:submission/core/theme/app_style.dart';
+import 'package:submission/ui/widgets/content_wrapper.dart';
 
 import '../home_provider.dart';
-import '../widgets/movie_item.dart';
+import '../../../widgets/movie_cover_item.dart';
 
 class NowPlayingComponents extends StatelessWidget {
   const NowPlayingComponents({Key? key}) : super(key: key);
@@ -13,12 +14,15 @@ class NowPlayingComponents extends StatelessWidget {
   Widget build(BuildContext context) {
     return Material(
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Text(
-            'Now Playing',
-            style: AppStyle.subtitle2,
+          ContentWrapper(
+            child: Text(
+              'Now Playing',
+              style: AppStyle.subtitle2,
+            ),
           ),
-          const SizedBox(height: 12),
+          const SizedBox(height: 4),
           Consumer<HomeProvider>(
             builder: (context, provider, child) {
               switch (provider.state) {
@@ -37,13 +41,21 @@ class NowPlayingComponents extends StatelessWidget {
                   );
                 case NetworkState.loaded:
                   return SizedBox(
-                    height: 200,
-                    child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
+                    height: 500,
+                    child: GridView.builder(
+                      shrinkWrap: true,
                       itemCount: provider.data.length,
+                      padding: EdgeInsets.symmetric(horizontal: 16),
+                      gridDelegate:
+                          const SliverGridDelegateWithMaxCrossAxisExtent(
+                        maxCrossAxisExtent: 250,
+                        mainAxisExtent: 180,
+                        // childAspectRatio: 500/256
+                      ),
+                      scrollDirection: Axis.horizontal,
                       itemBuilder: (context, index) {
                         final item = provider.data[index];
-                        return MovieItem(data: item);
+                        return MovieCoverItem(data: item);
                       },
                     ),
                   );

@@ -7,6 +7,7 @@ import 'package:submission/core/constant/network_state.dart';
 import 'package:submission/domain/entities/genre.dart';
 import 'package:submission/domain/entities/movie.dart';
 import 'package:submission/domain/entities/movie_detail.dart';
+import 'package:submission/ui/views/detail/components/detail_content_view.dart';
 import 'package:submission/ui/views/detail/components/recommended_component.dart';
 import 'package:submission/ui/views/detail/detail_provider.dart';
 import 'package:submission/ui/views/detail/detail_view.dart';
@@ -82,11 +83,9 @@ void main() {
     when(mockProvider.detailState).thenReturn(NetworkState.loading);
     // Act
     final progressBarFinder = find.byType(CircularProgressIndicator);
-    final centerFinder = find.byType(Center);
     await widgetTester
         .pumpWidget(makeTestableWidget(const DetailView(id: tMovieId)));
     // Assert
-    expect(centerFinder, findsOneWidget);
     expect(progressBarFinder, findsOneWidget);
   });
 

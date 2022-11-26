@@ -19,17 +19,23 @@ class RecommendedComponent extends StatelessWidget {
           'Recommendations',
           style: AppStyle.subtitle4,
         ),
+        const Divider(),
         Consumer<DetailProvider>(
           builder: (context, provider, child) {
             switch (provider.recommendationState) {
               case NetworkState.initial:
                 return Container();
               case NetworkState.empty:
-                return const Center(
-                  child: Text(
-                    key: Key('empty_recommend_message'),
-                    'No Recommendations',
-                  ),
+                return Column(
+                  children: const [
+                    SizedBox(height: 4),
+                    Center(
+                      child: Text(
+                        key: Key('empty_recommend_message'),
+                        'No Recommendations',
+                      ),
+                    ),
+                  ],
                 );
               case NetworkState.loading:
                 return const Center(
