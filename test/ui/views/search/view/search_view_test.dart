@@ -60,7 +60,7 @@ void main() {
     expect(listViewFinder, findsNothing);
   });
 
-  testWidgets('Should display ListView when state is loaded',
+  testWidgets('Should display ListView when state is success',
       (WidgetTester tester) async {
     final tMovieList = [
       const Movie(

@@ -89,7 +89,7 @@ void main() {
     expect(centerFinder, findsOneWidget);
   });
 
-  testWidgets('Should display ListView when state is loaded',
+  testWidgets('Should display ListView when state is success',
       (WidgetTester tester) async {
     // Arrange
     when(mockProvider.state).thenReturn(RequestState.success);

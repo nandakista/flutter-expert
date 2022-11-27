@@ -42,7 +42,7 @@ void main() {
   });
 
   test('''Should GET Top Rated Movie data from usecase and data is not empty
-  then change state to Loaded''', () async {
+  then change state to Success''', () async {
     final tMovieList = [
       const Movie(
         adult: false,

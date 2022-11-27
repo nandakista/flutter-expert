@@ -96,7 +96,7 @@ void main() {
     });
 
     test('''Should GET Detail Movie data from usecase 
-    and change state to Loaded''', () async {
+    and change state to Success''', () async {
       // Arrange
       when(mockGetDetailMovie(tMovieId))
           .thenAnswer((_) async => const Right(tMovieDetail));

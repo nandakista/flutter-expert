@@ -5,16 +5,17 @@ import 'package:mockito/mockito.dart';
 import 'package:provider/provider.dart';
 import 'package:submission/core/constant/network_state.dart';
 import 'package:submission/domain/entities/movie.dart';
-import 'package:submission/ui/views/top_rated/top_rated_provider.dart';
-import 'package:submission/ui/views/top_rated/top_rated_view.dart';
+import 'package:submission/domain/entities/movie_watchlist.dart';
+import 'package:submission/ui/views/watchlist/watchlist_provider.dart';
+import 'package:submission/ui/views/watchlist/watchlist_view.dart';
 
-import 'top_rated_view_test.mocks.dart';
+import 'watchlist_view_test.mocks.dart';
 
-@GenerateMocks([TopRatedProvider])
+@GenerateMocks([WatchlistProvider])
 void main() {
-  late MockTopRatedProvider mockProvider;
+  late MockWatchlistProvider mockProvider;
 
-  setUp(() => mockProvider = MockTopRatedProvider());
+  setUp(() => mockProvider = MockWatchlistProvider());
 
   final tMovieList = [
     const Movie(
@@ -39,40 +40,13 @@ void main() {
   ];
 
   Widget makeTestableWidget(Widget body) {
-    return ChangeNotifierProvider<TopRatedProvider>.value(
+    return ChangeNotifierProvider<WatchlistProvider>.value(
       value: mockProvider,
       child: MaterialApp(
         home: body,
       ),
     );
   }
-
-  testWidgets('''Should display loading indicator when loading state''',
-      (widgetTester) async {
-    // Arrange
-    when(mockProvider.state).thenReturn(RequestState.loading);
-    // Act
-    final progressBarFinder = find.byType(CircularProgressIndicator);
-    final centerFinder = find.byType(Center);
-    await widgetTester.pumpWidget(makeTestableWidget(const TopRatedView()));
-    // Assert
-    expect(centerFinder, findsOneWidget);
-    expect(progressBarFinder, findsOneWidget);
-  });
-
-  testWidgets('''Should display Text with error message when error state''',
-      (WidgetTester tester) async {
-    // Arrange
-    when(mockProvider.state).thenReturn(RequestState.error);
-    when(mockProvider.message).thenReturn('Error message');
-    // Act
-    final textFinder = find.byKey(const Key('error_message'));
-    final centerFinder = find.byType(Center);
-    await tester.pumpWidget(makeTestableWidget(const TopRatedView()));
-    // Assert
-    expect(textFinder, findsOneWidget);
-    expect(centerFinder, findsOneWidget);
-  });
 
   testWidgets('''Should display Text with empty message when empty state''',
       (WidgetTester tester) async {
@@ -83,7 +57,7 @@ void main() {
     // Act
     final textFinder = find.byKey(const Key('empty_message'));
     final centerFinder = find.byType(Center);
-    await tester.pumpWidget(makeTestableWidget(const TopRatedView()));
+    await tester.pumpWidget(makeTestableWidget(const WatchlistView()));
     // Assert
     expect(textFinder, findsOneWidget);
     expect(centerFinder, findsOneWidget);
@@ -96,7 +70,7 @@ void main() {
     when(mockProvider.data).thenReturn(tMovieList);
     // Act
     final listViewFinder = find.byType(ListView);
-    await tester.pumpWidget(makeTestableWidget(const TopRatedView()));
+    await tester.pumpWidget(makeTestableWidget(const WatchlistView()));
     // Assert
     expect(listViewFinder, findsOneWidget);
   });

@@ -117,7 +117,7 @@ void main() {
 
   testWidgets(
       'Should display Detail Content and Recommended Movie when '
-      'detail state is loaded and recommendation state is loaded',
+      'detail state is loaded and recommendation state is success',
       (WidgetTester tester) async {
     // Arrange
     when(mockProvider.detailState).thenReturn(RequestState.success);

@@ -12,6 +12,7 @@ import 'package:submission/data/sources/server/movie_server_source.dart';
 import 'package:submission/domain/entities/genre.dart';
 import 'package:submission/domain/entities/movie.dart';
 import 'package:submission/domain/entities/movie_detail.dart';
+import 'package:submission/domain/entities/movie_watchlist.dart';
 
 import 'movie_repository_test.mocks.dart';
 
@@ -426,6 +427,161 @@ void main() {
         result,
         equals(const Left(ConnectionFailure('No Internet Connection'))),
       );
+    });
+  });
+
+  group('Save Watchlist', () {
+    const tMovieWatchlist = MovieWatchlist(
+      id: 436270,
+      title: 'Black Adam',
+      posterPath: '/pFlaoHTZeyNkG83vxsAJiGzfSsa.jpg',
+      overview: 'Some Overview',
+      voteAverage: 6.8,
+    );
+    const tMovieDetail = MovieDetail(
+      adult: false,
+      backdropPath: '/bQXAqRx2Fgc46uCVWgoPz5L5Dtr.jpg',
+      genres: [
+        Genre(id: 28, name: 'Action'),
+      ],
+      homepage: 'https://www.dc.com/BlackAdam',
+      id: 436270,
+      originalTitle: 'Black Adam',
+      overview: 'Some Overview',
+      posterPath: '/pFlaoHTZeyNkG83vxsAJiGzfSsa.jpg',
+      releaseDate: '2022-10-19',
+      runtime: 125,
+      title: 'Black Adam',
+      voteAverage: 6.8,
+      voteCount: 1284,
+      budget: 200000000,
+      imdbId: 'tt6443346',
+      originalLanguage: '',
+      popularity: 23828.993,
+      revenue: 351000000,
+      status: 'Released',
+      tagline: 'The world needed a hero. It got Black Adam.',
+      video: false,
+    );
+
+    test('should return success message when successfully saving', () async {
+      // Arrange
+      when(mockMovieLocalSource.insertWatchlist(tMovieWatchlist))
+          .thenAnswer((_) async => 'Added to Watchlist');
+      // Act
+      final result = await repository.saveWatchlist(tMovieDetail);
+      // Assert
+      expect(result, const Right('Added to Watchlist'));
+    });
+
+    test('should return DatabaseFailure when unsuccessfully saving', () async {
+      // Arrange
+      when(mockMovieLocalSource.insertWatchlist(tMovieWatchlist))
+          .thenThrow(DatabaseException('Failed to add watchlist'));
+      // Act
+      final result = await repository.saveWatchlist(tMovieDetail);
+      // Assert
+      expect(result, const Left(DatabaseFailure('Failed to add watchlist')));
+    });
+  });
+
+  group('Remove Watchlist', () {
+    const tMovieWatchlist = MovieWatchlist(
+      id: 436270,
+      title: 'Black Adam',
+      posterPath: '/pFlaoHTZeyNkG83vxsAJiGzfSsa.jpg',
+      overview: 'Some Overview',
+      voteAverage: 6.8,
+    );
+    const tMovieDetail = MovieDetail(
+      adult: false,
+      backdropPath: '/bQXAqRx2Fgc46uCVWgoPz5L5Dtr.jpg',
+      genres: [
+        Genre(id: 28, name: 'Action'),
+      ],
+      homepage: 'https://www.dc.com/BlackAdam',
+      id: 436270,
+      originalTitle: 'Black Adam',
+      overview: 'Some Overview',
+      posterPath: '/pFlaoHTZeyNkG83vxsAJiGzfSsa.jpg',
+      releaseDate: '2022-10-19',
+      runtime: 125,
+      title: 'Black Adam',
+      voteAverage: 6.8,
+      voteCount: 1284,
+      budget: 200000000,
+      imdbId: 'tt6443346',
+      originalLanguage: '',
+      popularity: 23828.993,
+      revenue: 351000000,
+      status: 'Released',
+      tagline: 'The world needed a hero. It got Black Adam.',
+      video: false,
+    );
+
+    test('Should return success message when successfully remove', () async {
+      // Arrange
+      when(mockMovieLocalSource.removeWatchlist(tMovieWatchlist))
+          .thenAnswer((_) async => 'Removed from watchlist');
+      // Act
+      final result = await repository.removeWatchlist(tMovieDetail);
+      // Assert
+      expect(result, const Right('Removed from watchlist'));
+    });
+
+    test('Should return DatabaseFailure when unsuccessfully remove', () async {
+      // Arrange
+      when(mockMovieLocalSource.removeWatchlist(tMovieWatchlist))
+          .thenThrow(DatabaseException('Failed to remove watchlist'));
+      // Act
+      final result = await repository.removeWatchlist(tMovieDetail);
+      // Assert
+      expect(result, const Left(DatabaseFailure('Failed to remove watchlist')));
+    });
+  });
+
+  group('Get Watchlist', () {
+    const tMovieWatchlist = MovieWatchlist(
+      id: 436270,
+      title: 'Black Adam',
+      posterPath: '/pFlaoHTZeyNkG83vxsAJiGzfSsa.jpg',
+      overview: 'Some Overview',
+      voteAverage: 6.8,
+    );
+
+    final tMovieList = [
+      const Movie(
+        id: 436270,
+        title: 'Black Adam',
+        posterPath: '/pFlaoHTZeyNkG83vxsAJiGzfSsa.jpg',
+        overview: 'Some Overview',
+        voteAverage: 6.8,
+      ),
+    ];
+
+    test('Should return MoviesList when successfully get all watchlist',
+        () async {
+      // Arrange
+      when(mockMovieLocalSource.getAllWatchlist())
+          .thenAnswer((_) async => [tMovieWatchlist]);
+      // Act
+      final result = await repository.getAllWatchlist();
+      // Assert
+      final resultList = result.getOrElse(() => []);
+      expect(resultList, tMovieList);
+    });
+  });
+
+  group('Get Watchlist Exist Status', () {
+    const tMovieId = 1;
+    test('Should return watch status whether data is found', () async {
+      // Arrange
+      when(mockMovieLocalSource.getWatchlist(tMovieId))
+          .thenAnswer((_) async => null);
+      // Act
+      final result = await repository.hasAddedToWatchlist(tMovieId);
+      // Assert
+      expect(result, false);
     });
   });
 }

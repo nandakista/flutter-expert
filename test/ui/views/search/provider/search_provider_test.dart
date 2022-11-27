@@ -43,7 +43,7 @@ void main() {
   });
 
   test('''Should GET (Search) Movie data from usecase and data is not empty 
-  then change state to Loaded''', () async {
+  then change state to Success''', () async {
     const tQuery = 'test';
     final tMovieList = [
       const Movie(
