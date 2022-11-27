@@ -37,20 +37,20 @@ class TopRatedComponents extends StatelessWidget {
           Consumer<TopRatedProvider>(
             builder: (context, provider, child) {
               switch (provider.state) {
-                case NetworkState.initial:
+                case RequestState.initial:
                   return Container();
-                case NetworkState.empty:
+                case RequestState.empty:
                   return const Text(
                     key: Key('top_rated_component_empty'),
                     'Empty Movie',
                   );
-                case NetworkState.loading:
+                case RequestState.loading:
                   return const Center(
                     child: CircularProgressIndicator(
                       key: Key('top_rated_component_loading'),
                     ),
                   );
-                case NetworkState.loaded:
+                case RequestState.success:
                   return SizedBox(
                     height: 200,
                     child: ListView.builder(
@@ -63,7 +63,7 @@ class TopRatedComponents extends StatelessWidget {
                       },
                     ),
                   );
-                case NetworkState.error:
+                case RequestState.error:
                   return Text(
                     key: const Key('top_rated_component_error'),
                     'Failed : ${provider.message}',

@@ -24,7 +24,7 @@ void main() {
   });
 
   test('''Initial State and data should be empty''', () {
-    expect(provider.state, NetworkState.initial);
+    expect(provider.state, RequestState.initial);
     expect(provider.data, List<Movie>.empty());
     expect(provider.message, '');
   });
@@ -37,7 +37,7 @@ void main() {
     // Act
     provider.onSearchMovie(tQuery);
     // Assert
-    expect(provider.state, NetworkState.loading);
+    expect(provider.state, RequestState.loading);
     expect(provider.data, List<Movie>.empty());
     expect(provider.message, '');
   });
@@ -74,7 +74,7 @@ void main() {
     // Assert
     verify(mockSearchMovie(tQuery));
     assert(result.isNotEmpty);
-    expect(provider.state, NetworkState.loaded);
+    expect(provider.state, RequestState.success);
     expect(result, tMovieList);
     expect(provider.message, '');
     expect(providerCalledCount, 2);
@@ -92,7 +92,7 @@ void main() {
     // Assert
     verify(mockSearchMovie(tQuery));
     assert(result.isEmpty);
-    expect(provider.state, NetworkState.empty);
+    expect(provider.state, RequestState.empty);
     expect(
         provider.message, 'Oops we could not find what you were looking for!');
     expect(result, tMovieList);
@@ -109,7 +109,7 @@ void main() {
     // Act
     await provider.onSearchMovie(tQuery);
     // Assert
-    expect(provider.state, NetworkState.error);
+    expect(provider.state, RequestState.error);
     expect(provider.message, '');
     expect(provider.data, List<Movie>.empty());
     expect(providerCalledCount, 2);
@@ -125,7 +125,7 @@ void main() {
     // Act
     await provider.onSearchMovie(tQuery);
     // Assert
-    expect(provider.state, NetworkState.error);
+    expect(provider.state, RequestState.error);
     expect(provider.message, 'No Internet Connection');
     expect(provider.data, List<Movie>.empty());
     expect(providerCalledCount, 2);

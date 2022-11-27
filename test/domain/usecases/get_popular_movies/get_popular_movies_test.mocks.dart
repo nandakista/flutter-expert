@@ -175,25 +175,25 @@ class MockMovieRepository extends _i1.Mock implements _i3.MovieRepository {
         )),
       ) as _i4.Future<_i2.Either<_i5.Failure, String>>);
   @override
-  _i4.Future<bool> isAddedToWatchlist(int? id) => (super.noSuchMethod(
+  _i4.Future<bool> hasAddedToWatchlist(int? id) => (super.noSuchMethod(
         Invocation.method(
-          #isAddedToWatchlist,
+          #hasAddedToWatchlist,
           [id],
         ),
         returnValue: _i4.Future<bool>.value(false),
       ) as _i4.Future<bool>);
   @override
-  _i4.Future<_i2.Either<_i5.Failure, List<_i6.Movie>>> getWatchlistMovies() =>
+  _i4.Future<_i2.Either<_i5.Failure, List<_i6.Movie>>> getAllWatchlist() =>
       (super.noSuchMethod(
         Invocation.method(
-          #getWatchlistMovies,
+          #getAllWatchlist,
           [],
         ),
         returnValue: _i4.Future<_i2.Either<_i5.Failure, List<_i6.Movie>>>.value(
             _FakeEither_0<_i5.Failure, List<_i6.Movie>>(
           this,
           Invocation.method(
-            #getWatchlistMovies,
+            #getAllWatchlist,
             [],
           ),
         )),

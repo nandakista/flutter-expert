@@ -6,9 +6,11 @@
 import 'dart:async' as _i4;
 
 import 'package:mockito/mockito.dart' as _i1;
+import 'package:submission/data/sources/local/movie_local_source.dart' as _i6;
 import 'package:submission/data/sources/server/movie_server_source.dart' as _i3;
 import 'package:submission/domain/entities/movie.dart' as _i5;
 import 'package:submission/domain/entities/movie_detail.dart' as _i2;
+import 'package:submission/domain/entities/movie_watchlist.dart' as _i7;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -95,4 +97,49 @@ class MockMovieServerSource extends _i1.Mock implements _i3.MovieServerSource {
         ),
         returnValue: _i4.Future<List<_i5.Movie>>.value(<_i5.Movie>[]),
       ) as _i4.Future<List<_i5.Movie>>);
+}
+
+/// A class which mocks [MovieLocalSource].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockMovieLocalSource extends _i1.Mock implements _i6.MovieLocalSource {
+  MockMovieLocalSource() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i4.Future<String> insertWatchlist(_i7.MovieWatchlist? movie) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #insertWatchlist,
+          [movie],
+        ),
+        returnValue: _i4.Future<String>.value(''),
+      ) as _i4.Future<String>);
+  @override
+  _i4.Future<String> removeWatchlist(_i7.MovieWatchlist? movie) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #removeWatchlist,
+          [movie],
+        ),
+        returnValue: _i4.Future<String>.value(''),
+      ) as _i4.Future<String>);
+  @override
+  _i4.Future<_i7.MovieWatchlist?> getWatchlist(int? id) => (super.noSuchMethod(
+        Invocation.method(
+          #getWatchlist,
+          [id],
+        ),
+        returnValue: _i4.Future<_i7.MovieWatchlist?>.value(),
+      ) as _i4.Future<_i7.MovieWatchlist?>);
+  @override
+  _i4.Future<List<_i7.MovieWatchlist>> getAllWatchlist() => (super.noSuchMethod(
+        Invocation.method(
+          #getAllWatchlist,
+          [],
+        ),
+        returnValue:
+            _i4.Future<List<_i7.MovieWatchlist>>.value(<_i7.MovieWatchlist>[]),
+      ) as _i4.Future<List<_i7.MovieWatchlist>>);
 }

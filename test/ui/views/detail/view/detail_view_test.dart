@@ -80,7 +80,7 @@ void main() {
   testWidgets('''Should display loading indicator when loading state''',
       (widgetTester) async {
     // Arrange
-    when(mockProvider.detailState).thenReturn(NetworkState.loading);
+    when(mockProvider.detailState).thenReturn(RequestState.loading);
     // Act
     final progressBarFinder = find.byType(CircularProgressIndicator);
     await widgetTester
@@ -93,7 +93,7 @@ void main() {
       '''Should display Text with error message when detail state is error''',
       (WidgetTester tester) async {
     // Arrange
-    when(mockProvider.detailState).thenReturn(NetworkState.error);
+    when(mockProvider.detailState).thenReturn(RequestState.error);
     when(mockProvider.message).thenReturn('Error message');
     // Act
     final textFinder = find.byKey(const Key('error_message'));
@@ -106,7 +106,7 @@ void main() {
       '''Should display Text with error message when recommended state is error''',
       (WidgetTester tester) async {
     // Arrange
-    when(mockProvider.recommendationState).thenReturn(NetworkState.error);
+    when(mockProvider.recommendationState).thenReturn(RequestState.error);
     when(mockProvider.message).thenReturn('Error message');
     // Act
     final textFinder = find.byKey(const Key('error_recommend_message'));
@@ -120,10 +120,11 @@ void main() {
       'detail state is loaded and recommendation state is loaded',
       (WidgetTester tester) async {
     // Arrange
-    when(mockProvider.detailState).thenReturn(NetworkState.loaded);
+    when(mockProvider.detailState).thenReturn(RequestState.success);
     when(mockProvider.detailMovie).thenReturn(tMovieDetail);
-    when(mockProvider.recommendationState).thenReturn(NetworkState.loaded);
+    when(mockProvider.recommendationState).thenReturn(RequestState.success);
     when(mockProvider.recommendedMovies).thenReturn(tMovieList);
+    when(mockProvider.hasAddedToWatchlist).thenReturn(false);
     // Act
     final detailContentFinder = find.byType(DetailContent);
     final recommendedListViewFinder = find.byType(ListView);
@@ -138,10 +139,11 @@ void main() {
       'when detail state is loaded and recommendation state is empty',
       (WidgetTester tester) async {
     // Arrange
-    when(mockProvider.detailState).thenReturn(NetworkState.loaded);
+    when(mockProvider.detailState).thenReturn(RequestState.success);
     when(mockProvider.detailMovie).thenReturn(tMovieDetail);
-    when(mockProvider.recommendationState).thenReturn(NetworkState.empty);
+    when(mockProvider.recommendationState).thenReturn(RequestState.empty);
     when(mockProvider.recommendedMovies).thenReturn(List<Movie>.empty());
+    when(mockProvider.hasAddedToWatchlist).thenReturn(false);
     // Act
     final detailContentFinder = find.byType(DetailContent);
     final recommendedEmptyMsgKeyFinder = find.byKey(

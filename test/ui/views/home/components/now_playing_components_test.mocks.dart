@@ -66,10 +66,10 @@ class MockHomeProvider extends _i1.Mock implements _i3.HomeProvider {
         returnValue: '',
       ) as String);
   @override
-  _i4.NetworkState get state => (super.noSuchMethod(
+  _i4.RequestState get state => (super.noSuchMethod(
         Invocation.getter(#state),
-        returnValue: _i4.NetworkState.initial,
-      ) as _i4.NetworkState);
+        returnValue: _i4.RequestState.initial,
+      ) as _i4.RequestState);
   @override
   List<_i5.Movie> get data => (super.noSuchMethod(
         Invocation.getter(#data),

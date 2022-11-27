@@ -1,4 +1,10 @@
 import 'package:get_it/get_it.dart';
+import 'package:submission/data/sources/local/movie_local_source.dart';
+import 'package:submission/data/sources/local/movie_local_source_impl.dart';
+import 'package:submission/domain/usecases/get_watchlist.dart';
+import 'package:submission/domain/usecases/get_watchlist_exist_status.dart';
+import 'package:submission/domain/usecases/remove_watchlist.dart';
+import 'package:submission/domain/usecases/save_watchlist.dart';
 import 'package:submission/ui/views/detail/detail_provider.dart';
 import 'package:submission/ui/views/home/home_provider.dart';
 import 'package:submission/ui/views/popular/popular_provider.dart';
@@ -7,6 +13,7 @@ import 'package:submission/ui/views/top_rated/top_rated_provider.dart';
 import 'package:submission/ui/views/watchlist/watchlist_provider.dart';
 import 'package:http/http.dart' as http;
 
+import 'core/database/dao/watchlist_dao.dart';
 import 'data/repositories/movie_repository_impl.dart';
 import 'data/sources/server/movie_server_source.dart';
 import 'data/sources/server/movie_server_source_impl.dart';
@@ -18,87 +25,121 @@ import 'domain/usecases/get_recommended_movies.dart';
 import 'domain/usecases/get_top_rated_movies.dart';
 import 'domain/usecases/search_movie.dart';
 
-final locator = GetIt.instance;
+final sl = GetIt.instance;
 
 void init() {
   // Http Client
-  locator.registerLazySingleton(() => http.Client());
+  sl.registerLazySingleton(() => http.Client());
 
   // Provider
-  locator.registerFactory(
+  sl.registerFactory(
     () => HomeProvider(
-      getNowPlayingMovies: locator<GetNowPlayingMovies>(),
+      getNowPlayingMovies: sl<GetNowPlayingMovies>(),
     ),
   );
 
-  locator.registerFactory(
-    () => WatchlistProvider(),
+  sl.registerFactory(
+    () => WatchlistProvider(getWatchlist: sl<GetWatchlist>()),
   );
-  locator.registerFactory(
+  sl.registerFactory(
     () => SearchProvider(
-      searchMovie: locator<SearchMovie>(),
+      searchMovie: sl<SearchMovie>(),
     ),
   );
-  locator.registerFactory(
+  sl.registerFactory(
     () => PopularProvider(
-      getPopularMovies: locator<GetPopularMovies>(),
+      getPopularMovies: sl<GetPopularMovies>(),
     ),
   );
 
-  locator.registerFactory(
+  sl.registerFactory(
     () => TopRatedProvider(
-      getTopRatedMovies: locator<GetTopRatedMovies>(),
+      getTopRatedMovies: sl<GetTopRatedMovies>(),
     ),
   );
 
-  locator.registerFactory(
+  sl.registerFactory(
     () => DetailProvider(
-      getDetailMovie: locator<GetDetailMovie>(),
-      getRecommendationsMovies: locator<GetRecommendedMovies>(),
+      getDetailMovie: sl<GetDetailMovie>(),
+      getRecommendationsMovies: sl<GetRecommendedMovies>(),
+      getWatchlistExist: sl<GetWatchlistExistStatus>(),
+      saveWatchlist: sl<SaveWatchlist>(),
+      removeWatchlist: sl<RemoveWatchlist>(),
     ),
   );
 
   // Usecases
-  locator.registerLazySingleton(
+  sl.registerLazySingleton(
     () => GetNowPlayingMovies(
-      repository: locator<MovieRepository>(),
+      repository: sl<MovieRepository>(),
     ),
   );
-  locator.registerLazySingleton(
+  sl.registerLazySingleton(
     () => GetPopularMovies(
-      repository: locator<MovieRepository>(),
+      repository: sl<MovieRepository>(),
     ),
   );
-  locator.registerLazySingleton(
+  sl.registerLazySingleton(
     () => GetTopRatedMovies(
-      repository: locator<MovieRepository>(),
+      repository: sl<MovieRepository>(),
     ),
   );
-  locator.registerLazySingleton(
+  sl.registerLazySingleton(
     () => GetDetailMovie(
-      repository: locator<MovieRepository>(),
+      repository: sl<MovieRepository>(),
     ),
   );
-  locator.registerLazySingleton(
+  sl.registerLazySingleton(
     () => GetRecommendedMovies(
-      repository: locator<MovieRepository>(),
+      repository: sl<MovieRepository>(),
     ),
   );
-  locator.registerLazySingleton(
+  sl.registerLazySingleton(
     () => SearchMovie(
-      repository: locator<MovieRepository>(),
+      repository: sl<MovieRepository>(),
+    ),
+  );
+  sl.registerLazySingleton(
+    () => GetWatchlist(
+      repository: sl<MovieRepository>(),
+    ),
+  );
+  sl.registerLazySingleton(
+    () => GetWatchlistExistStatus(
+      repository: sl<MovieRepository>(),
+    ),
+  );
+  sl.registerLazySingleton(
+    () => RemoveWatchlist(
+      repository: sl<MovieRepository>(),
+    ),
+  );
+  sl.registerLazySingleton(
+    () => SaveWatchlist(
+      repository: sl<MovieRepository>(),
     ),
   );
 
   // Repository
-  locator.registerLazySingleton<MovieRepository>(
-    () => MovieRepositoryImpl(serverSource: locator<MovieServerSource>()),
+  sl.registerLazySingleton<MovieRepository>(
+    () => MovieRepositoryImpl(
+      serverSource: sl<MovieServerSource>(),
+      localDataSource: sl<MovieLocalSource>(),
+    ),
   );
 
   // Sources
-  locator.registerLazySingleton<MovieServerSource>(
+  sl.registerLazySingleton<MovieServerSource>(
     () => MovieServerSourceImpl(
-      client: locator<http.Client>(),
+      client: sl<http.Client>(),
     ),
   );
+  sl.registerLazySingleton<MovieLocalSource>(
+    () => MovieLocalSourceImpl(
+      dao: sl<WatchlistDao>(),
+    ),
+  );
+
+  // Dao
+  sl.registerLazySingleton<WatchlistDao>(() => WatchlistDao());
 }

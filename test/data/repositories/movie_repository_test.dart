@@ -7,6 +7,7 @@ import 'package:mockito/mockito.dart';
 import 'package:submission/core/error/exception.dart';
 import 'package:submission/core/error/failure.dart';
 import 'package:submission/data/repositories/movie_repository_impl.dart';
+import 'package:submission/data/sources/local/movie_local_source.dart';
 import 'package:submission/data/sources/server/movie_server_source.dart';
 import 'package:submission/domain/entities/genre.dart';
 import 'package:submission/domain/entities/movie.dart';
@@ -14,14 +15,19 @@ import 'package:submission/domain/entities/movie_detail.dart';
 
 import 'movie_repository_test.mocks.dart';
 
-@GenerateMocks([MovieServerSource])
+@GenerateMocks([MovieServerSource, MovieLocalSource])
 void main() {
   late MovieRepositoryImpl repository;
   late MockMovieServerSource mockMovieServerSource;
+  late MockMovieLocalSource mockMovieLocalSource;
 
   setUp(() {
     mockMovieServerSource = MockMovieServerSource();
-    repository = MovieRepositoryImpl(serverSource: mockMovieServerSource);
+    mockMovieLocalSource = MockMovieLocalSource();
+    repository = MovieRepositoryImpl(
+      serverSource: mockMovieServerSource,
+      localDataSource: mockMovieLocalSource,
+    );
   });
 
   group('''Now Playing Movie''', () {

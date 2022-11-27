@@ -25,6 +25,8 @@ class _DetailViewState extends State<DetailView> {
           .loadMovieDetail(widget.id);
       Provider.of<DetailProvider>(context, listen: false)
           .loadRecommendedMovie(widget.id);
+      Provider.of<DetailProvider>(context, listen: false)
+          .loadWatchlistExistStatus(widget.id);
     });
     super.initState();
   }
@@ -35,21 +37,57 @@ class _DetailViewState extends State<DetailView> {
       color: Colors.black,
       brightness: Brightness.light,
       child: Scaffold(
+        bottomNavigationBar: SafeArea(
+          child: Consumer<DetailProvider>(builder: (context, provider, child) {
+            if (provider.detailState == RequestState.success) {
+              provider.hasAddedToWatchlist;
+              return Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: ElevatedButton(
+                  onPressed: () async {
+                    if (provider.hasAddedToWatchlist == false) {
+                      await provider.addWatchlist(provider.detailMovie);
+                    } else {
+                      await provider.removeFromWatchlist(provider.detailMovie);
+                    }
+                    if (mounted) {
+                      _buildAlertSnackBar(context, provider.watchlistMessage);
+                    }
+                  },
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(
+                        provider.hasAddedToWatchlist ? Icons.check : Icons.add,
+                        color: Colors.white,
+                      ),
+                      const SizedBox(width: 4),
+                      const Text(
+                        'Watchlist',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            } else {
+              return const SizedBox.shrink();
+            }
+          }),
+        ),
         body: Stack(
           children: [
             Consumer<DetailProvider>(
               builder: (context, provider, child) {
-                if (provider.detailState == NetworkState.loading) {
+                if (provider.detailState == RequestState.loading) {
                   return const Center(
                     child: CircularProgressIndicator(),
                   );
-                } else if (provider.detailState == NetworkState.loaded) {
+                } else if (provider.detailState == RequestState.success) {
                   return SafeArea(
                     child: DetailContent(
                       key: const Key('detail_content'),
                       movie: provider.detailMovie,
-                      recommendations: provider.recommendedMovies,
-                      // isAddedWatchlist: provider.isAddedToWatchlist,,
                     ),
                   );
                 } else {
@@ -75,5 +113,22 @@ class _DetailViewState extends State<DetailView> {
         ),
       ),
     );
+  }
+
+  _buildAlertSnackBar(BuildContext context, String message) {
+    if (message == 'Added to Watchlist' ||
+        message == 'Removed from Watchlist') {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(message)));
+    } else {
+      showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            content: Text(message),
+          );
+        },
+      );
+    }
   }
 }

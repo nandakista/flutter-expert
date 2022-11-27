@@ -26,20 +26,20 @@ class NowPlayingComponents extends StatelessWidget {
           Consumer<HomeProvider>(
             builder: (context, provider, child) {
               switch (provider.state) {
-                case NetworkState.initial:
+                case RequestState.initial:
                   return Container();
-                case NetworkState.empty:
+                case RequestState.empty:
                   return const Text(
                     key: Key('now_playing_component_empty'),
                     'Empty Movie',
                   );
-                case NetworkState.loading:
+                case RequestState.loading:
                   return const Center(
                     child: CircularProgressIndicator(
                       key: Key('now_playing_component_loading'),
                     ),
                   );
-                case NetworkState.loaded:
+                case RequestState.success:
                   return SizedBox(
                     height: 500,
                     child: GridView.builder(
@@ -59,7 +59,7 @@ class NowPlayingComponents extends StatelessWidget {
                       },
                     ),
                   );
-                case NetworkState.error:
+                case RequestState.error:
                   return Text(
                     key: const Key('now_playing_component_error'),
                     'Failed : ${provider.message}',

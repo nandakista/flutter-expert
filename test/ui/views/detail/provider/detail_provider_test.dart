@@ -9,14 +9,26 @@ import 'package:submission/domain/entities/movie.dart';
 import 'package:submission/domain/entities/movie_detail.dart';
 import 'package:submission/domain/usecases/get_detail_movie.dart';
 import 'package:submission/domain/usecases/get_recommended_movies.dart';
+import 'package:submission/domain/usecases/get_watchlist_exist_status.dart';
+import 'package:submission/domain/usecases/remove_watchlist.dart';
+import 'package:submission/domain/usecases/save_watchlist.dart';
 import 'package:submission/ui/views/detail/detail_provider.dart';
 
 import 'detail_provider_test.mocks.dart';
 
-@GenerateMocks([GetDetailMovie, GetRecommendedMovies])
+@GenerateMocks([
+  GetDetailMovie,
+  GetRecommendedMovies,
+  GetWatchlistExistStatus,
+  SaveWatchlist,
+  RemoveWatchlist,
+])
 void main() {
   late MockGetDetailMovie mockGetDetailMovie;
   late MockGetRecommendedMovies mockGetRecommendedMovies;
+  late MockGetWatchlistExistStatus mockGetWatchlistExistStatus;
+  late MockSaveWatchlist mockSaveWatchlist;
+  late MockRemoveWatchlist mockRemoveWatchlist;
   late DetailProvider provider;
   late int providerCalledCount;
 
@@ -24,15 +36,21 @@ void main() {
     providerCalledCount = 0;
     mockGetDetailMovie = MockGetDetailMovie();
     mockGetRecommendedMovies = MockGetRecommendedMovies();
+    mockGetWatchlistExistStatus = MockGetWatchlistExistStatus();
+    mockSaveWatchlist = MockSaveWatchlist();
+    mockRemoveWatchlist = MockRemoveWatchlist();
     provider = DetailProvider(
       getDetailMovie: mockGetDetailMovie,
       getRecommendationsMovies: mockGetRecommendedMovies,
+      getWatchlistExist: mockGetWatchlistExistStatus,
+      saveWatchlist: mockSaveWatchlist,
+      removeWatchlist: mockRemoveWatchlist,
     )..addListener(() => providerCalledCount += 1);
   });
 
   test('''Initial State and data should be empty''', () {
-    expect(provider.detailState, NetworkState.initial);
-    expect(provider.recommendationState, NetworkState.initial);
+    expect(provider.detailState, RequestState.initial);
+    expect(provider.recommendationState, RequestState.initial);
     expect(provider.recommendedMovies, List<Movie>.empty());
     expect(provider.message, '');
   });
@@ -73,7 +91,7 @@ void main() {
       // Act
       provider.loadMovieDetail(tMovieId);
       // Assert
-      expect(provider.detailState, NetworkState.loading);
+      expect(provider.detailState, RequestState.loading);
       expect(provider.message, '');
     });
 
@@ -87,7 +105,7 @@ void main() {
       final result = provider.detailMovie;
       // Assert
       verify(mockGetDetailMovie(tMovieId));
-      expect(provider.detailState, NetworkState.loaded);
+      expect(provider.detailState, RequestState.success);
       expect(result, tMovieDetail);
       expect(provider.message, '');
       expect(providerCalledCount, 2);
@@ -102,7 +120,7 @@ void main() {
       // Act
       await provider.loadMovieDetail(tMovieId);
       // Assert
-      expect(provider.detailState, NetworkState.error);
+      expect(provider.detailState, RequestState.error);
       expect(provider.message, '');
       expect(providerCalledCount, 2);
     });
@@ -116,7 +134,7 @@ void main() {
       // Act
       await provider.loadMovieDetail(tMovieId);
       // Assert
-      expect(provider.detailState, NetworkState.error);
+      expect(provider.detailState, RequestState.error);
       expect(provider.message, 'No Internet Connection');
       expect(providerCalledCount, 2);
     });
@@ -153,7 +171,7 @@ void main() {
       // Act
       provider.loadRecommendedMovie(tMovieId);
       // Assert
-      expect(provider.recommendationState, NetworkState.loading);
+      expect(provider.recommendationState, RequestState.loading);
       expect(provider.recommendedMovies, List<Movie>.empty());
       expect(provider.message, '');
     });
@@ -169,7 +187,7 @@ void main() {
       // Assert
       verify(mockGetRecommendedMovies(tMovieId));
       assert(result.isNotEmpty);
-      expect(provider.recommendationState, NetworkState.loaded);
+      expect(provider.recommendationState, RequestState.success);
       expect(result, tMovieList);
       expect(provider.message, '');
       expect(providerCalledCount, 2);
@@ -187,7 +205,7 @@ void main() {
       // Assert
       verify(mockGetRecommendedMovies(tMovieId));
       assert(result.isEmpty);
-      expect(provider.recommendationState, NetworkState.empty);
+      expect(provider.recommendationState, RequestState.empty);
       expect(result, tMovieList);
       expect(provider.message, 'No Recommendations Found');
       expect(providerCalledCount, 2);
@@ -202,7 +220,7 @@ void main() {
       // Act
       await provider.loadRecommendedMovie(tMovieId);
       // Assert
-      expect(provider.recommendationState, NetworkState.error);
+      expect(provider.recommendationState, RequestState.error);
       expect(provider.message, '');
       expect(provider.recommendedMovies, List<Movie>.empty());
       expect(providerCalledCount, 2);
@@ -217,7 +235,7 @@ void main() {
       // Act
       await provider.loadRecommendedMovie(tMovieId);
       // Assert
-      expect(provider.recommendationState, NetworkState.error);
+      expect(provider.recommendationState, RequestState.error);
       expect(provider.message, 'No Internet Connection');
       expect(provider.recommendedMovies, List<Movie>.empty());
       expect(providerCalledCount, 2);

@@ -50,7 +50,7 @@ void main() {
   testWidgets('''Should display loading indicator when loading state''',
       (widgetTester) async {
     // Arrange
-    when(mockProvider.state).thenReturn(NetworkState.loading);
+    when(mockProvider.state).thenReturn(RequestState.loading);
     // Act
     final progressBarFinder = find.byType(CircularProgressIndicator);
     final centerFinder = find.byType(Center);
@@ -63,7 +63,7 @@ void main() {
   testWidgets('''Should display Text with error message when error state''',
       (WidgetTester tester) async {
     // Arrange
-    when(mockProvider.state).thenReturn(NetworkState.error);
+    when(mockProvider.state).thenReturn(RequestState.error);
     when(mockProvider.message).thenReturn('Error message');
     // Act
     final textFinder = find.byKey(const Key('error_message'));
@@ -77,7 +77,7 @@ void main() {
   testWidgets('''Should display Text with empty message when empty state''',
       (WidgetTester tester) async {
     // Arrange
-    when(mockProvider.state).thenReturn(NetworkState.empty);
+    when(mockProvider.state).thenReturn(RequestState.empty);
     when(mockProvider.data).thenReturn(<Movie>[]);
     when(mockProvider.message).thenReturn('Empty message');
     // Act
@@ -92,7 +92,7 @@ void main() {
   testWidgets('Should display ListView when state is loaded',
       (WidgetTester tester) async {
     // Arrange
-    when(mockProvider.state).thenReturn(NetworkState.loaded);
+    when(mockProvider.state).thenReturn(RequestState.success);
     when(mockProvider.data).thenReturn(tMovieList);
     // Act
     final listViewFinder = find.byType(ListView);

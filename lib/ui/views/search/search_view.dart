@@ -42,22 +42,28 @@ class SearchView extends StatelessWidget {
             Consumer<SearchProvider>(
               builder: (context, provider, child) {
                 switch (provider.state) {
-                  case NetworkState.initial:
-                    return Container();
-                  case NetworkState.empty:
-                    return Center(
-                      child: Text(
-                        key: const Key('empty_message'),
-                        provider.message,
+                  case RequestState.initial:
+                    return const Expanded(
+                      child: Center(
+                        child: Text("Let's find your favorite movie"),
                       ),
                     );
-                  case NetworkState.loading:
+                  case RequestState.empty:
+                    return Expanded(
+                      child: Center(
+                        child: Text(
+                          key: const Key('empty_message'),
+                          provider.message,
+                        ),
+                      ),
+                    );
+                  case RequestState.loading:
                     return const Center(
                       child: CircularProgressIndicator(
                         key: Key('loading_indicator_state'),
                       ),
                     );
-                  case NetworkState.loaded:
+                  case RequestState.success:
                     return Expanded(
                       child: ListView.builder(
                         itemCount: provider.data.length,
@@ -68,7 +74,7 @@ class SearchView extends StatelessWidget {
                         },
                       ),
                     );
-                  case NetworkState.error:
+                  case RequestState.error:
                     return Center(
                       child: Text(
                         key: const Key('error_message'),

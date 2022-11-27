@@ -23,9 +23,9 @@ class RecommendedComponent extends StatelessWidget {
         Consumer<DetailProvider>(
           builder: (context, provider, child) {
             switch (provider.recommendationState) {
-              case NetworkState.initial:
+              case RequestState.initial:
                 return Container();
-              case NetworkState.empty:
+              case RequestState.empty:
                 return Column(
                   children: const [
                     SizedBox(height: 4),
@@ -37,11 +37,11 @@ class RecommendedComponent extends StatelessWidget {
                     ),
                   ],
                 );
-              case NetworkState.loading:
+              case RequestState.loading:
                 return const Center(
                   child: CircularProgressIndicator(),
                 );
-              case NetworkState.loaded:
+              case RequestState.success:
                 if (provider.recommendedMovies.isEmpty) {
                   return Center(
                     child: Text(provider.message),
@@ -84,7 +84,7 @@ class RecommendedComponent extends StatelessWidget {
                     ),
                   );
                 }
-              case NetworkState.error:
+              case RequestState.error:
                 return Center(
                   child: Text(
                     key: const Key('error_recommend_message'),

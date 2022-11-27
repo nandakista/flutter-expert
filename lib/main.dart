@@ -30,22 +30,22 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
-          create: (_) => di.locator<HomeProvider>().init(),
+          create: (_) => di.sl<HomeProvider>().init(),
         ),
         ChangeNotifierProvider(
-          create: (_) => di.locator<SearchProvider>(),
+          create: (_) => di.sl<SearchProvider>(),
         ),
         ChangeNotifierProvider(
-          create: (_) => di.locator<WatchlistProvider>(),
+          create: (_) => di.sl<WatchlistProvider>(),
         ),
         ChangeNotifierProvider(
-          create: (_) => di.locator<TopRatedProvider>().init(),
+          create: (_) => di.sl<TopRatedProvider>().init(),
         ),
         ChangeNotifierProvider(
-          create: (_) => di.locator<PopularProvider>().init(),
+          create: (_) => di.sl<PopularProvider>().init(),
         ),
         ChangeNotifierProvider(
-          create: (_) => di.locator<DetailProvider>(),
+          create: (_) => di.sl<DetailProvider>(),
         ),
       ],
       child: MaterialApp(

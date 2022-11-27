@@ -22,20 +22,20 @@ class PopularView extends StatelessWidget {
           child: Consumer<PopularProvider>(
             builder: (context, provider, child) {
               switch (provider.state) {
-                case NetworkState.initial:
+                case RequestState.initial:
                   return Container();
-                case NetworkState.empty:
+                case RequestState.empty:
                   return Center(
                     child: Text(
                       key: const Key('empty_message'),
                       provider.message,
                     ),
                   );
-                case NetworkState.loading:
+                case RequestState.loading:
                   return const Center(
                     child: CircularProgressIndicator(),
                   );
-                case NetworkState.loaded:
+                case RequestState.success:
                   return ListView.builder(
                     itemCount: provider.data.length,
                     itemBuilder: (context, index) {
@@ -43,7 +43,7 @@ class PopularView extends StatelessWidget {
                       return MovieItem(data: movie);
                     },
                   );
-                case NetworkState.error:
+                case RequestState.error:
                   return Center(
                     child: Text(
                       key: const Key('error_message'),

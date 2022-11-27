@@ -11,8 +11,8 @@ class PopularProvider extends ChangeNotifier {
   String _message = '';
   String get message => _message;
 
-  NetworkState _state = NetworkState.initial;
-  NetworkState get state => _state;
+  RequestState _state = RequestState.initial;
+  RequestState get state => _state;
   List<Movie> _data = <Movie>[];
   List<Movie> get data => _data;
 
@@ -22,23 +22,23 @@ class PopularProvider extends ChangeNotifier {
   }
 
   Future<void> loadData() async {
-    _state = NetworkState.loading;
+    _state = RequestState.loading;
     notifyListeners();
     final result = await getPopularMovies();
     result.fold(
       (failure) {
         _message = failure.message;
-        _state = NetworkState.error;
+        _state = RequestState.error;
         notifyListeners();
       },
       (moviesData) {
         if(moviesData.isEmpty) {
-          _state = NetworkState.empty;
+          _state = RequestState.empty;
           _message = 'Empty Popular Movies';
           notifyListeners();
         } else {
           _data = moviesData;
-          _state = NetworkState.loaded;
+          _state = RequestState.success;
           notifyListeners();
         }
       },

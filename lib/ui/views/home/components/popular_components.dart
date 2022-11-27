@@ -37,20 +37,20 @@ class PopularComponents extends StatelessWidget {
           Consumer<PopularProvider>(
             builder: (context, provider, child) {
               switch (provider.state) {
-                case NetworkState.initial:
+                case RequestState.initial:
                   return Container();
-                case NetworkState.empty:
+                case RequestState.empty:
                   return const Text(
                     key: Key('popular_component_empty'),
                     'Empty Movie',
                   );
-                case NetworkState.loading:
+                case RequestState.loading:
                   return const Center(
                     child: CircularProgressIndicator(
                       key: Key('popular_component_loading'),
                     ),
                   );
-                case NetworkState.loaded:
+                case RequestState.success:
                   return SizedBox(
                     height: 200,
                     child: ListView.builder(
@@ -64,7 +64,7 @@ class PopularComponents extends StatelessWidget {
                       },
                     ),
                   );
-                case NetworkState.error:
+                case RequestState.error:
                   return Text(
                     key: const Key('popular_component_error'),
                     'Failed : ${provider.message}',
