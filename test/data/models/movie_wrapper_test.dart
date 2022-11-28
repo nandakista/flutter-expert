@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:submission/data/models/movie_model.dart';
-import 'package:submission/data/models/movie_wrapper.dart';
+import 'package:submission/data/models/wrapper/movie_wrapper.dart';
 
 import '../../core/fixture/fixture_reader.dart';
 

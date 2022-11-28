@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:submission/core/constant/constant.dart';
 import 'package:submission/data/models/movie_detail_model.dart';
 
-import 'package:submission/data/models/movie_wrapper.dart';
+import 'package:submission/data/models/wrapper/movie_wrapper.dart';
 
 import '../../../core/error/exception.dart';
 import '../../../domain/entities/movie.dart';

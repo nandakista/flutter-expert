@@ -6,7 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:mockito/mockito.dart';
 import 'package:submission/core/error/exception.dart';
 import 'package:submission/data/models/movie_detail_model.dart';
-import 'package:submission/data/models/movie_wrapper.dart';
+import 'package:submission/data/models/wrapper/movie_wrapper.dart';
 import 'package:submission/data/sources/server/movie_server_source_impl.dart';
 
 import '../../../core/fixture/fixture_reader.dart';

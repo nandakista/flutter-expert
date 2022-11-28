@@ -1,16 +1,17 @@
 import 'package:equatable/equatable.dart';
+import 'package:submission/data/models/tv_model.dart';
 
-import 'movie_model.dart';
+import '../movie_model.dart';
 
-class MovieWrapper extends Equatable {
-  final List<MovieModel> data;
+class TvWrapper extends Equatable {
+  final List<TvModel> data;
 
-  const MovieWrapper({required this.data});
+  const TvWrapper({required this.data});
 
-  factory MovieWrapper.fromJson(Map<String, dynamic> json) => MovieWrapper(
-        data: List<MovieModel>.from(
+  factory TvWrapper.fromJson(Map<String, dynamic> json) => TvWrapper(
+        data: List<TvModel>.from(
           (json["results"] as List)
-              .map((x) => MovieModel.fromJson(x))
+              .map((x) => TvModel.fromJson(x))
               .where((element) => element.posterPath != null),
         ),
       );
