@@ -3,14 +3,13 @@ import 'package:provider/provider.dart';
 import 'package:submission/core/constant/constant.dart';
 import 'package:submission/core/constant/network_state.dart';
 import 'package:submission/core/theme/app_style.dart';
-import 'package:submission/ui/views/detail/detail_view.dart';
+import 'package:submission/ui/views/tv_detail/tv_detail_view.dart';
+import 'package:submission/ui/views/tv_home/provider/tv_home_provider.dart';
 import 'package:submission/ui/widgets/content_wrapper.dart';
+import 'package:submission/ui/widgets/cover_item.dart';
 
-import '../home_provider.dart';
-import '../../../widgets/cover_item.dart';
-
-class NowPlayingComponents extends StatelessWidget {
-  const NowPlayingComponents({Key? key}) : super(key: key);
+class TvOnAirComponents extends StatelessWidget {
+  const TvOnAirComponents({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,12 +19,12 @@ class NowPlayingComponents extends StatelessWidget {
         children: [
           ContentWrapper(
             child: Text(
-              'Now Playing',
+              'On The Air',
               style: AppStyle.subtitle2,
             ),
           ),
           const SizedBox(height: 4),
-          Consumer<HomeProvider>(
+          Consumer<TvHomeProvider>(
             builder: (context, provider, child) {
               switch (provider.state) {
                 case RequestState.initial:
@@ -33,7 +32,7 @@ class NowPlayingComponents extends StatelessWidget {
                 case RequestState.empty:
                   return const Text(
                     key: Key('now_playing_component_empty'),
-                    'Empty Movie',
+                    'Empty Tv',
                   );
                 case RequestState.loading:
                   return const Center(
@@ -57,12 +56,12 @@ class NowPlayingComponents extends StatelessWidget {
                       itemBuilder: (context, index) {
                         final item = provider.data[index];
                         return CoverItem(
-                          imageUrl:
-                              '${Constant.baseUrlImage}${item.posterPath}',
                           onTap: () {
-                            Navigator.pushNamed(context, DetailView.route,
+                            Navigator.pushNamed(context, TvDetailView.route,
                                 arguments: item.id);
                           },
+                          imageUrl:
+                              '${Constant.baseUrlImage}${item.posterPath}',
                         );
                       },
                     ),

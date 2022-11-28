@@ -10,25 +10,30 @@ import '../../core/constant/constant.dart';
 import '../../domain/entities/movie.dart';
 
 class MovieItem extends StatelessWidget {
-  const MovieItem({Key? key, required this.data}) : super(key: key);
+  const MovieItem({
+    Key? key,
+    required this.title,
+    required this.overview,
+    required this.imageUrl,
+    required this.voteAverage,
+    required this.onTap,
+  }) : super(key: key);
 
-  final Movie data;
+  final String title;
+  final String overview;
+  final String imageUrl;
+  final double voteAverage;
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
     return SkyBox(
       margin: const EdgeInsets.symmetric(vertical: 4),
-      onPressed: () {
-        Navigator.pushNamed(
-          context,
-          DetailView.route,
-          arguments: data.id,
-        );
-      },
+      onPressed: onTap,
       child: Row(
         children: [
           SkyImage(
-            url: '${Constant.baseUrlImage}${data.posterPath}',
+            url: imageUrl,
             width: 80,
             borderRadius: const BorderRadius.all(Radius.circular(8)),
           ),
@@ -38,7 +43,7 @@ class MovieItem extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  data.title ?? '-',
+                  title,
                   maxLines: 3,
                   overflow: TextOverflow.ellipsis,
                   style: AppStyle.subtitle3,
@@ -47,7 +52,7 @@ class MovieItem extends StatelessWidget {
                 Row(
                   children: [
                     RatingBarIndicator(
-                      rating: (data.voteAverage ?? 0) / 2,
+                      rating: voteAverage / 2,
                       itemCount: 5,
                       unratedColor: Colors.orange.withOpacity(0.3),
                       itemBuilder: (context, index) => const Icon(
@@ -58,7 +63,7 @@ class MovieItem extends StatelessWidget {
                     ),
                     const SizedBox(width: 8),
                     Text(
-                      '${data.voteAverage?.toStringAsFixed(1)} / 10',
+                      '${voteAverage.toStringAsFixed(1)} / 10',
                       style: AppStyle.body3.copyWith(
                           fontWeight: FontWeight.w600, color: Colors.orange),
                     ),
@@ -66,7 +71,7 @@ class MovieItem extends StatelessWidget {
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  data.overview ?? '-',
+                  overview,
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                 ),

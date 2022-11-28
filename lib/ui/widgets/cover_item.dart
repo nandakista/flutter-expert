@@ -5,12 +5,17 @@ import 'package:submission/ui/views/detail/detail_view.dart';
 
 import '../../domain/entities/movie.dart';
 
-class MovieCoverItem extends StatelessWidget {
-  const MovieCoverItem({Key? key, required this.data, this.height})
-      : super(key: key);
+class CoverItem extends StatelessWidget {
+  const CoverItem({
+    Key? key,
+    this.height,
+    required this.onTap,
+    required this.imageUrl,
+  }) : super(key: key);
 
-  final Movie data;
   final double? height;
+  final String imageUrl;
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -18,13 +23,11 @@ class MovieCoverItem extends StatelessWidget {
       height: height,
       padding: const EdgeInsets.all(8),
       child: InkWell(
-        onTap: () {
-          Navigator.pushNamed(context, DetailView.route, arguments: data.id);
-        },
+        onTap: onTap,
         child: ClipRRect(
           borderRadius: const BorderRadius.all(Radius.circular(12)),
           child: CachedNetworkImage(
-            imageUrl: '${Constant.baseUrlImage}${data.posterPath}',
+            imageUrl: imageUrl,
             fit: BoxFit.fill,
             placeholder: (context, url) => const Center(
               child: CircularProgressIndicator(),

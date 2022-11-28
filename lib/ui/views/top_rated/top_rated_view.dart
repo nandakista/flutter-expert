@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:submission/core/constant/constant.dart';
+import 'package:submission/ui/views/detail/detail_view.dart';
 import 'package:submission/ui/views/top_rated/top_rated_provider.dart';
 import 'package:submission/ui/widgets/movie_item.dart';
 
@@ -40,7 +42,19 @@ class TopRatedView extends StatelessWidget {
                     itemCount: provider.data.length,
                     itemBuilder: (context, index) {
                       final movie = provider.data[index];
-                      return MovieItem(data: movie);
+                      return MovieItem(
+                        title: movie.title.toString(),
+                        overview: movie.overview.toString(),
+                        imageUrl: '${Constant.baseUrlImage}${movie.posterPath}',
+                        voteAverage: movie.voteAverage ?? 0,
+                        onTap: () {
+                          Navigator.pushNamed(
+                            context,
+                            DetailView.route,
+                            arguments: movie.id,
+                          );
+                        },
+                      );
                     },
                   );
                 case RequestState.error:

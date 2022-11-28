@@ -12,8 +12,16 @@ import 'package:submission/ui/views/search/search_provider.dart';
 import 'package:submission/ui/views/search/search_view.dart';
 import 'package:submission/ui/views/top_rated/top_rated_provider.dart';
 import 'package:submission/ui/views/top_rated/top_rated_view.dart';
+import 'package:submission/ui/views/tv_detail/tv_detail_provider.dart';
+import 'package:submission/ui/views/tv_detail/tv_detail_view.dart';
+import 'package:submission/ui/views/tv_home/provider/tv_home_provider.dart';
+import 'package:submission/ui/views/tv_home/provider/tv_popular_provider.dart';
+import 'package:submission/ui/views/tv_home/provider/tv_top_rated_provider.dart';
+import 'package:submission/ui/views/tv_home/tv_home_view.dart';
+import 'package:submission/ui/views/tv_search/tv_search_view.dart';
 import 'package:submission/ui/views/watchlist/watchlist_provider.dart';
 import 'package:submission/ui/views/watchlist/watchlist_view.dart';
+import 'package:submission/ui/views/watchlist_tv/watchlist_tv_view.dart';
 
 import 'core/route_observer.dart';
 
@@ -47,6 +55,18 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (_) => di.sl<DetailProvider>(),
         ),
+        ChangeNotifierProvider(
+          create: (_) => di.sl<TvHomeProvider>().init(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => di.sl<TvTopRatedProvider>().init(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => di.sl<TvPopularProvider>().init(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => di.sl<TvDetailProvider>(),
+        ),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -66,11 +86,18 @@ class MyApp extends StatelessWidget {
               return MaterialPageRoute(builder: (_) => const TopRatedView());
             case DetailView.route:
               final id = settings.arguments as int;
-              return MaterialPageRoute(
-                builder: (_) => DetailView(id: id),
-              );
+              return MaterialPageRoute(builder: (_) => DetailView(id: id));
             case SearchView.route:
               return MaterialPageRoute(builder: (_) => const SearchView());
+            case TvHomeView.route:
+              return MaterialPageRoute(builder: (_) => const TvHomeView());
+            case TvDetailView.route:
+              final id = settings.arguments as int;
+              return MaterialPageRoute(builder: (_) => TvDetailView(id: id));
+            case TvSearchView.route:
+              return MaterialPageRoute(builder: (_) => const TvSearchView());
+            case WatchlistTvView.route:
+              return MaterialPageRoute(builder: (_) => const WatchlistTvView());
             default:
               return MaterialPageRoute(
                 builder: (_) {

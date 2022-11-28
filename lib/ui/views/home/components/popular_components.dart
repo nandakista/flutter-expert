@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:submission/core/constant/constant.dart';
 import 'package:submission/core/constant/network_state.dart';
 import 'package:submission/core/theme/app_style.dart';
+import 'package:submission/ui/views/detail/detail_view.dart';
 import 'package:submission/ui/views/popular/popular_provider.dart';
 import 'package:submission/ui/views/popular/popular_view.dart';
 import 'package:submission/ui/widgets/content_wrapper.dart';
 
-import '../../../widgets/movie_cover_item.dart';
+import '../../../widgets/cover_item.dart';
 
 class PopularComponents extends StatelessWidget {
   const PopularComponents({Key? key}) : super(key: key);
@@ -60,7 +62,14 @@ class PopularComponents extends StatelessWidget {
                       itemCount: provider.data.length,
                       itemBuilder: (context, index) {
                         final item = provider.data[index];
-                        return MovieCoverItem(data: item);
+                        return CoverItem(
+                          onTap: () {
+                            Navigator.pushNamed(context, DetailView.route,
+                                arguments: item.id);
+                          },
+                          imageUrl:
+                              '${Constant.baseUrlImage}${item.posterPath}',
+                        );
                       },
                     ),
                   );

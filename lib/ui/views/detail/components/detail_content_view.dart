@@ -1,19 +1,34 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:submission/core/constant/constant.dart';
 import 'package:submission/ui/views/detail/components/recommended_component.dart';
 import 'package:submission/ui/widgets/content_wrapper.dart';
 import 'package:submission/ui/widgets/sky_image.dart';
 
 import '../../../../core/theme/app_style.dart';
 import '../../../../domain/entities/genre.dart';
-import '../../../../domain/entities/movie_detail.dart';
 
 class DetailContent extends StatelessWidget {
-  final MovieDetail movie;
+  const DetailContent({
+    super.key,
+    required this.imageUrl,
+    required this.title,
+    required this.status,
+    required this.overview,
+    required this.genres,
+    required this.voteAverage,
+    required this.voteCount,
+    this.runtime,
+  });
 
-  const DetailContent({super.key, required this.movie});
+  final String imageUrl;
+  final String title;
+  final String status;
+  final String overview;
+  final List<Genre> genres;
+  final int? runtime;
+  final double voteAverage;
+  final int voteCount;
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +36,7 @@ class DetailContent extends StatelessWidget {
       child: Column(
         children: [
           SkyImage(
-            url: '${Constant.baseUrlImage}${movie.posterPath}',
+            url: imageUrl,
             width: MediaQuery.of(context).size.width,
             height: 500,
             fit: BoxFit.cover,
@@ -40,7 +55,7 @@ class DetailContent extends StatelessWidget {
                   children: [
                     Expanded(
                       child: Text(
-                        '${movie.title}',
+                        title,
                         style: AppStyle.subtitle2,
                       ),
                     ),
@@ -55,7 +70,7 @@ class DetailContent extends StatelessWidget {
                         vertical: 8,
                       ),
                       child: Text(
-                        '${movie.status}',
+                        status,
                         style: AppStyle.body2.copyWith(color: Colors.white),
                       ),
                     ),
@@ -63,11 +78,11 @@ class DetailContent extends StatelessWidget {
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  _buildGenre(movie.genres ?? []),
+                  _buildGenre(genres),
                   style: AppStyle.body2,
                 ),
                 const SizedBox(height: 4),
-                Wrap(
+                if(runtime != null) Wrap(
                   crossAxisAlignment: WrapCrossAlignment.center,
                   children: [
                     const Icon(
@@ -75,8 +90,8 @@ class DetailContent extends StatelessWidget {
                       size: 18,
                     ),
                     const SizedBox(width: 4),
-                    Text(
-                      _buildDuration(movie.runtime ?? 0),
+                     Text(
+                      _buildDuration(runtime!),
                       style: AppStyle.body2,
                     ),
                   ],
@@ -85,7 +100,7 @@ class DetailContent extends StatelessWidget {
                 Row(
                   children: [
                     RatingBarIndicator(
-                      rating: (movie.voteAverage ?? 0) / 2,
+                      rating: voteAverage / 2,
                       itemCount: 5,
                       unratedColor: Colors.orange.withOpacity(0.3),
                       itemBuilder: (context, index) => const Icon(
@@ -96,13 +111,13 @@ class DetailContent extends StatelessWidget {
                     ),
                     const SizedBox(width: 8),
                     Text(
-                      '${movie.voteAverage?.toStringAsFixed(1)} / 10',
+                      '${voteAverage.toStringAsFixed(1)} / 10',
                       style: AppStyle.body1.copyWith(
                           fontWeight: FontWeight.w600, color: Colors.orange),
                     ),
                     const SizedBox(width: 8),
                     Text(
-                      '(${movie.voteCount})',
+                      '($voteCount)',
                       style: AppStyle.body1.copyWith(
                         fontWeight: FontWeight.w600,
                       ),
@@ -116,7 +131,7 @@ class DetailContent extends StatelessWidget {
                 ),
                 const Divider(),
                 Text(
-                  '${movie.overview}',
+                  overview,
                   style: AppStyle.body2,
                 ),
                 const SizedBox(height: 16),

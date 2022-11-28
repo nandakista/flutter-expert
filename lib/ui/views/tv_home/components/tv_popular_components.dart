@@ -3,14 +3,13 @@ import 'package:provider/provider.dart';
 import 'package:submission/core/constant/constant.dart';
 import 'package:submission/core/constant/network_state.dart';
 import 'package:submission/core/theme/app_style.dart';
-import 'package:submission/ui/views/detail/detail_view.dart';
+import 'package:submission/ui/views/tv_detail/tv_detail_view.dart';
+import 'package:submission/ui/views/tv_home/provider/tv_popular_provider.dart';
 import 'package:submission/ui/widgets/content_wrapper.dart';
+import 'package:submission/ui/widgets/cover_item.dart';
 
-import '../home_provider.dart';
-import '../../../widgets/cover_item.dart';
-
-class NowPlayingComponents extends StatelessWidget {
-  const NowPlayingComponents({Key? key}) : super(key: key);
+class TvPopularComponents extends StatelessWidget {
+  const TvPopularComponents({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,61 +19,56 @@ class NowPlayingComponents extends StatelessWidget {
         children: [
           ContentWrapper(
             child: Text(
-              'Now Playing',
+              'Popular',
               style: AppStyle.subtitle2,
             ),
           ),
           const SizedBox(height: 4),
-          Consumer<HomeProvider>(
+          Consumer<TvPopularProvider>(
             builder: (context, provider, child) {
               switch (provider.state) {
                 case RequestState.initial:
                   return Container();
                 case RequestState.empty:
                   return const Text(
-                    key: Key('now_playing_component_empty'),
-                    'Empty Movie',
+                    key: Key('popular_component_empty'),
+                    'Empty Tv',
                   );
                 case RequestState.loading:
                   return const Center(
                     child: CircularProgressIndicator(
-                      key: Key('now_playing_component_loading'),
+                      key: Key('popular_component_loading'),
                     ),
                   );
                 case RequestState.success:
                   return SizedBox(
-                    height: 500,
-                    child: GridView.builder(
-                      shrinkWrap: true,
-                      itemCount: provider.data.length,
+                    height: 200,
+                    child: ListView.builder(
                       padding: const EdgeInsets.symmetric(horizontal: 16),
-                      gridDelegate:
-                          const SliverGridDelegateWithMaxCrossAxisExtent(
-                        maxCrossAxisExtent: 250,
-                        mainAxisExtent: 180,
-                      ),
+                      key: const Key('list_popular_component'),
                       scrollDirection: Axis.horizontal,
+                      itemCount: provider.data.length,
                       itemBuilder: (context, index) {
                         final item = provider.data[index];
                         return CoverItem(
-                          imageUrl:
-                              '${Constant.baseUrlImage}${item.posterPath}',
                           onTap: () {
-                            Navigator.pushNamed(context, DetailView.route,
+                            Navigator.pushNamed(context, TvDetailView.route,
                                 arguments: item.id);
                           },
+                          imageUrl:
+                          '${Constant.baseUrlImage}${item.posterPath}',
                         );
                       },
                     ),
                   );
                 case RequestState.error:
                   return Text(
-                    key: const Key('now_playing_component_error'),
+                    key: const Key('popular_component_error'),
                     'Failed : ${provider.message}',
                   );
               }
             },
-          )
+          ),
         ],
       ),
     );

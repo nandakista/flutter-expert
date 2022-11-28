@@ -1,17 +1,17 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:submission/ui/views/home/components/now_playing_components.dart';
-import 'package:submission/ui/views/search/search_view.dart';
-import 'package:submission/ui/views/tv_home/tv_home_view.dart';
+import 'package:submission/ui/views/home/home_view.dart';
+import 'package:submission/ui/views/tv_home/components/tv_on_air_components.dart';
+import 'package:submission/ui/views/tv_home/components/tv_popular_components.dart';
+import 'package:submission/ui/views/tv_home/components/tv_top_rated_components.dart';
+import 'package:submission/ui/views/tv_search/tv_search_view.dart';
 
 import '../watchlist/watchlist_view.dart';
-import 'components/popular_components.dart';
-import 'components/top_rated_components.dart';
 
-class HomeView extends StatelessWidget {
-  static const route = '/home';
+class TvHomeView extends StatelessWidget {
+  static const route = '/tv/on-air';
 
-  const HomeView({Key? key}) : super(key: key);
+  const TvHomeView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -29,13 +29,13 @@ class HomeView extends StatelessWidget {
             ListTile(
               leading: const Icon(CupertinoIcons.film),
               title: const Text('Movies'),
-              onTap: () => Navigator.pop(context),
+              onTap: () =>
+                  Navigator.pushReplacementNamed(context, HomeView.route),
             ),
             ListTile(
               leading: const Icon(CupertinoIcons.tv),
               title: const Text('TV'),
-              onTap: () =>
-                  Navigator.pushReplacementNamed(context, TvHomeView.route),
+              onTap: () => Navigator.pop(context),
             ),
             ListTile(
               leading: const Icon(CupertinoIcons.square_favorites),
@@ -46,11 +46,11 @@ class HomeView extends StatelessWidget {
         ),
       ),
       appBar: AppBar(
-        title: const Text('Sky Movie'),
+        title: const Text('Sky TV Series'),
         actions: [
           IconButton(
             onPressed: () {
-              Navigator.pushNamed(context, SearchView.route);
+              Navigator.pushNamed(context, TvSearchView.route);
             },
             icon: const Icon(Icons.search),
           )
@@ -62,19 +62,19 @@ class HomeView extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: const [
-              NowPlayingComponents(),
+              TvOnAirComponents(),
               SizedBox(height: 4),
               Divider(
                 thickness: 1,
                 height: 24,
               ),
-              PopularComponents(),
+              TvPopularComponents(),
               SizedBox(height: 4),
               Divider(
                 thickness: 1,
                 height: 24,
               ),
-              TopRatedComponents(),
+              TvTopRatedComponents(),
             ],
           ),
         ),

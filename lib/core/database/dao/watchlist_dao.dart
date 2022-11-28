@@ -39,7 +39,7 @@ class WatchlistDao {
     Database? db = await AppDatabase().database;
     final result = await db!.query(
       tableName,
-      where: '$id = ?',
+      where: 'id = ?',
       whereArgs: [id],
     );
     if (result.isNotEmpty) return result.first;

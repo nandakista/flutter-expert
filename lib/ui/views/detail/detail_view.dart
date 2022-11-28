@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:submission/core/constant/constant.dart';
 import 'package:submission/ui/views/detail/detail_provider.dart';
 import 'package:submission/ui/widgets/colored_status_bar.dart';
 
@@ -8,7 +9,6 @@ import 'components/detail_content_view.dart';
 
 class DetailView extends StatefulWidget {
   static const route = '/detail';
-
   const DetailView({Key? key, required this.id}) : super(key: key);
 
   final int id;
@@ -84,10 +84,18 @@ class _DetailViewState extends State<DetailView> {
                     child: CircularProgressIndicator(),
                   );
                 } else if (provider.detailState == RequestState.success) {
+                  final movie = provider.detailMovie;
                   return SafeArea(
                     child: DetailContent(
                       key: const Key('detail_content'),
-                      movie: provider.detailMovie,
+                      imageUrl: '${Constant.baseUrlImage}${movie.posterPath}',
+                      title: movie.title.toString(),
+                      status: movie.status.toString(),
+                      overview: movie.overview.toString(),
+                      runtime: movie.runtime ?? 0,
+                      genres: movie.genres ?? [],
+                      voteAverage: movie.voteAverage ?? 0,
+                      voteCount: movie.voteCount ?? 0,
                     ),
                   );
                 } else {
