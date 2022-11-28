@@ -1,4 +1,4 @@
-import 'package:submission/domain/entities/movie_watchlist.dart';
+import 'package:submission/domain/entities/watchlist.dart';
 
 abstract class MovieLocalSource {
   Future<String> insertWatchlist(MovieWatchlist movie);

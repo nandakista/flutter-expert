@@ -5,7 +5,7 @@ import 'package:mockito/mockito.dart';
 import 'package:provider/provider.dart';
 import 'package:submission/core/constant/network_state.dart';
 import 'package:submission/domain/entities/movie.dart';
-import 'package:submission/domain/entities/movie_watchlist.dart';
+import 'package:submission/domain/entities/watchlist.dart';
 import 'package:submission/ui/views/watchlist/watchlist_provider.dart';
 import 'package:submission/ui/views/watchlist/watchlist_view.dart';
 

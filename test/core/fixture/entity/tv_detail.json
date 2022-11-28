@@ -1,0 +1,56 @@
+{
+  "adult": false,
+  "backdrop_path": "/url.jpg",
+  "episode_run_time": [
+    39
+  ],
+  "first_air_date": "2021-11-06",
+  "genres": [
+    {
+      "id": 16,
+      "name": "Animation"
+    },
+    {
+      "id": 10765,
+      "name": "Sci-Fi & Fantasy"
+    }
+  ],
+  "homepage": "https://arcane.com",
+  "id": 94605,
+  "in_production": true,
+  "languages": [
+    "am",
+    "ar",
+    "en",
+    "hz"
+  ],
+  "last_air_date": "2021-11-20",
+  "name": "Arcane",
+  "next_episode_to_air": null,
+  "number_of_episodes": 9,
+  "number_of_seasons": 2,
+  "origin_country": [
+    "US"
+  ],
+  "original_language": "en",
+  "original_name": "Arcane",
+  "overview": "overview",
+  "popularity": 95.866,
+  "poster_path": "/url.jpg",
+  "seasons": [
+    {
+      "air_date": "2021-11-06",
+      "episode_count": 9,
+      "id": 134187,
+      "name": "Season 1",
+      "overview": "",
+      "poster_path": "/url.jpg",
+      "season_number": 1
+    }
+  ],
+  "status": "Returning Series",
+  "tagline": "",
+  "type": "Scripted",
+  "vote_average": 8.746,
+  "vote_count": 2704
+}

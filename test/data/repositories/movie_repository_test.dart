@@ -12,7 +12,7 @@ import 'package:submission/data/sources/server/movie_server_source.dart';
 import 'package:submission/domain/entities/genre.dart';
 import 'package:submission/domain/entities/movie.dart';
 import 'package:submission/domain/entities/movie_detail.dart';
-import 'package:submission/domain/entities/movie_watchlist.dart';
+import 'package:submission/domain/entities/watchlist.dart';
 
 import 'movie_repository_test.mocks.dart';
 

@@ -10,7 +10,7 @@ import 'package:submission/data/sources/local/movie_local_source.dart' as _i6;
 import 'package:submission/data/sources/server/movie_server_source.dart' as _i3;
 import 'package:submission/domain/entities/movie.dart' as _i5;
 import 'package:submission/domain/entities/movie_detail.dart' as _i2;
-import 'package:submission/domain/entities/movie_watchlist.dart' as _i7;
+import 'package:submission/domain/entities/watchlist.dart' as _i7;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values

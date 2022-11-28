@@ -5,7 +5,7 @@ import '../../core/error/exception.dart';
 import '../../core/error/failure.dart';
 import '../../domain/entities/movie.dart';
 import '../../domain/entities/movie_detail.dart';
-import '../../domain/entities/movie_watchlist.dart';
+import '../../domain/entities/watchlist.dart';
 import '../../domain/repositories/movie_repository.dart';
 import '../sources/local/movie_local_source.dart';
 import '../sources/server/movie_server_source.dart';
@@ -96,7 +96,7 @@ class MovieRepositoryImpl implements MovieRepository {
   Future<Either<Failure, List<Movie>>> getAllWatchlist() async {
     try {
       final result = await localDataSource.getAllWatchlist();
-      return Right(result.map((data) => data.toEntity()).toList());
+      return Right(result.map((data) => data.toMovieEntity()).toList());
     } on DatabaseException catch (e) {
       return Left(DatabaseFailure(e.message));
     }
@@ -112,7 +112,7 @@ class MovieRepositoryImpl implements MovieRepository {
   Future<Either<Failure, String>> removeWatchlist(MovieDetail movie) async {
     try {
       final result = await localDataSource
-          .removeWatchlist(MovieWatchlist.fromEntity(movie));
+          .removeWatchlist(MovieWatchlist.fromMovieEntity(movie));
       return Right(result);
     } on DatabaseException catch (e) {
       return Left(DatabaseFailure(e.message));
@@ -123,7 +123,7 @@ class MovieRepositoryImpl implements MovieRepository {
   Future<Either<Failure, String>> saveWatchlist(MovieDetail movie) async {
     try {
       final result = await localDataSource
-          .insertWatchlist(MovieWatchlist.fromEntity(movie));
+          .insertWatchlist(MovieWatchlist.fromMovieEntity(movie));
       return Right(result);
     } on DatabaseException catch (e) {
       return Left(DatabaseFailure(e.message));

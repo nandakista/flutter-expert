@@ -3,9 +3,9 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:submission/core/database/dao/watchlist_dao.dart';
 import 'package:submission/core/error/exception.dart';
-import 'package:submission/data/models/movie_watchlist_model.dart';
+import 'package:submission/data/models/watchlist_model.dart';
 import 'package:submission/data/sources/local/movie_local_source_impl.dart';
-import 'package:submission/domain/entities/movie_watchlist.dart';
+import 'package:submission/domain/entities/watchlist.dart';
 
 import 'movie_local_source_test.mocks.dart';
 
