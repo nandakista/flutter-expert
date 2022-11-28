@@ -6,7 +6,8 @@
 import 'dart:async' as _i4;
 
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:submission/data/sources/local/tv_local_source.dart' as _i6;
+import 'package:submission/data/sources/local/watchlist_local_source.dart'
+    as _i6;
 import 'package:submission/data/sources/server/tv_server_source.dart' as _i3;
 import 'package:submission/domain/entities/tv.dart' as _i5;
 import 'package:submission/domain/entities/tv_detail.dart' as _i2;
@@ -97,11 +98,12 @@ class MockTvServerSource extends _i1.Mock implements _i3.TvServerSource {
       ) as _i4.Future<List<_i5.Tv>>);
 }
 
-/// A class which mocks [TvLocalSource].
+/// A class which mocks [WatchlistLocalSource].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockTvLocalSource extends _i1.Mock implements _i6.TvLocalSource {
-  MockTvLocalSource() {
+class MockWatchlistLocalSource extends _i1.Mock
+    implements _i6.WatchlistLocalSource {
+  MockWatchlistLocalSource() {
     _i1.throwOnMissingStub(this);
   }
 

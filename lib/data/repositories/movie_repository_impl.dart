@@ -7,12 +7,12 @@ import '../../domain/entities/movie.dart';
 import '../../domain/entities/movie_detail.dart';
 import '../../domain/entities/watchlist.dart';
 import '../../domain/repositories/movie_repository.dart';
-import '../sources/local/movie_local_source.dart';
+import '../sources/local/watchlist_local_source.dart';
 import '../sources/server/movie_server_source.dart';
 
 class MovieRepositoryImpl implements MovieRepository {
   final MovieServerSource serverSource;
-  final MovieLocalSource localDataSource;
+  final WatchlistLocalSource localDataSource;
 
   MovieRepositoryImpl({
     required this.serverSource,

@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:dartz/dartz.dart';
 import 'package:submission/core/error/exception.dart';
 import 'package:submission/core/error/failure.dart';
-import 'package:submission/data/sources/local/tv_local_source.dart';
+import 'package:submission/data/sources/local/watchlist_local_source.dart';
 import 'package:submission/data/sources/server/tv_server_source.dart';
 import 'package:submission/domain/entities/tv.dart';
 import 'package:submission/domain/entities/tv_detail.dart';
@@ -12,7 +12,7 @@ import 'package:submission/domain/repositories/tv_repository.dart';
 
 class TvRepositoryImpl extends TvRepository {
   final TvServerSource serverSource;
-  final TvLocalSource localDataSource;
+  final WatchlistLocalSource localDataSource;
 
   TvRepositoryImpl({
     required this.serverSource,

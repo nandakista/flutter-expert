@@ -1,6 +1,6 @@
 import 'package:get_it/get_it.dart';
-import 'package:submission/data/sources/local/movie_local_source.dart';
-import 'package:submission/data/sources/local/movie_local_source_impl.dart';
+import 'package:submission/data/sources/local/watchlist_local_source.dart';
+import 'package:submission/data/sources/local/watchlist_local_source_impl.dart';
 import 'package:submission/domain/usecases/get_watchlist_movie.dart';
 import 'package:submission/domain/usecases/get_watchlist_movie_exist_status.dart';
 import 'package:submission/domain/usecases/remove_watchlist_movie.dart';
@@ -124,7 +124,7 @@ void init() {
   sl.registerLazySingleton<MovieRepository>(
     () => MovieRepositoryImpl(
       serverSource: sl<MovieServerSource>(),
-      localDataSource: sl<MovieLocalSource>(),
+      localDataSource: sl<WatchlistLocalSource>(),
     ),
   );
 
@@ -134,8 +134,8 @@ void init() {
       client: sl<http.Client>(),
     ),
   );
-  sl.registerLazySingleton<MovieLocalSource>(
-    () => MovieLocalSourceImpl(
+  sl.registerLazySingleton<WatchlistLocalSource>(
+    () => WatchlistLocalSourceImpl(
       dao: sl<WatchlistDao>(),
     ),
   );

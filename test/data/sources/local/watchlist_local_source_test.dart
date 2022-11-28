@@ -4,19 +4,19 @@ import 'package:mockito/mockito.dart';
 import 'package:submission/core/database/dao/watchlist_dao.dart';
 import 'package:submission/core/error/exception.dart';
 import 'package:submission/data/models/watchlist_model.dart';
-import 'package:submission/data/sources/local/movie_local_source_impl.dart';
+import 'package:submission/data/sources/local/watchlist_local_source_impl.dart';
 import 'package:submission/domain/entities/watchlist.dart';
 
-import 'movie_local_source_test.mocks.dart';
+import 'watchlist_local_source_test.mocks.dart';
 
 @GenerateMocks([WatchlistDao])
 void main() {
-  late MovieLocalSourceImpl source;
+  late WatchlistLocalSourceImpl source;
   late MockWatchlistDao mockWatchlistDao;
 
   setUp(() {
     mockWatchlistDao = MockWatchlistDao();
-    source = MovieLocalSourceImpl(dao: mockWatchlistDao);
+    source = WatchlistLocalSourceImpl(dao: mockWatchlistDao);
   });
 
   group('''Save Watchlist''', () {

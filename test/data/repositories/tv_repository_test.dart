@@ -7,7 +7,7 @@ import 'package:mockito/mockito.dart';
 import 'package:submission/core/error/exception.dart';
 import 'package:submission/core/error/failure.dart';
 import 'package:submission/data/repositories/tv_repository_impl.dart';
-import 'package:submission/data/sources/local/tv_local_source.dart';
+import 'package:submission/data/sources/local/watchlist_local_source.dart';
 import 'package:submission/data/sources/server/tv_server_source.dart';
 import 'package:submission/domain/entities/genre.dart';
 import 'package:submission/domain/entities/season.dart';
@@ -17,15 +17,15 @@ import 'package:submission/domain/entities/watchlist.dart';
 
 import 'tv_repository_test.mocks.dart';
 
-@GenerateMocks([TvServerSource, TvLocalSource])
+@GenerateMocks([TvServerSource, WatchlistLocalSource])
 void main() {
   late TvRepositoryImpl repository;
   late MockTvServerSource mockTvServerSource;
-  late MockTvLocalSource mockTvLocalSource;
+  late MockWatchlistLocalSource mockTvLocalSource;
 
   setUp(() {
     mockTvServerSource = MockTvServerSource();
-    mockTvLocalSource = MockTvLocalSource();
+    mockTvLocalSource = MockWatchlistLocalSource();
     repository = TvRepositoryImpl(
       serverSource: mockTvServerSource,
       localDataSource: mockTvLocalSource,

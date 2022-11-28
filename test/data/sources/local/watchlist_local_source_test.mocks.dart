@@ -29,27 +29,29 @@ class MockWatchlistDao extends _i1.Mock implements _i2.WatchlistDao {
   }
 
   @override
-  _i3.Future<int> insertWatchlist(_i4.Watchlist? movie) => (super.noSuchMethod(
+  _i3.Future<int> insertWatchlist(_i4.Watchlist? watchlist) =>
+      (super.noSuchMethod(
         Invocation.method(
           #insertWatchlist,
-          [movie],
+          [watchlist],
         ),
         returnValue: _i3.Future<int>.value(0),
       ) as _i3.Future<int>);
   @override
-  _i3.Future<int> removeWatchlist(_i4.Watchlist? movie) => (super.noSuchMethod(
+  _i3.Future<int> removeWatchlist(_i4.Watchlist? watchlist) =>
+      (super.noSuchMethod(
         Invocation.method(
           #removeWatchlist,
-          [movie],
+          [watchlist],
         ),
         returnValue: _i3.Future<int>.value(0),
       ) as _i3.Future<int>);
   @override
-  _i3.Future<Map<String, dynamic>?> getWatchlist(int? movieId) =>
+  _i3.Future<Map<String, dynamic>?> getWatchlist(int? id) =>
       (super.noSuchMethod(
         Invocation.method(
           #getWatchlist,
-          [movieId],
+          [id],
         ),
         returnValue: _i3.Future<Map<String, dynamic>?>.value(),
       ) as _i3.Future<Map<String, dynamic>?>);

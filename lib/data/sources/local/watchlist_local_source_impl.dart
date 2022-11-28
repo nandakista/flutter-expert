@@ -1,14 +1,14 @@
 import 'package:submission/core/database/dao/watchlist_dao.dart';
-import 'package:submission/data/sources/local/movie_local_source.dart';
+import 'package:submission/data/sources/local/watchlist_local_source.dart';
 import 'package:submission/domain/entities/watchlist.dart';
 
 import '../../../core/error/exception.dart';
 import '../../models/watchlist_model.dart';
 
-class MovieLocalSourceImpl extends MovieLocalSource {
+class WatchlistLocalSourceImpl extends WatchlistLocalSource {
   final WatchlistDao dao;
 
-  MovieLocalSourceImpl({required this.dao});
+  WatchlistLocalSourceImpl({required this.dao});
 
   @override
   Future<Watchlist?> getWatchlist(int id) async {

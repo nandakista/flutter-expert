@@ -12,35 +12,35 @@ class WatchlistDao {
   static const String overview = 'overview';
   static const String voteAverage = 'voteAverage';
 
-  Future<int> insertWatchlist(Watchlist movie) async {
+  Future<int> insertWatchlist(Watchlist watchlist) async {
     Database? db = await AppDatabase().database;
     return await db!.insert(
       tableName,
       WatchlistModel(
-        id: movie.id,
-        title: movie.title,
-        posterPath: movie.posterPath,
-        overview: movie.overview,
-        voteAverage: movie.voteAverage,
+        id: watchlist.id,
+        title: watchlist.title,
+        posterPath: watchlist.posterPath,
+        overview: watchlist.overview,
+        voteAverage: watchlist.voteAverage,
       ).toJson(),
     );
   }
 
-  Future<int> removeWatchlist(Watchlist movie) async {
+  Future<int> removeWatchlist(Watchlist watchlist) async {
     Database? db = await AppDatabase().database;
     return await db!.delete(
       tableName,
       where: '$id = ?',
-      whereArgs: [movie.id],
+      whereArgs: [watchlist.id],
     );
   }
 
-  Future<Map<String, dynamic>?> getWatchlist(int movieId) async {
+  Future<Map<String, dynamic>?> getWatchlist(int id) async {
     Database? db = await AppDatabase().database;
     final result = await db!.query(
       tableName,
       where: '$id = ?',
-      whereArgs: [movieId],
+      whereArgs: [id],
     );
     if (result.isNotEmpty) return result.first;
     return null;

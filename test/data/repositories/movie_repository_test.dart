@@ -7,7 +7,7 @@ import 'package:mockito/mockito.dart';
 import 'package:submission/core/error/exception.dart';
 import 'package:submission/core/error/failure.dart';
 import 'package:submission/data/repositories/movie_repository_impl.dart';
-import 'package:submission/data/sources/local/movie_local_source.dart';
+import 'package:submission/data/sources/local/watchlist_local_source.dart';
 import 'package:submission/data/sources/server/movie_server_source.dart';
 import 'package:submission/domain/entities/genre.dart';
 import 'package:submission/domain/entities/movie.dart';
@@ -16,15 +16,15 @@ import 'package:submission/domain/entities/watchlist.dart';
 
 import 'movie_repository_test.mocks.dart';
 
-@GenerateMocks([MovieServerSource, MovieLocalSource])
+@GenerateMocks([MovieServerSource, WatchlistLocalSource])
 void main() {
   late MovieRepositoryImpl repository;
   late MockMovieServerSource mockMovieServerSource;
-  late MockMovieLocalSource mockMovieLocalSource;
+  late MockWatchlistLocalSource mockMovieLocalSource;
 
   setUp(() {
     mockMovieServerSource = MockMovieServerSource();
-    mockMovieLocalSource = MockMovieLocalSource();
+    mockMovieLocalSource = MockWatchlistLocalSource();
     repository = MovieRepositoryImpl(
       serverSource: mockMovieServerSource,
       localDataSource: mockMovieLocalSource,
