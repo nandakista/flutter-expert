@@ -5,21 +5,21 @@ import 'package:mockito/mockito.dart';
 import 'package:submission/domain/entities/genre.dart';
 import 'package:submission/domain/entities/movie_detail.dart';
 import 'package:submission/domain/repositories/movie_repository.dart';
-import 'package:submission/domain/usecases/remove_watchlist_movie.dart';
+import 'package:submission/domain/usecases/save_watchlist_movie.dart';
 
-import 'remove_watchlist_test.mocks.dart';
+import 'save_watchlist_movie_test.mocks.dart';
 
 @GenerateMocks([MovieRepository])
 void main() {
-  late RemoveWatchlistMovie usecase;
+  late SaveWatchlistMovie usecase;
   late MockMovieRepository mockMovieRepository;
 
   setUp(() {
     mockMovieRepository = MockMovieRepository();
-    usecase = RemoveWatchlistMovie(repository: mockMovieRepository);
+    usecase = SaveWatchlistMovie(repository: mockMovieRepository);
   });
 
-  test('Should remove Watchlist from repository', () async {
+  test('Should save movie to the repository', () async {
     const tMovieDetail = MovieDetail(
       adult: false,
       backdropPath: '/bQXAqRx2Fgc46uCVWgoPz5L5Dtr.jpg',
@@ -47,12 +47,12 @@ void main() {
     );
 
     // Arrange
-    when(mockMovieRepository.removeWatchlist(tMovieDetail))
-        .thenAnswer((_) async => const Right('Removed from watchlist'));
+    when(mockMovieRepository.saveWatchlist(tMovieDetail))
+        .thenAnswer((_) async => const Right('Added to Watchlist'));
     // Act
     final result = await usecase(tMovieDetail);
     // Assert
-    verify(mockMovieRepository.removeWatchlist(tMovieDetail));
-    expect(result, const Right('Removed from watchlist'));
+    verify(mockMovieRepository.saveWatchlist(tMovieDetail));
+    expect(result, const Right('Added to Watchlist'));
   });
 }

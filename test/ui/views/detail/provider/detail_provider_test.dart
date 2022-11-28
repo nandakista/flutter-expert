@@ -26,9 +26,9 @@ import 'detail_provider_test.mocks.dart';
 void main() {
   late MockGetDetailMovie mockGetDetailMovie;
   late MockGetRecommendedMovies mockGetRecommendedMovies;
-  late MockGetWatchlistExistStatus mockGetWatchlistExistStatus;
-  late MockSaveWatchlist mockSaveWatchlist;
-  late MockRemoveWatchlist mockRemoveWatchlist;
+  late MockGetWatchlistMovieExistStatus mockGetWatchlistMovieExistStatus;
+  late MockSaveWatchlistMovie mockSaveWatchlistMovie;
+  late MockRemoveWatchlistMovie mockRemoveWatchlistMovie;
   late DetailProvider provider;
   late int providerCalledCount;
 
@@ -36,15 +36,15 @@ void main() {
     providerCalledCount = 0;
     mockGetDetailMovie = MockGetDetailMovie();
     mockGetRecommendedMovies = MockGetRecommendedMovies();
-    mockGetWatchlistExistStatus = MockGetWatchlistExistStatus();
-    mockSaveWatchlist = MockSaveWatchlist();
-    mockRemoveWatchlist = MockRemoveWatchlist();
+    mockGetWatchlistMovieExistStatus = MockGetWatchlistMovieExistStatus();
+    mockSaveWatchlistMovie = MockSaveWatchlistMovie();
+    mockRemoveWatchlistMovie = MockRemoveWatchlistMovie();
     provider = DetailProvider(
       getDetailMovie: mockGetDetailMovie,
       getRecommendationsMovies: mockGetRecommendedMovies,
-      getWatchlistExist: mockGetWatchlistExistStatus,
-      saveWatchlist: mockSaveWatchlist,
-      removeWatchlist: mockRemoveWatchlist,
+      getWatchlistExist: mockGetWatchlistMovieExistStatus,
+      saveWatchlist: mockSaveWatchlistMovie,
+      removeWatchlist: mockRemoveWatchlistMovie,
     )..addListener(() => providerCalledCount += 1);
   });
 

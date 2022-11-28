@@ -51,9 +51,9 @@ class _FakeGetRecommendedMovies_1 extends _i1.SmartFake
         );
 }
 
-class _FakeGetWatchlistExistStatus_2 extends _i1.SmartFake
+class _FakeGetWatchlistMovieExistStatus_2 extends _i1.SmartFake
     implements _i4.GetWatchlistMovieExistStatus {
-  _FakeGetWatchlistExistStatus_2(
+  _FakeGetWatchlistMovieExistStatus_2(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -62,8 +62,9 @@ class _FakeGetWatchlistExistStatus_2 extends _i1.SmartFake
         );
 }
 
-class _FakeSaveWatchlist_3 extends _i1.SmartFake implements _i5.SaveWatchlistMovie {
-  _FakeSaveWatchlist_3(
+class _FakeSaveWatchlistMovie_3 extends _i1.SmartFake
+    implements _i5.SaveWatchlistMovie {
+  _FakeSaveWatchlistMovie_3(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -72,9 +73,9 @@ class _FakeSaveWatchlist_3 extends _i1.SmartFake implements _i5.SaveWatchlistMov
         );
 }
 
-class _FakeRemoveWatchlist_4 extends _i1.SmartFake
+class _FakeRemoveWatchlistMovie_4 extends _i1.SmartFake
     implements _i6.RemoveWatchlistMovie {
-  _FakeRemoveWatchlist_4(
+  _FakeRemoveWatchlistMovie_4(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -120,7 +121,7 @@ class MockDetailProvider extends _i1.Mock implements _i8.DetailProvider {
   @override
   _i4.GetWatchlistMovieExistStatus get getWatchlistExist => (super.noSuchMethod(
         Invocation.getter(#getWatchlistExist),
-        returnValue: _FakeGetWatchlistExistStatus_2(
+        returnValue: _FakeGetWatchlistMovieExistStatus_2(
           this,
           Invocation.getter(#getWatchlistExist),
         ),
@@ -128,7 +129,7 @@ class MockDetailProvider extends _i1.Mock implements _i8.DetailProvider {
   @override
   _i5.SaveWatchlistMovie get saveWatchlist => (super.noSuchMethod(
         Invocation.getter(#saveWatchlist),
-        returnValue: _FakeSaveWatchlist_3(
+        returnValue: _FakeSaveWatchlistMovie_3(
           this,
           Invocation.getter(#saveWatchlist),
         ),
@@ -136,7 +137,7 @@ class MockDetailProvider extends _i1.Mock implements _i8.DetailProvider {
   @override
   _i6.RemoveWatchlistMovie get removeWatchlist => (super.noSuchMethod(
         Invocation.getter(#removeWatchlist),
-        returnValue: _FakeRemoveWatchlist_4(
+        returnValue: _FakeRemoveWatchlistMovie_4(
           this,
           Invocation.getter(#removeWatchlist),
         ),

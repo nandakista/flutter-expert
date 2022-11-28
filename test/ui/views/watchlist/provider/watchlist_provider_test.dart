@@ -13,14 +13,14 @@ import 'watchlist_provider_test.mocks.dart';
 @GenerateMocks([GetWatchlistMovie])
 void main() {
   late WatchlistProvider provider;
-  late MockGetWatchlist mockGetWatchlist;
+  late MockGetWatchlistMovie mockGetWatchlistMovie;
   late int listenerCallCount;
 
   setUp(() {
     listenerCallCount = 0;
-    mockGetWatchlist = MockGetWatchlist();
+    mockGetWatchlistMovie = MockGetWatchlistMovie();
     provider = WatchlistProvider(
-      getWatchlist: mockGetWatchlist,
+      getWatchlist: mockGetWatchlistMovie,
     )..addListener(() {
         listenerCallCount += 1;
       });
@@ -32,7 +32,7 @@ void main() {
     final tMovieList = <Movie>[];
 
     // Arrange
-    when(mockGetWatchlist())
+    when(mockGetWatchlistMovie())
         .thenAnswer((_) async => Right(tMovieList));
     // Act
     await provider.loadData();
@@ -68,7 +68,7 @@ void main() {
     ];
 
     // Arrange
-    when(mockGetWatchlist()).thenAnswer((_) async => Right(tMovieList));
+    when(mockGetWatchlistMovie()).thenAnswer((_) async => Right(tMovieList));
     // Act
     await provider.loadData();
     // Assert
@@ -81,7 +81,7 @@ void main() {
       'Should perform Get Watchlist from usecase then return '
       'error DatabaseFailure and change state to Error', () async {
     // Arrange
-    when(mockGetWatchlist())
+    when(mockGetWatchlistMovie())
         .thenAnswer((_) async => const Left(DatabaseFailure("Error")));
     // Act
     await provider.loadData();

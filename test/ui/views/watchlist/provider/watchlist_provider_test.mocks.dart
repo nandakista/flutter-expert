@@ -44,11 +44,11 @@ class _FakeEither_1<L, R> extends _i1.SmartFake implements _i3.Either<L, R> {
         );
 }
 
-/// A class which mocks [GetWatchlist].
+/// A class which mocks [GetWatchlistMovie].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockGetWatchlist extends _i1.Mock implements _i4.GetWatchlistMovie {
-  MockGetWatchlist() {
+class MockGetWatchlistMovie extends _i1.Mock implements _i4.GetWatchlistMovie {
+  MockGetWatchlistMovie() {
     _i1.throwOnMissingStub(this);
   }
 

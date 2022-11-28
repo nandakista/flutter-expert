@@ -6,7 +6,7 @@ import 'package:submission/domain/entities/movie.dart';
 import 'package:submission/domain/repositories/movie_repository.dart';
 import 'package:submission/domain/usecases/get_watchlist_movie.dart';
 
-import 'get_watchlist_test.mocks.dart';
+import 'get_watchlist_movie_test.mocks.dart';
 
 @GenerateMocks([MovieRepository])
 void main() {
