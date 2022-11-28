@@ -9,7 +9,7 @@ import 'package:submission/domain/entities/tv.dart';
 import 'package:submission/domain/entities/tv_detail.dart';
 
 void main() {
-  const tWatchlist = MovieWatchlist(
+  const tWatchlist = Watchlist(
     id: 436270,
     title: 'Black Adam',
     posterPath: '/pFlaoHTZeyNkG83vxsAJiGzfSsa.jpg',
@@ -63,7 +63,7 @@ void main() {
         video: false,
       );
       // Act
-      final result = MovieWatchlist.fromMovieEntity(tMovieDetail);
+      final result = Watchlist.fromMovieEntity(tMovieDetail);
       // Assert
       expect(result, tWatchlist);
     });
@@ -130,7 +130,7 @@ void main() {
           voteCount: 2704,
         );
         // Act
-        final result = MovieWatchlist.fromTvEntity(tTvDetail);
+        final result = Watchlist.fromTvEntity(tTvDetail);
         // Assert
         expect(result, tWatchlist);
       });

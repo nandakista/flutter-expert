@@ -11,27 +11,27 @@ class MovieLocalSourceImpl extends MovieLocalSource {
   MovieLocalSourceImpl({required this.dao});
 
   @override
-  Future<MovieWatchlist?> getWatchlist(int id) async {
+  Future<Watchlist?> getWatchlist(int id) async {
     final result = await dao.getWatchlist(id);
     if (result != null) {
-      return MovieWatchlistModel.fromJson(result);
+      return WatchlistModel.fromJson(result);
     } else {
       return null;
     }
   }
 
   @override
-  Future<List<MovieWatchlist>> getAllWatchlist() async {
+  Future<List<Watchlist>> getAllWatchlist() async {
     try {
       final result = await dao.getAllWatchlist();
-      return result.map((data) => MovieWatchlistModel.fromJson(data)).toList();
+      return result.map((data) => WatchlistModel.fromJson(data)).toList();
     } catch (e) {
       throw DatabaseException(e.toString());
     }
   }
 
   @override
-  Future<String> insertWatchlist(MovieWatchlist movie) async {
+  Future<String> insertWatchlist(Watchlist movie) async {
     try {
       await dao.insertWatchlist(movie);
       return 'Added to Watchlist';
@@ -41,7 +41,7 @@ class MovieLocalSourceImpl extends MovieLocalSource {
   }
 
   @override
-  Future<String> removeWatchlist(MovieWatchlist movie) async {
+  Future<String> removeWatchlist(Watchlist movie) async {
     try {
       await dao.removeWatchlist(movie);
       return 'Removed from Watchlist';

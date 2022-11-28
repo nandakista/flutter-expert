@@ -12,11 +12,11 @@ class WatchlistDao {
   static const String overview = 'overview';
   static const String voteAverage = 'voteAverage';
 
-  Future<int> insertWatchlist(MovieWatchlist movie) async {
+  Future<int> insertWatchlist(Watchlist movie) async {
     Database? db = await AppDatabase().database;
     return await db!.insert(
       tableName,
-      MovieWatchlistModel(
+      WatchlistModel(
         id: movie.id,
         title: movie.title,
         posterPath: movie.posterPath,
@@ -26,7 +26,7 @@ class WatchlistDao {
     );
   }
 
-  Future<int> removeWatchlist(MovieWatchlist movie) async {
+  Future<int> removeWatchlist(Watchlist movie) async {
     Database? db = await AppDatabase().database;
     return await db!.delete(
       tableName,

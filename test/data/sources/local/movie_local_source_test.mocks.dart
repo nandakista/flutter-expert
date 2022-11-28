@@ -29,8 +29,7 @@ class MockWatchlistDao extends _i1.Mock implements _i2.WatchlistDao {
   }
 
   @override
-  _i3.Future<int> insertWatchlist(_i4.MovieWatchlist? movie) =>
-      (super.noSuchMethod(
+  _i3.Future<int> insertWatchlist(_i4.Watchlist? movie) => (super.noSuchMethod(
         Invocation.method(
           #insertWatchlist,
           [movie],
@@ -38,8 +37,7 @@ class MockWatchlistDao extends _i1.Mock implements _i2.WatchlistDao {
         returnValue: _i3.Future<int>.value(0),
       ) as _i3.Future<int>);
   @override
-  _i3.Future<int> removeWatchlist(_i4.MovieWatchlist? movie) =>
-      (super.noSuchMethod(
+  _i3.Future<int> removeWatchlist(_i4.Watchlist? movie) => (super.noSuchMethod(
         Invocation.method(
           #removeWatchlist,
           [movie],

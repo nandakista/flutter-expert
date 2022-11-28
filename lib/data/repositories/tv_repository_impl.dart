@@ -1,67 +1,131 @@
+import 'dart:io';
+
 import 'package:dartz/dartz.dart';
+import 'package:submission/core/error/exception.dart';
 import 'package:submission/core/error/failure.dart';
+import 'package:submission/data/sources/local/tv_local_source.dart';
+import 'package:submission/data/sources/server/tv_server_source.dart';
 import 'package:submission/domain/entities/tv.dart';
 import 'package:submission/domain/entities/tv_detail.dart';
+import 'package:submission/domain/entities/watchlist.dart';
 import 'package:submission/domain/repositories/tv_repository.dart';
 
-class TvRepositoryImpl extends TvRepository{
-  @override
-  Future<Either<Failure, List<Tv>>> getAllWatchlist() async {
-    // TODO: implement getAllWatchlist
-    throw UnimplementedError();
-  }
+class TvRepositoryImpl extends TvRepository {
+  final TvServerSource serverSource;
+  final TvLocalSource localDataSource;
+
+  TvRepositoryImpl({
+    required this.serverSource,
+    required this.localDataSource,
+  });
 
   @override
   Future<Either<Failure, TvDetail>> getDetailTv(int id) async {
-    // TODO: implement getDetailTv
-    throw UnimplementedError();
+    try {
+      final result = await serverSource.getTvDetail(id);
+      return Right(result);
+    } on ServerException {
+      return const Left(ServerFailure(''));
+    } on SocketException {
+      return const Left(ConnectionFailure('No Internet Connection'));
+    }
   }
 
   @override
   Future<Either<Failure, List<Tv>>> getOnAirTv() async {
-    // TODO: implement getOnAirTv
-    throw UnimplementedError();
+    try {
+      final result = await serverSource.getOnAirTv();
+      return Right(result);
+    } on ServerException {
+      return const Left(ServerFailure(''));
+    } on SocketException {
+      return const Left(ConnectionFailure('No Internet Connection'));
+    }
   }
 
   @override
   Future<Either<Failure, List<Tv>>> getPopularTv() async {
-    // TODO: implement getPopularTv
-    throw UnimplementedError();
+    try {
+      final result = await serverSource.getPopularTv();
+      return Right(result);
+    } on ServerException {
+      return const Left(ServerFailure(''));
+    } on SocketException {
+      return const Left(ConnectionFailure('No Internet Connection'));
+    }
   }
 
   @override
   Future<Either<Failure, List<Tv>>> getRecommendedTv(int id) async {
-    // TODO: implement getRecommendedTv
-    throw UnimplementedError();
+    try {
+      final result = await serverSource.getRecommendedTv(id);
+      return Right(result);
+    } on ServerException {
+      return const Left(ServerFailure(''));
+    } on SocketException {
+      return const Left(ConnectionFailure('No Internet Connection'));
+    }
   }
 
   @override
   Future<Either<Failure, List<Tv>>> getTopRatedTv() async {
-    // TODO: implement getTopRatedTv
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<bool> hasAddedToWatchlist(int id) async {
-    // TODO: implement hasAddedToWatchlist
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<Either<Failure, String>> removeWatchlist(TvDetail tv) async {
-    // TODO: implement removeWatchlist
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<Either<Failure, String>> saveWatchlist(TvDetail tv) async {
-    // TODO: implement saveWatchlist
-    throw UnimplementedError();
+    try {
+      final result = await serverSource.getTopRatedTv();
+      return Right(result);
+    } on ServerException {
+      return const Left(ServerFailure(''));
+    } on SocketException {
+      return const Left(ConnectionFailure('No Internet Connection'));
+    }
   }
 
   @override
   Future<Either<Failure, List<Tv>>> searchTv(String query) async {
-    // TODO: implement searchTv
-    throw UnimplementedError();
+    try {
+      final result = await serverSource.searchTv(query);
+      return Right(result);
+    } on ServerException {
+      return const Left(ServerFailure(''));
+    } on SocketException {
+      return const Left(ConnectionFailure('No Internet Connection'));
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<Tv>>> getAllWatchlist() async {
+    try {
+      final result = await localDataSource.getAllWatchlist();
+      return Right(result.map((data) => data.toTvEntity()).toList());
+    } on DatabaseException catch (e) {
+      return Left(DatabaseFailure(e.message));
+    }
+  }
+
+  @override
+  Future<bool> hasAddedToWatchlist(int id) async {
+    final result = await localDataSource.getWatchlist(id);
+    return result != null;
+  }
+
+  @override
+  Future<Either<Failure, String>> removeWatchlist(TvDetail tv) async {
+    try {
+      final result =
+          await localDataSource.removeWatchlist(Watchlist.fromTvEntity(tv));
+      return Right(result);
+    } on DatabaseException catch (e) {
+      return Left(DatabaseFailure(e.message));
+    }
+  }
+
+  @override
+  Future<Either<Failure, String>> saveWatchlist(TvDetail tv) async {
+    try {
+      final result =
+          await localDataSource.insertWatchlist(Watchlist.fromTvEntity(tv));
+      return Right(result);
+    } on DatabaseException catch (e) {
+      return Left(DatabaseFailure(e.message));
+    }
   }
 }

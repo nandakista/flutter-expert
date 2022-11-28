@@ -5,8 +5,8 @@ import 'package:submission/domain/entities/tv_detail.dart';
 import 'movie.dart';
 import 'movie_detail.dart';
 
-class MovieWatchlist extends Equatable {
-  const MovieWatchlist({
+class Watchlist extends Equatable {
+  const Watchlist({
     required this.id,
     required this.title,
     required this.posterPath,
@@ -28,7 +28,7 @@ class MovieWatchlist extends Equatable {
         voteAverage: voteAverage,
       );
 
-  factory MovieWatchlist.fromMovieEntity(MovieDetail movie) => MovieWatchlist(
+  factory Watchlist.fromMovieEntity(MovieDetail movie) => Watchlist(
         id: movie.id,
         title: movie.title,
         posterPath: movie.posterPath,
@@ -44,7 +44,7 @@ class MovieWatchlist extends Equatable {
     voteAverage: voteAverage,
   );
 
-  factory MovieWatchlist.fromTvEntity(TvDetail movie) => MovieWatchlist(
+  factory Watchlist.fromTvEntity(TvDetail movie) => Watchlist(
     id: movie.id,
     title: movie.name,
     posterPath: movie.posterPath,

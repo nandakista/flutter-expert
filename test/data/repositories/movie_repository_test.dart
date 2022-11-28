@@ -431,7 +431,7 @@ void main() {
   });
 
   group('Save Watchlist', () {
-    const tMovieWatchlist = MovieWatchlist(
+    const tMovieWatchlist = Watchlist(
       id: 436270,
       title: 'Black Adam',
       posterPath: '/pFlaoHTZeyNkG83vxsAJiGzfSsa.jpg',
@@ -464,7 +464,7 @@ void main() {
       video: false,
     );
 
-    test('should return success message when successfully saving', () async {
+    test('Should return success message when successfully saving', () async {
       // Arrange
       when(mockMovieLocalSource.insertWatchlist(tMovieWatchlist))
           .thenAnswer((_) async => 'Added to Watchlist');
@@ -474,7 +474,7 @@ void main() {
       expect(result, const Right('Added to Watchlist'));
     });
 
-    test('should return DatabaseFailure when unsuccessfully saving', () async {
+    test('Should return DatabaseFailure when unsuccessfully saving', () async {
       // Arrange
       when(mockMovieLocalSource.insertWatchlist(tMovieWatchlist))
           .thenThrow(DatabaseException('Failed to add watchlist'));
@@ -486,7 +486,7 @@ void main() {
   });
 
   group('Remove Watchlist', () {
-    const tMovieWatchlist = MovieWatchlist(
+    const tMovieWatchlist = Watchlist(
       id: 436270,
       title: 'Black Adam',
       posterPath: '/pFlaoHTZeyNkG83vxsAJiGzfSsa.jpg',
@@ -541,7 +541,7 @@ void main() {
   });
 
   group('Get Watchlist', () {
-    const tMovieWatchlist = MovieWatchlist(
+    const tMovieWatchlist = Watchlist(
       id: 436270,
       title: 'Black Adam',
       posterPath: '/pFlaoHTZeyNkG83vxsAJiGzfSsa.jpg',
@@ -574,7 +574,7 @@ void main() {
 
   group('Get Watchlist Exist Status', () {
     const tMovieId = 1;
-    test('Should return watch status whether data is found', () async {
+    test('Should return watchlist status whether data is found', () async {
       // Arrange
       when(mockMovieLocalSource.getWatchlist(tMovieId))
           .thenAnswer((_) async => null);

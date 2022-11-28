@@ -7,7 +7,7 @@ import 'package:submission/domain/entities/watchlist.dart';
 import '../../core/fixture/fixture_reader.dart';
 
 void main() {
-  const tMovieWatchlistModel = MovieWatchlistModel(
+  const tMovieWatchlistModel = WatchlistModel(
     id: 1,
     title: 'title',
     posterPath: 'posterPath',
@@ -17,7 +17,7 @@ void main() {
 
   test('''Should be a subclass of Movie Detail Entity''', () {
     // Assert
-    expect(tMovieWatchlistModel, isA<MovieWatchlist>());
+    expect(tMovieWatchlistModel, isA<Watchlist>());
   });
 
   group('''fromJson''', () {
@@ -27,7 +27,7 @@ void main() {
         fixture('entity/watchlist.json'),
       );
       // Act
-      final result = MovieWatchlistModel.fromJson(jsonMap);
+      final result = WatchlistModel.fromJson(jsonMap);
       // Assert
       expect(result, tMovieWatchlistModel);
     });

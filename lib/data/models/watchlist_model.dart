@@ -1,7 +1,7 @@
 import 'package:submission/domain/entities/watchlist.dart';
 
-class MovieWatchlistModel extends MovieWatchlist {
-  const MovieWatchlistModel({
+class WatchlistModel extends Watchlist {
+  const WatchlistModel({
     final int? id,
     final String? title,
     final String? posterPath,
@@ -15,8 +15,8 @@ class MovieWatchlistModel extends MovieWatchlist {
           voteAverage: voteAverage,
         );
 
-  factory MovieWatchlistModel.fromJson(Map<String, dynamic> json) =>
-      MovieWatchlistModel(
+  factory WatchlistModel.fromJson(Map<String, dynamic> json) =>
+      WatchlistModel(
         id: json['id'],
         title: json['title'],
         posterPath: json['posterPath'],

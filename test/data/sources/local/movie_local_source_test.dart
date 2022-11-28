@@ -20,7 +20,7 @@ void main() {
   });
 
   group('''Save Watchlist''', () {
-    const tMovieWatchlist = MovieWatchlist(
+    const tMovieWatchlist = Watchlist(
       id: 1,
       title: 'title',
       posterPath: 'posterPath',
@@ -53,7 +53,7 @@ void main() {
   });
 
   group('Remove Watchlist', () {
-    const tMovieWatchlist = MovieWatchlist(
+    const tMovieWatchlist = Watchlist(
       id: 1,
       title: 'title',
       posterPath: 'posterPath',
@@ -92,7 +92,7 @@ void main() {
       'voteAverage': 8.9,
     };
 
-    const tMovieWatchlist = MovieWatchlistModel(
+    const tMovieWatchlist = WatchlistModel(
       id: 1,
       title: 'title',
       posterPath: 'posterPath',
@@ -120,7 +120,7 @@ void main() {
       'overview': 'overview',
       'voteAverage': 8.9,
     };
-    const tMovieWatchlist = MovieWatchlistModel(
+    const tMovieWatchlist = WatchlistModel(
       id: 1,
       title: 'title',
       posterPath: 'posterPath',
