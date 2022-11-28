@@ -1,10 +1,10 @@
 import 'package:get_it/get_it.dart';
 import 'package:submission/data/sources/local/movie_local_source.dart';
 import 'package:submission/data/sources/local/movie_local_source_impl.dart';
-import 'package:submission/domain/usecases/get_watchlist.dart';
-import 'package:submission/domain/usecases/get_watchlist_exist_status.dart';
-import 'package:submission/domain/usecases/remove_watchlist.dart';
-import 'package:submission/domain/usecases/save_watchlist.dart';
+import 'package:submission/domain/usecases/get_watchlist_movie.dart';
+import 'package:submission/domain/usecases/get_watchlist_movie_exist_status.dart';
+import 'package:submission/domain/usecases/remove_watchlist_movie.dart';
+import 'package:submission/domain/usecases/save_watchlist_movie.dart';
 import 'package:submission/ui/views/detail/detail_provider.dart';
 import 'package:submission/ui/views/home/home_provider.dart';
 import 'package:submission/ui/views/popular/popular_provider.dart';
@@ -39,7 +39,7 @@ void init() {
   );
 
   sl.registerFactory(
-    () => WatchlistProvider(getWatchlist: sl<GetWatchlist>()),
+    () => WatchlistProvider(getWatchlist: sl<GetWatchlistMovie>()),
   );
   sl.registerFactory(
     () => SearchProvider(
@@ -62,9 +62,9 @@ void init() {
     () => DetailProvider(
       getDetailMovie: sl<GetDetailMovie>(),
       getRecommendationsMovies: sl<GetRecommendedMovies>(),
-      getWatchlistExist: sl<GetWatchlistExistStatus>(),
-      saveWatchlist: sl<SaveWatchlist>(),
-      removeWatchlist: sl<RemoveWatchlist>(),
+      getWatchlistExist: sl<GetWatchlistMovieExistStatus>(),
+      saveWatchlist: sl<SaveWatchlistMovie>(),
+      removeWatchlist: sl<RemoveWatchlistMovie>(),
     ),
   );
 
@@ -100,22 +100,22 @@ void init() {
     ),
   );
   sl.registerLazySingleton(
-    () => GetWatchlist(
+    () => GetWatchlistMovie(
       repository: sl<MovieRepository>(),
     ),
   );
   sl.registerLazySingleton(
-    () => GetWatchlistExistStatus(
+    () => GetWatchlistMovieExistStatus(
       repository: sl<MovieRepository>(),
     ),
   );
   sl.registerLazySingleton(
-    () => RemoveWatchlist(
+    () => RemoveWatchlistMovie(
       repository: sl<MovieRepository>(),
     ),
   );
   sl.registerLazySingleton(
-    () => SaveWatchlist(
+    () => SaveWatchlistMovie(
       repository: sl<MovieRepository>(),
     ),
   );

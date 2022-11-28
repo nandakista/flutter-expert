@@ -2,18 +2,18 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:submission/domain/repositories/movie_repository.dart';
-import 'package:submission/domain/usecases/get_watchlist_exist_status.dart';
+import 'package:submission/domain/usecases/get_watchlist_movie_exist_status.dart';
 
 import 'get_watchlist_exist_status_test.mocks.dart';
 
 @GenerateMocks([MovieRepository])
 void main() {
-  late GetWatchlistExistStatus usecase;
+  late GetWatchlistMovieExistStatus usecase;
   late MockMovieRepository mockMovieRepository;
 
   setUp(() {
     mockMovieRepository = MockMovieRepository();
-    usecase = GetWatchlistExistStatus(repository: mockMovieRepository);
+    usecase = GetWatchlistMovieExistStatus(repository: mockMovieRepository);
   });
 
   test('''Should check Watchlist existing status in database from repository''',

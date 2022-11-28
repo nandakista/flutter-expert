@@ -9,9 +9,9 @@ import 'package:submission/domain/entities/movie.dart';
 import 'package:submission/domain/entities/movie_detail.dart';
 import 'package:submission/domain/usecases/get_detail_movie.dart';
 import 'package:submission/domain/usecases/get_recommended_movies.dart';
-import 'package:submission/domain/usecases/get_watchlist_exist_status.dart';
-import 'package:submission/domain/usecases/remove_watchlist.dart';
-import 'package:submission/domain/usecases/save_watchlist.dart';
+import 'package:submission/domain/usecases/get_watchlist_movie_exist_status.dart';
+import 'package:submission/domain/usecases/remove_watchlist_movie.dart';
+import 'package:submission/domain/usecases/save_watchlist_movie.dart';
 import 'package:submission/ui/views/detail/detail_provider.dart';
 
 import 'detail_provider_test.mocks.dart';
@@ -19,9 +19,9 @@ import 'detail_provider_test.mocks.dart';
 @GenerateMocks([
   GetDetailMovie,
   GetRecommendedMovies,
-  GetWatchlistExistStatus,
-  SaveWatchlist,
-  RemoveWatchlist,
+  GetWatchlistMovieExistStatus,
+  SaveWatchlistMovie,
+  RemoveWatchlistMovie,
 ])
 void main() {
   late MockGetDetailMovie mockGetDetailMovie;

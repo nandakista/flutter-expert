@@ -5,12 +5,12 @@ import 'package:mockito/mockito.dart';
 import 'package:submission/core/constant/network_state.dart';
 import 'package:submission/core/error/failure.dart';
 import 'package:submission/domain/entities/movie.dart';
-import 'package:submission/domain/usecases/get_watchlist.dart';
+import 'package:submission/domain/usecases/get_watchlist_movie.dart';
 import 'package:submission/ui/views/watchlist/watchlist_provider.dart';
 
 import 'watchlist_provider_test.mocks.dart';
 
-@GenerateMocks([GetWatchlist])
+@GenerateMocks([GetWatchlistMovie])
 void main() {
   late WatchlistProvider provider;
   late MockGetWatchlist mockGetWatchlist;

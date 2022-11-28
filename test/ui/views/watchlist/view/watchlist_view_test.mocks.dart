@@ -9,7 +9,7 @@ import 'dart:ui' as _i7;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:submission/core/constant/network_state.dart' as _i5;
 import 'package:submission/domain/entities/movie.dart' as _i4;
-import 'package:submission/domain/usecases/get_watchlist.dart' as _i2;
+import 'package:submission/domain/usecases/get_watchlist_movie.dart' as _i2;
 import 'package:submission/ui/views/watchlist/watchlist_provider.dart' as _i3;
 
 // ignore_for_file: type=lint
@@ -23,7 +23,7 @@ import 'package:submission/ui/views/watchlist/watchlist_provider.dart' as _i3;
 // ignore_for_file: camel_case_types
 // ignore_for_file: subtype_of_sealed_class
 
-class _FakeGetWatchlist_0 extends _i1.SmartFake implements _i2.GetWatchlist {
+class _FakeGetWatchlist_0 extends _i1.SmartFake implements _i2.GetWatchlistMovie {
   _FakeGetWatchlist_0(
     Object parent,
     Invocation parentInvocation,
@@ -42,13 +42,13 @@ class MockWatchlistProvider extends _i1.Mock implements _i3.WatchlistProvider {
   }
 
   @override
-  _i2.GetWatchlist get getWatchlist => (super.noSuchMethod(
+  _i2.GetWatchlistMovie get getWatchlist => (super.noSuchMethod(
         Invocation.getter(#getWatchlist),
         returnValue: _FakeGetWatchlist_0(
           this,
           Invocation.getter(#getWatchlist),
         ),
-      ) as _i2.GetWatchlist);
+      ) as _i2.GetWatchlistMovie);
   @override
   String get message => (super.noSuchMethod(
         Invocation.getter(#message),

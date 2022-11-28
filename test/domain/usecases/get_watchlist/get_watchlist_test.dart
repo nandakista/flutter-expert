@@ -4,18 +4,18 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:submission/domain/entities/movie.dart';
 import 'package:submission/domain/repositories/movie_repository.dart';
-import 'package:submission/domain/usecases/get_watchlist.dart';
+import 'package:submission/domain/usecases/get_watchlist_movie.dart';
 
 import 'get_watchlist_test.mocks.dart';
 
 @GenerateMocks([MovieRepository])
 void main() {
-  late GetWatchlist usecase;
+  late GetWatchlistMovie usecase;
   late MockMovieRepository mockMovieRepository;
 
   setUp(() {
     mockMovieRepository = MockMovieRepository();
-    usecase = GetWatchlist(repository: mockMovieRepository);
+    usecase = GetWatchlistMovie(repository: mockMovieRepository);
   });
 
   test('''Should get Watchlist Movie then

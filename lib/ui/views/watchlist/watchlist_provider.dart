@@ -2,10 +2,10 @@ import 'package:flutter/cupertino.dart';
 
 import '../../../core/constant/network_state.dart';
 import '../../../domain/entities/movie.dart';
-import '../../../domain/usecases/get_watchlist.dart';
+import '../../../domain/usecases/get_watchlist_movie.dart';
 
 class WatchlistProvider extends ChangeNotifier {
-  final GetWatchlist getWatchlist;
+  final GetWatchlistMovie getWatchlist;
   WatchlistProvider({required this.getWatchlist});
 
   String _message = '';

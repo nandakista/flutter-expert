@@ -5,18 +5,18 @@ import 'package:mockito/mockito.dart';
 import 'package:submission/domain/entities/genre.dart';
 import 'package:submission/domain/entities/movie_detail.dart';
 import 'package:submission/domain/repositories/movie_repository.dart';
-import 'package:submission/domain/usecases/remove_watchlist.dart';
+import 'package:submission/domain/usecases/remove_watchlist_movie.dart';
 
 import 'remove_watchlist_test.mocks.dart';
 
 @GenerateMocks([MovieRepository])
 void main() {
-  late RemoveWatchlist usecase;
+  late RemoveWatchlistMovie usecase;
   late MockMovieRepository mockMovieRepository;
 
   setUp(() {
     mockMovieRepository = MockMovieRepository();
-    usecase = RemoveWatchlist(repository: mockMovieRepository);
+    usecase = RemoveWatchlistMovie(repository: mockMovieRepository);
   });
 
   test('Should remove Watchlist from repository', () async {

@@ -10,7 +10,7 @@ import 'package:mockito/mockito.dart' as _i1;
 import 'package:submission/core/error/failure.dart' as _i6;
 import 'package:submission/domain/entities/movie.dart' as _i7;
 import 'package:submission/domain/repositories/movie_repository.dart' as _i2;
-import 'package:submission/domain/usecases/get_watchlist.dart' as _i4;
+import 'package:submission/domain/usecases/get_watchlist_movie.dart' as _i4;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -47,7 +47,7 @@ class _FakeEither_1<L, R> extends _i1.SmartFake implements _i3.Either<L, R> {
 /// A class which mocks [GetWatchlist].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockGetWatchlist extends _i1.Mock implements _i4.GetWatchlist {
+class MockGetWatchlist extends _i1.Mock implements _i4.GetWatchlistMovie {
   MockGetWatchlist() {
     _i1.throwOnMissingStub(this);
   }

@@ -9,7 +9,7 @@ class GetRecommendedMovies {
 
   GetRecommendedMovies({required this.repository});
 
-  Future<Either<Failure, List<Movie>>> call(id) {
+  Future<Either<Failure, List<Movie>>> call(int id) {
     return repository.getRecommendedMovies(id);
   }
 }

@@ -5,18 +5,18 @@ import 'package:mockito/mockito.dart';
 import 'package:submission/domain/entities/genre.dart';
 import 'package:submission/domain/entities/movie_detail.dart';
 import 'package:submission/domain/repositories/movie_repository.dart';
-import 'package:submission/domain/usecases/save_watchlist.dart';
+import 'package:submission/domain/usecases/save_watchlist_movie.dart';
 
 import 'save_watchlist_test.mocks.dart';
 
 @GenerateMocks([MovieRepository])
 void main() {
-  late SaveWatchlist usecase;
+  late SaveWatchlistMovie usecase;
   late MockMovieRepository mockMovieRepository;
 
   setUp(() {
     mockMovieRepository = MockMovieRepository();
-    usecase = SaveWatchlist(repository: mockMovieRepository);
+    usecase = SaveWatchlistMovie(repository: mockMovieRepository);
   });
 
   test('Should save movie to the repository', () async {

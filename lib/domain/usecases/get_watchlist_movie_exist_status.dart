@@ -1,9 +1,9 @@
 import '../repositories/movie_repository.dart';
 
-class GetWatchlistExistStatus {
+class GetWatchlistMovieExistStatus {
   final MovieRepository repository;
 
-  GetWatchlistExistStatus({required this.repository});
+  GetWatchlistMovieExistStatus({required this.repository});
 
   Future<bool> call(int id) {
     return repository.hasAddedToWatchlist(id);

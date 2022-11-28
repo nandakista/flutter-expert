@@ -4,12 +4,12 @@ import 'package:submission/domain/entities/movie_detail.dart';
 import '../../core/error/failure.dart';
 import '../repositories/movie_repository.dart';
 
-class RemoveWatchlist {
+class SaveWatchlistMovie {
   final MovieRepository repository;
 
-  RemoveWatchlist({required this.repository});
+  SaveWatchlistMovie({required this.repository});
 
   Future<Either<Failure, String>> call(MovieDetail movie) {
-    return repository.removeWatchlist(movie);
+    return repository.saveWatchlist(movie);
   }
 }

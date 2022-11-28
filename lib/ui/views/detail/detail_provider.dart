@@ -5,16 +5,16 @@ import '../../../domain/entities/movie.dart';
 import '../../../domain/entities/movie_detail.dart';
 import '../../../domain/usecases/get_detail_movie.dart';
 import '../../../domain/usecases/get_recommended_movies.dart';
-import '../../../domain/usecases/get_watchlist_exist_status.dart';
-import '../../../domain/usecases/remove_watchlist.dart';
-import '../../../domain/usecases/save_watchlist.dart';
+import '../../../domain/usecases/get_watchlist_movie_exist_status.dart';
+import '../../../domain/usecases/remove_watchlist_movie.dart';
+import '../../../domain/usecases/save_watchlist_movie.dart';
 
 class DetailProvider extends ChangeNotifier {
   final GetDetailMovie getDetailMovie;
   final GetRecommendedMovies getRecommendationsMovies;
-  final GetWatchlistExistStatus getWatchlistExist;
-  final SaveWatchlist saveWatchlist;
-  final RemoveWatchlist removeWatchlist;
+  final GetWatchlistMovieExistStatus getWatchlistExist;
+  final SaveWatchlistMovie saveWatchlist;
+  final RemoveWatchlistMovie removeWatchlist;
 
   DetailProvider({
     required this.getDetailMovie,
