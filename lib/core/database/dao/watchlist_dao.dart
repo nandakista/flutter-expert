@@ -11,6 +11,7 @@ class WatchlistDao {
   static const String posterPath = 'posterPath';
   static const String overview = 'overview';
   static const String voteAverage = 'voteAverage';
+  static const String isMovie = 'isMovie';
 
   Future<int> insertWatchlist(Watchlist watchlist) async {
     Database? db = await AppDatabase().database;
@@ -22,6 +23,7 @@ class WatchlistDao {
         posterPath: watchlist.posterPath,
         overview: watchlist.overview,
         voteAverage: watchlist.voteAverage,
+        isMovie: watchlist.isMovie,
       ).toJson(),
     );
   }

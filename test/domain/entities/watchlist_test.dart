@@ -15,6 +15,7 @@ void main() {
     posterPath: '/pFlaoHTZeyNkG83vxsAJiGzfSsa.jpg',
     overview: 'Some Overview',
     voteAverage: 6.8,
+    isMovie: false,
   );
 
   group('''toMovieEntity''', () {
@@ -63,7 +64,8 @@ void main() {
         video: false,
       );
       // Act
-      final result = Watchlist.fromMovieEntity(tMovieDetail);
+      final result =
+          Watchlist.fromMovieEntity(data: tMovieDetail, isMovie: false);
       // Assert
       expect(result, tWatchlist);
     });
@@ -130,7 +132,7 @@ void main() {
           voteCount: 2704,
         );
         // Act
-        final result = Watchlist.fromTvEntity(tTvDetail);
+        final result = Watchlist.fromTvEntity(data: tTvDetail, isMovie: false);
         // Assert
         expect(result, tWatchlist);
       });

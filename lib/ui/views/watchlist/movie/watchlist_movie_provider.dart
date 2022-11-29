@@ -1,12 +1,12 @@
 import 'package:flutter/cupertino.dart';
 
-import '../../../core/constant/network_state.dart';
-import '../../../domain/entities/movie.dart';
-import '../../../domain/usecases/get_watchlist_movie.dart';
+import '../../../../core/constant/network_state.dart';
+import '../../../../domain/entities/movie.dart';
+import '../../../../domain/usecases/get_watchlist_movie.dart';
 
-class WatchlistProvider extends ChangeNotifier {
+class WatchlistMovieProvider extends ChangeNotifier {
   final GetWatchlistMovie getWatchlist;
-  WatchlistProvider({required this.getWatchlist});
+  WatchlistMovieProvider({required this.getWatchlist});
 
   String _message = '';
   String get message => _message;
@@ -30,7 +30,7 @@ class WatchlistProvider extends ChangeNotifier {
       (moviesData) {
         if(moviesData.isEmpty) {
           _state = RequestState.empty;
-          _message = 'Empty Watchlist';
+          _message = 'Empty Movie Watchlist';
           notifyListeners();
         } else {
           _state = RequestState.success;

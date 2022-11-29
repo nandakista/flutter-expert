@@ -5,17 +5,16 @@ import 'package:mockito/mockito.dart';
 import 'package:provider/provider.dart';
 import 'package:submission/core/constant/network_state.dart';
 import 'package:submission/domain/entities/movie.dart';
-import 'package:submission/domain/entities/watchlist.dart';
-import 'package:submission/ui/views/watchlist/watchlist_provider.dart';
-import 'package:submission/ui/views/watchlist/watchlist_view.dart';
+import 'package:submission/ui/views/watchlist/movie/watchlist_movie_provider.dart';
+import 'package:submission/ui/views/watchlist/movie/watchlist_movie_view.dart';
 
-import 'watchlist_view_test.mocks.dart';
+import 'watchlist_movie_view_test.mocks.dart';
 
-@GenerateMocks([WatchlistProvider])
+@GenerateMocks([WatchlistMovieProvider])
 void main() {
-  late MockWatchlistProvider mockProvider;
+  late MockWatchlistMovieProvider mockProvider;
 
-  setUp(() => mockProvider = MockWatchlistProvider());
+  setUp(() => mockProvider = MockWatchlistMovieProvider());
 
   final tMovieList = [
     const Movie(
@@ -40,7 +39,7 @@ void main() {
   ];
 
   Widget makeTestableWidget(Widget body) {
-    return ChangeNotifierProvider<WatchlistProvider>.value(
+    return ChangeNotifierProvider<WatchlistMovieProvider>.value(
       value: mockProvider,
       child: MaterialApp(
         home: body,
@@ -57,7 +56,7 @@ void main() {
     // Act
     final textFinder = find.byKey(const Key('empty_message'));
     final centerFinder = find.byType(Center);
-    await tester.pumpWidget(makeTestableWidget(const WatchlistView()));
+    await tester.pumpWidget(makeTestableWidget(const WatchlistMovieView()));
     // Assert
     expect(textFinder, findsOneWidget);
     expect(centerFinder, findsOneWidget);
@@ -70,7 +69,7 @@ void main() {
     when(mockProvider.data).thenReturn(tMovieList);
     // Act
     final listViewFinder = find.byType(ListView);
-    await tester.pumpWidget(makeTestableWidget(const WatchlistView()));
+    await tester.pumpWidget(makeTestableWidget(const WatchlistMovieView()));
     // Assert
     expect(listViewFinder, findsOneWidget);
   });

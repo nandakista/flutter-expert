@@ -12,6 +12,7 @@ class Watchlist extends Equatable {
     required this.posterPath,
     required this.overview,
     required this.voteAverage,
+    this.isMovie,
   });
 
   final int? id;
@@ -19,6 +20,7 @@ class Watchlist extends Equatable {
   final String? posterPath;
   final String? overview;
   final double? voteAverage;
+  final bool? isMovie;
 
   Movie toMovieEntity() => Movie(
         id: id,
@@ -28,29 +30,39 @@ class Watchlist extends Equatable {
         voteAverage: voteAverage,
       );
 
-  factory Watchlist.fromMovieEntity(MovieDetail movie) => Watchlist(
-        id: movie.id,
-        title: movie.title,
-        posterPath: movie.posterPath,
-        overview: movie.overview,
-        voteAverage: movie.voteAverage,
+  factory Watchlist.fromMovieEntity({
+    required MovieDetail data,
+    required bool isMovie,
+  }) =>
+      Watchlist(
+        id: data.id,
+        title: data.title,
+        posterPath: data.posterPath,
+        overview: data.overview,
+        voteAverage: data.voteAverage,
+        isMovie: isMovie,
       );
 
   Tv toTvEntity() => Tv(
-    id: id,
-    overview: overview,
-    posterPath: posterPath,
-    name: title,
-    voteAverage: voteAverage,
-  );
+        id: id,
+        overview: overview,
+        posterPath: posterPath,
+        name: title,
+        voteAverage: voteAverage,
+      );
 
-  factory Watchlist.fromTvEntity(TvDetail movie) => Watchlist(
-    id: movie.id,
-    title: movie.name,
-    posterPath: movie.posterPath,
-    overview: movie.overview,
-    voteAverage: movie.voteAverage,
-  );
+  factory Watchlist.fromTvEntity({
+    required TvDetail data,
+    required bool isMovie,
+  }) =>
+      Watchlist(
+        id: data.id,
+        title: data.name,
+        posterPath: data.posterPath,
+        overview: data.overview,
+        voteAverage: data.voteAverage,
+        isMovie: isMovie,
+      );
 
   @override
   List<Object?> get props => [id, title, posterPath, overview, voteAverage];

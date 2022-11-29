@@ -7,21 +7,23 @@ class WatchlistModel extends Watchlist {
     final String? posterPath,
     final String? overview,
     final double? voteAverage,
+    final bool? isMovie,
   }) : super(
           id: id,
           title: title,
           posterPath: posterPath,
           overview: overview,
           voteAverage: voteAverage,
+          isMovie: isMovie,
         );
 
-  factory WatchlistModel.fromJson(Map<String, dynamic> json) =>
-      WatchlistModel(
+  factory WatchlistModel.fromJson(Map<String, dynamic> json) => WatchlistModel(
         id: json['id'],
         title: json['title'],
         posterPath: json['posterPath'],
         overview: json['overview'],
         voteAverage: json['voteAverage'],
+        isMovie: json['isMovie'] == 1 ? true : false,
       );
 
   Map<String, dynamic> toJson() => {
@@ -30,5 +32,6 @@ class WatchlistModel extends Watchlist {
         'posterPath': posterPath,
         'overview': overview,
         'voteAverage': voteAverage,
+        'isMovie': (isMovie!) ? 1 : 0,
       };
 }

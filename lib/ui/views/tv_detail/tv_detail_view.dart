@@ -6,6 +6,8 @@ import 'package:submission/ui/views/detail/components/detail_content_view.dart';
 import 'package:submission/ui/views/tv_detail/tv_detail_provider.dart';
 import 'package:submission/ui/widgets/colored_status_bar.dart';
 
+import 'components/recommended_tv_component.dart';
+
 class TvDetailView extends StatefulWidget {
   static const route = '/tv/detail';
   const TvDetailView({Key? key, required this.id}) : super(key: key);
@@ -98,6 +100,7 @@ class _TvDetailViewState extends State<TvDetailView> {
                       genres: tv.genres ?? [],
                       voteAverage: tv.voteAverage ?? 0,
                       voteCount: tv.voteCount ?? 0,
+                      recommendedView: const RecommendedTvComponent(),
                     ),
                   );
                 } else {

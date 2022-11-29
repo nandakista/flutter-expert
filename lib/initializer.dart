@@ -22,8 +22,9 @@ import 'package:submission/ui/views/tv_detail/tv_detail_provider.dart';
 import 'package:submission/ui/views/tv_home/provider/tv_home_provider.dart';
 import 'package:submission/ui/views/tv_home/provider/tv_popular_provider.dart';
 import 'package:submission/ui/views/tv_home/provider/tv_top_rated_provider.dart';
-import 'package:submission/ui/views/watchlist/watchlist_provider.dart';
+import 'package:submission/ui/views/watchlist/movie/watchlist_movie_provider.dart';
 import 'package:http/http.dart' as http;
+import 'package:submission/ui/views/watchlist/tv/watchlist_tv_provider.dart';
 
 import 'core/database/dao/watchlist_dao.dart';
 import 'data/repositories/movie_repository_impl.dart';
@@ -50,6 +51,11 @@ void init() {
   sl.registerLazySingleton(() => http.Client());
 
   // Provider
+  sl.registerFactory(
+        () => WatchlistTvProvider(
+      getWatchlist: sl<GetWatchlistTv>(),
+    ),
+  );
   sl.registerFactory(
     () => TvDetailProvider(
       getDetailTv: sl<GetDetailTv>(),
@@ -80,7 +86,9 @@ void init() {
     ),
   );
   sl.registerFactory(
-    () => WatchlistProvider(getWatchlist: sl<GetWatchlistMovie>()),
+    () => WatchlistMovieProvider(
+      getWatchlist: sl<GetWatchlistMovie>(),
+    ),
   );
   sl.registerFactory(
     () => SearchProvider(

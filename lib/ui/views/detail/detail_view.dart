@@ -6,6 +6,7 @@ import 'package:submission/ui/widgets/colored_status_bar.dart';
 
 import '../../../core/constant/network_state.dart';
 import 'components/detail_content_view.dart';
+import 'components/recommended_component.dart';
 
 class DetailView extends StatefulWidget {
   static const route = '/detail';
@@ -96,6 +97,7 @@ class _DetailViewState extends State<DetailView> {
                       genres: movie.genres ?? [],
                       voteAverage: movie.voteAverage ?? 0,
                       voteCount: movie.voteCount ?? 0,
+                      recommendedView: const RecommendedComponent(),
                     ),
                   );
                 } else {

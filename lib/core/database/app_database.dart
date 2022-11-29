@@ -32,7 +32,8 @@ class AppDatabase {
         ${WatchlistDao.title} TEXT,
         ${WatchlistDao.posterPath} TEXT,
         ${WatchlistDao.overview} TEXT,
-        ${WatchlistDao.voteAverage} REAL
+        ${WatchlistDao.voteAverage} REAL,
+        ${WatchlistDao.isMovie} BOOLEAN
         );
     ''');
   }

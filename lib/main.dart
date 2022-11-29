@@ -19,9 +19,10 @@ import 'package:submission/ui/views/tv_home/provider/tv_popular_provider.dart';
 import 'package:submission/ui/views/tv_home/provider/tv_top_rated_provider.dart';
 import 'package:submission/ui/views/tv_home/tv_home_view.dart';
 import 'package:submission/ui/views/tv_search/tv_search_view.dart';
-import 'package:submission/ui/views/watchlist/watchlist_provider.dart';
+import 'package:submission/ui/views/watchlist/movie/watchlist_movie_provider.dart';
+import 'package:submission/ui/views/watchlist/tv/watchlist_tv_provider.dart';
 import 'package:submission/ui/views/watchlist/watchlist_view.dart';
-import 'package:submission/ui/views/watchlist_tv/watchlist_tv_view.dart';
+import 'package:submission/ui/views/watchlist/tv/watchlist_tv_view.dart';
 
 import 'core/route_observer.dart';
 
@@ -44,7 +45,7 @@ class MyApp extends StatelessWidget {
           create: (_) => di.sl<SearchProvider>(),
         ),
         ChangeNotifierProvider(
-          create: (_) => di.sl<WatchlistProvider>(),
+          create: (_) => di.sl<WatchlistMovieProvider>(),
         ),
         ChangeNotifierProvider(
           create: (_) => di.sl<TopRatedProvider>().init(),
@@ -66,6 +67,9 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (_) => di.sl<TvDetailProvider>(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => di.sl<WatchlistTvProvider>(),
         ),
       ],
       child: MaterialApp(

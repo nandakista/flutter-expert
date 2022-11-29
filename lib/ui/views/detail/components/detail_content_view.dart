@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:submission/ui/views/detail/components/recommended_component.dart';
 import 'package:submission/ui/widgets/content_wrapper.dart';
 import 'package:submission/ui/widgets/sky_image.dart';
 
@@ -19,6 +18,7 @@ class DetailContent extends StatelessWidget {
     required this.voteAverage,
     required this.voteCount,
     this.runtime,
+    this.recommendedView,
   });
 
   final String imageUrl;
@@ -29,6 +29,7 @@ class DetailContent extends StatelessWidget {
   final int? runtime;
   final double voteAverage;
   final int voteCount;
+  final Widget? recommendedView;
 
   @override
   Widget build(BuildContext context) {
@@ -135,7 +136,7 @@ class DetailContent extends StatelessWidget {
                   style: AppStyle.body2,
                 ),
                 const SizedBox(height: 16),
-                const RecommendedComponent()
+                if(recommendedView != null) recommendedView!,
               ],
             ),
           ),
