@@ -551,6 +551,7 @@ void main() {
         posterPath: '/url.jpg',
         overview: 'overview',
         voteAverage: 8.7,
+        isMovie: false
       ),
     ];
 

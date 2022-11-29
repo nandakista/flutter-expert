@@ -547,6 +547,7 @@ void main() {
       posterPath: '/pFlaoHTZeyNkG83vxsAJiGzfSsa.jpg',
       overview: 'Some Overview',
       voteAverage: 6.8,
+      isMovie: true
     );
 
     final tMovieList = [

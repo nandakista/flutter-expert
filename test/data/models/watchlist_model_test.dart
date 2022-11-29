@@ -13,6 +13,7 @@ void main() {
     posterPath: 'posterPath',
     overview: 'overview',
     voteAverage: 9.0,
+    isMovie: false,
   );
 
   test('''Should be a subclass of Movie Detail Entity''', () {
@@ -34,11 +35,39 @@ void main() {
   });
 
   group('''toJson''', () {
-    test('''Should return a JSON map containing the proper data ''', () {
+    const tMovieWatchlistTvModel = WatchlistModel(
+      id: 1,
+      title: 'title',
+      posterPath: 'posterPath',
+      overview: 'overview',
+      voteAverage: 9.0,
+      isMovie: false,
+    );
+    const tMovieWatchlistMovieModel = WatchlistModel(
+      id: 1,
+      title: 'title',
+      posterPath: 'posterPath',
+      overview: 'overview',
+      voteAverage: 9.0,
+      isMovie: true,
+    );
+    test(
+        '''Should return a JSON map with isMovie value is 1 when input is true''',
+        () {
       // Act
-      final result = tMovieWatchlistModel.toJson();
+      final result = tMovieWatchlistMovieModel.toJson();
       // Assert
-      final expectedMap = json.decode(fixture('entity/watchlist.json'));
+      final expectedMap = json.decode(fixture('entity/watchlist_movie.json'));
+      expect(result, expectedMap);
+    });
+
+    test(
+        '''Should return a JSON map with isMovie value is 1 when input is true''',
+        () {
+      // Act
+      final result = tMovieWatchlistTvModel.toJson();
+      // Assert
+      final expectedMap = json.decode(fixture('entity/watchlist_tv.json'));
       expect(result, expectedMap);
     });
   });
