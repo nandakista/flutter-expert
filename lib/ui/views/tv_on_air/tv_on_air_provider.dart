@@ -3,9 +3,9 @@ import 'package:submission/core/constant/network_state.dart';
 import 'package:submission/domain/entities/tv.dart';
 import 'package:submission/domain/usecases/get_on_air_tv.dart';
 
-class TvHomeProvider extends ChangeNotifier {
+class TvOnAirProvider extends ChangeNotifier {
   final GetOnAirTv getOnAirTv;
-  TvHomeProvider({required this.getOnAirTv});
+  TvOnAirProvider({required this.getOnAirTv});
 
   String _message = '';
   String get message => _message;
@@ -15,7 +15,7 @@ class TvHomeProvider extends ChangeNotifier {
   List<Tv> _data = <Tv>[];
   List<Tv> get data => _data;
 
-  TvHomeProvider init() {
+  TvOnAirProvider init() {
     loadData();
     return this;
   }

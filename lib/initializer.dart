@@ -19,9 +19,9 @@ import 'package:submission/ui/views/popular/popular_provider.dart';
 import 'package:submission/ui/views/search/search_provider.dart';
 import 'package:submission/ui/views/top_rated/top_rated_provider.dart';
 import 'package:submission/ui/views/tv_detail/tv_detail_provider.dart';
-import 'package:submission/ui/views/tv_home/provider/tv_home_provider.dart';
-import 'package:submission/ui/views/tv_home/provider/tv_popular_provider.dart';
-import 'package:submission/ui/views/tv_home/provider/tv_top_rated_provider.dart';
+import 'package:submission/ui/views/tv_on_air/tv_on_air_provider.dart';
+import 'package:submission/ui/views/tv_popular/tv_popular_provider.dart';
+import 'package:submission/ui/views/tv_top_rated/tv_top_rated_provider.dart';
 import 'package:submission/ui/views/tv_search/tv_search_provider.dart';
 import 'package:submission/ui/views/watchlist/movie/watchlist_movie_provider.dart';
 import 'package:http/http.dart' as http;
@@ -72,7 +72,7 @@ void init() {
     ),
   );
   sl.registerFactory(
-    () => TvHomeProvider(
+    () => TvOnAirProvider(
       getOnAirTv: sl<GetOnAirTv>(),
     ),
   );

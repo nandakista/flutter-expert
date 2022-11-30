@@ -9,7 +9,7 @@ import 'package:submission/ui/views/tv_search/tv_search_view.dart';
 import '../watchlist/watchlist_view.dart';
 
 class TvHomeView extends StatelessWidget {
-  static const route = '/tv/on-air';
+  static const route = '/tv/home';
 
   const TvHomeView({Key? key}) : super(key: key);
 

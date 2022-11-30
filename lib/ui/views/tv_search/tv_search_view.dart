@@ -5,7 +5,7 @@ import 'package:submission/core/constant/network_state.dart';
 import 'package:submission/core/theme/app_style.dart';
 import 'package:submission/ui/views/tv_detail/tv_detail_view.dart';
 import 'package:submission/ui/views/tv_search/tv_search_provider.dart';
-import 'package:submission/ui/widgets/movie_item.dart';
+import 'package:submission/ui/widgets/card_item.dart';
 
 class TvSearchView extends StatelessWidget {
   static const route = '/tv/search';
@@ -71,7 +71,7 @@ class TvSearchView extends StatelessWidget {
                         padding: const EdgeInsets.all(8),
                         itemBuilder: (context, index) {
                           final tv = provider.data[index];
-                          return MovieItem(
+                          return CardItem(
                             title: tv.name.toString(),
                             overview: tv.overview.toString(),
                             imageUrl:

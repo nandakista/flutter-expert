@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:submission/core/constant/constant.dart';
 import 'package:submission/ui/views/detail/detail_view.dart';
 import 'package:submission/ui/views/top_rated/top_rated_provider.dart';
-import 'package:submission/ui/widgets/movie_item.dart';
+import 'package:submission/ui/widgets/card_item.dart';
 
 import '../../../core/constant/network_state.dart';
 
@@ -42,7 +42,7 @@ class TopRatedView extends StatelessWidget {
                     itemCount: provider.data.length,
                     itemBuilder: (context, index) {
                       final movie = provider.data[index];
-                      return MovieItem(
+                      return CardItem(
                         title: movie.title.toString(),
                         overview: movie.overview.toString(),
                         imageUrl: '${Constant.baseUrlImage}${movie.posterPath}',

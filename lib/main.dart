@@ -14,12 +14,15 @@ import 'package:submission/ui/views/top_rated/top_rated_provider.dart';
 import 'package:submission/ui/views/top_rated/top_rated_view.dart';
 import 'package:submission/ui/views/tv_detail/tv_detail_provider.dart';
 import 'package:submission/ui/views/tv_detail/tv_detail_view.dart';
-import 'package:submission/ui/views/tv_home/provider/tv_home_provider.dart';
-import 'package:submission/ui/views/tv_home/provider/tv_popular_provider.dart';
-import 'package:submission/ui/views/tv_home/provider/tv_top_rated_provider.dart';
+import 'package:submission/ui/views/tv_on_air/tv_on_air_provider.dart';
+import 'package:submission/ui/views/tv_on_air/tv_on_air_view.dart';
+import 'package:submission/ui/views/tv_popular/tv_popular_provider.dart';
+import 'package:submission/ui/views/tv_popular/tv_popular_view.dart';
+import 'package:submission/ui/views/tv_top_rated/tv_top_rated_provider.dart';
 import 'package:submission/ui/views/tv_home/tv_home_view.dart';
 import 'package:submission/ui/views/tv_search/tv_search_provider.dart';
 import 'package:submission/ui/views/tv_search/tv_search_view.dart';
+import 'package:submission/ui/views/tv_top_rated/tv_top_rated_view.dart';
 import 'package:submission/ui/views/watchlist/movie/watchlist_movie_provider.dart';
 import 'package:submission/ui/views/watchlist/tv/watchlist_tv_provider.dart';
 import 'package:submission/ui/views/watchlist/watchlist_view.dart';
@@ -61,7 +64,7 @@ class MyApp extends StatelessWidget {
           create: (_) => di.sl<DetailProvider>(),
         ),
         ChangeNotifierProvider(
-          create: (_) => di.sl<TvHomeProvider>().init(),
+          create: (_) => di.sl<TvOnAirProvider>().init(),
         ),
         ChangeNotifierProvider(
           create: (_) => di.sl<TvTopRatedProvider>().init(),
@@ -106,6 +109,12 @@ class MyApp extends StatelessWidget {
               return MaterialPageRoute(builder: (_) => const TvSearchView());
             case WatchlistTvView.route:
               return MaterialPageRoute(builder: (_) => const WatchlistTvView());
+            case TvOnAirView.route:
+              return MaterialPageRoute(builder: (_) => const TvOnAirView());
+            case TvPopularView.route:
+              return MaterialPageRoute(builder: (_) => const TvPopularView());
+            case TvTopRatedView.route:
+              return MaterialPageRoute(builder: (_) => const TvTopRatedView());
             default:
               return MaterialPageRoute(
                 builder: (_) {

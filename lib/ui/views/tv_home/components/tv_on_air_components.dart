@@ -4,7 +4,8 @@ import 'package:submission/core/constant/constant.dart';
 import 'package:submission/core/constant/network_state.dart';
 import 'package:submission/core/theme/app_style.dart';
 import 'package:submission/ui/views/tv_detail/tv_detail_view.dart';
-import 'package:submission/ui/views/tv_home/provider/tv_home_provider.dart';
+import 'package:submission/ui/views/tv_on_air/tv_on_air_provider.dart';
+import 'package:submission/ui/views/tv_on_air/tv_on_air_view.dart';
 import 'package:submission/ui/widgets/content_wrapper.dart';
 import 'package:submission/ui/widgets/cover_item.dart';
 
@@ -17,14 +18,25 @@ class TvOnAirComponents extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          ContentWrapper(
-            child: Text(
-              'On The Air',
-              style: AppStyle.subtitle2,
-            ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              ContentWrapper(
+                child: Text(
+                  'On The Air',
+                  style: AppStyle.subtitle2,
+                ),
+              ),
+              GestureDetector(
+                onTap: () => Navigator.pushNamed(context, TvOnAirView.route),
+                child: const ContentWrapper(
+                  child: Icon(Icons.arrow_forward_ios, size: 16),
+                ),
+              ),
+            ],
           ),
           const SizedBox(height: 4),
-          Consumer<TvHomeProvider>(
+          Consumer<TvOnAirProvider>(
             builder: (context, provider, child) {
               switch (provider.state) {
                 case RequestState.initial:

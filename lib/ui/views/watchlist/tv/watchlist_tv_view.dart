@@ -5,7 +5,7 @@ import 'package:submission/core/constant/network_state.dart';
 import 'package:submission/core/route_observer.dart';
 import 'package:submission/ui/views/tv_detail/tv_detail_view.dart';
 import 'package:submission/ui/views/watchlist/tv/watchlist_tv_provider.dart';
-import 'package:submission/ui/widgets/movie_item.dart';
+import 'package:submission/ui/widgets/card_item.dart';
 
 class WatchlistTvView extends StatefulWidget {
   static const route = '/watchlist/tv';
@@ -60,7 +60,7 @@ class _WatchlistTvViewState extends State<WatchlistTvView> with RouteAware {
                 itemCount: provider.data.length,
                 itemBuilder: (context, index) {
                   final tv = provider.data[index];
-                  return MovieItem(
+                  return CardItem(
                     title: tv.name.toString(),
                     overview: tv.overview.toString(),
                     imageUrl: '${Constant.baseUrlImage}${tv.posterPath}',

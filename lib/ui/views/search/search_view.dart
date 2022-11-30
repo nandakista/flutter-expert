@@ -4,7 +4,7 @@ import 'package:submission/core/constant/constant.dart';
 import 'package:submission/core/theme/app_style.dart';
 import 'package:submission/core/constant/network_state.dart';
 import 'package:submission/ui/views/search/search_provider.dart';
-import 'package:submission/ui/widgets/movie_item.dart';
+import 'package:submission/ui/widgets/card_item.dart';
 
 import '../detail/detail_view.dart';
 
@@ -73,7 +73,7 @@ class SearchView extends StatelessWidget {
                         padding: const EdgeInsets.all(8),
                         itemBuilder: (context, index) {
                           final movie = provider.data[index];
-                          return MovieItem(
+                          return CardItem(
                             title: movie.title.toString(),
                             overview: movie.overview.toString(),
                             imageUrl: '${Constant.baseUrlImage}${movie.posterPath}',

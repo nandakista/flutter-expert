@@ -9,8 +9,8 @@ import 'package:submission/ui/widgets/sky_image.dart';
 import '../../core/constant/constant.dart';
 import '../../domain/entities/movie.dart';
 
-class MovieItem extends StatelessWidget {
-  const MovieItem({
+class CardItem extends StatelessWidget {
+  const CardItem({
     Key? key,
     required this.title,
     required this.overview,
@@ -71,7 +71,9 @@ class MovieItem extends StatelessWidget {
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  overview,
+                  (overview.isEmpty)
+                      ? 'This TV Series has no overview'
+                      : overview,
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                 ),

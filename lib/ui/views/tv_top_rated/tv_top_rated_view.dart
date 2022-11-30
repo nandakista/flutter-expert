@@ -1,27 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:submission/core/constant/constant.dart';
-import 'package:submission/ui/views/popular/popular_provider.dart';
+import 'package:submission/core/constant/network_state.dart';
+import 'package:submission/ui/widgets/card_item.dart';
 
-import '../../../core/constant/network_state.dart';
-import '../../widgets/card_item.dart';
-import '../detail/detail_view.dart';
+import '../tv_detail/tv_detail_view.dart';
+import 'tv_top_rated_provider.dart';
 
-class PopularView extends StatelessWidget {
-  static const route = '/popular';
-
-  const PopularView({Key? key}) : super(key: key);
+class TvTopRatedView extends StatelessWidget {
+  static const route = '/tv/top-rated';
+  const TvTopRatedView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Popular Movies'),
+        title: const Text('Top Rated Tv Series'),
       ),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Consumer<PopularProvider>(
+          child: Consumer<TvTopRatedProvider>(
             builder: (context, provider, child) {
               switch (provider.state) {
                 case RequestState.initial:
@@ -41,17 +40,17 @@ class PopularView extends StatelessWidget {
                   return ListView.builder(
                     itemCount: provider.data.length,
                     itemBuilder: (context, index) {
-                      final movie = provider.data[index];
+                      final tv = provider.data[index];
                       return CardItem(
-                        title: movie.title.toString(),
-                        overview: movie.overview.toString(),
-                        imageUrl: '${Constant.baseUrlImage}${movie.posterPath}',
-                        voteAverage: movie.voteAverage ?? 0,
+                        title: tv.name.toString(),
+                        overview: tv.overview.toString(),
+                        imageUrl: '${Constant.baseUrlImage}${tv.posterPath}',
+                        voteAverage: tv.voteAverage ?? 0,
                         onTap: () {
                           Navigator.pushNamed(
                             context,
-                            DetailView.route,
-                            arguments: movie.id,
+                            TvDetailView.route,
+                            arguments: tv.id,
                           );
                         },
                       );
