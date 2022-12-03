@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:http/io_client.dart';
 import 'package:submission/core/constant/constant.dart';
 import 'package:submission/core/error/exception.dart';
 import 'package:submission/data/models/tv_detail_model.dart';
@@ -7,10 +8,9 @@ import 'package:submission/data/models/wrapper/tv_wrapper.dart';
 import 'package:submission/data/sources/server/tv_server_source.dart';
 import 'package:submission/domain/entities/tv.dart';
 import 'package:submission/domain/entities/tv_detail.dart';
-import 'package:http/http.dart' as http;
 
 class TvServerSourceImpl extends TvServerSource {
-  final http.Client client;
+  final IOClient client;
 
   TvServerSourceImpl({required this.client});
 

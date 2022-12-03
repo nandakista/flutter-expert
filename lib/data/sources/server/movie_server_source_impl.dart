@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:http/io_client.dart';
 import 'package:submission/core/constant/constant.dart';
 import 'package:submission/data/models/movie_detail_model.dart';
 
@@ -9,10 +10,9 @@ import '../../../core/error/exception.dart';
 import '../../../domain/entities/movie.dart';
 import '../../../domain/entities/movie_detail.dart';
 import 'movie_server_source.dart';
-import 'package:http/http.dart' as http;
 
 class MovieServerSourceImpl extends MovieServerSource {
-  final http.Client client;
+  final IOClient client;
 
   MovieServerSourceImpl({required this.client});
 

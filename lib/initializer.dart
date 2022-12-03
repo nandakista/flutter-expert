@@ -1,4 +1,5 @@
 import 'package:get_it/get_it.dart';
+import 'package:http/io_client.dart';
 import 'package:submission/data/sources/local/watchlist_local_source.dart';
 import 'package:submission/data/sources/local/watchlist_local_source_impl.dart';
 import 'package:submission/domain/usecases/get_detail_tv.dart';
@@ -24,10 +25,10 @@ import 'package:submission/ui/views/tv_popular/tv_popular_provider.dart';
 import 'package:submission/ui/views/tv_top_rated/tv_top_rated_provider.dart';
 import 'package:submission/ui/views/tv_search/tv_search_provider.dart';
 import 'package:submission/ui/views/watchlist/movie/watchlist_movie_provider.dart';
-import 'package:http/http.dart' as http;
 import 'package:submission/ui/views/watchlist/tv/watchlist_tv_provider.dart';
 
 import 'core/database/dao/watchlist_dao.dart';
+import 'core/network/pinning_client.dart';
 import 'data/repositories/movie_repository_impl.dart';
 import 'data/repositories/tv_repository_impl.dart';
 import 'data/sources/server/movie_server_source.dart';
@@ -47,9 +48,11 @@ import 'domain/usecases/search_movie.dart';
 
 final sl = GetIt.instance;
 
-void init() {
+Future<void> init() async {
   // Http Client
-  sl.registerLazySingleton(() => http.Client());
+  final IOClient client = await getHttpClient();
+  sl.registerLazySingleton(() => client);
+
 
   // Provider
   sl.registerFactory(
@@ -240,12 +243,12 @@ void init() {
   // Sources
   sl.registerLazySingleton<MovieServerSource>(
     () => MovieServerSourceImpl(
-      client: sl<http.Client>(),
+      client: sl<IOClient>(),
     ),
   );
   sl.registerLazySingleton<TvServerSource>(
     () => TvServerSourceImpl(
-      client: sl<http.Client>(),
+      client: sl<IOClient>(),
     ),
   );
   sl.registerLazySingleton<WatchlistLocalSource>(

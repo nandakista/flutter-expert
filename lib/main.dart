@@ -30,8 +30,9 @@ import 'package:submission/ui/views/watchlist/tv/watchlist_tv_view.dart';
 
 import 'core/route_observer.dart';
 
-void main() {
-  di.init();
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await di.init();
   runApp(const MyApp());
 }
 

@@ -28,6 +28,8 @@ class MovieRepositoryImpl implements MovieRepository {
       return const Left(ServerFailure(''));
     } on SocketException {
       return const Left(ConnectionFailure('No Internet Connection'));
+    } on HandshakeException {
+      return const Left(ServerFailure('SSL Certificate Failed'));
     }
   }
 
@@ -40,6 +42,8 @@ class MovieRepositoryImpl implements MovieRepository {
       return const Left(ServerFailure(''));
     } on SocketException {
       return const Left(ConnectionFailure('No Internet Connection'));
+    } on HandshakeException {
+      return const Left(ServerFailure('SSL Certificate Failed'));
     }
   }
 
@@ -52,6 +56,8 @@ class MovieRepositoryImpl implements MovieRepository {
       return const Left(ServerFailure(''));
     } on SocketException {
       return const Left(ConnectionFailure('No Internet Connection'));
+    } on HandshakeException {
+      return const Left(ServerFailure('SSL Certificate Failed'));
     }
   }
 
@@ -64,6 +70,8 @@ class MovieRepositoryImpl implements MovieRepository {
       return const Left(ServerFailure(''));
     } on SocketException {
       return const Left(ConnectionFailure('No Internet Connection'));
+    } on HandshakeException {
+      return const Left(ServerFailure('SSL Certificate Failed'));
     }
   }
 
@@ -76,6 +84,8 @@ class MovieRepositoryImpl implements MovieRepository {
       return const Left(ServerFailure(''));
     } on SocketException {
       return const Left(ConnectionFailure('No Internet Connection'));
+    } on HandshakeException {
+      return const Left(ServerFailure('SSL Certificate Failed'));
     }
   }
 
@@ -88,6 +98,8 @@ class MovieRepositoryImpl implements MovieRepository {
       return const Left(ServerFailure(''));
     } on SocketException {
       return const Left(ConnectionFailure('No Internet Connection'));
+    } on HandshakeException {
+      return const Left(ServerFailure('SSL Certificate Failed'));
     }
   }
 

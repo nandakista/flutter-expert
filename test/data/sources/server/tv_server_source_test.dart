@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
+import 'package:http/io_client.dart';
 
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
@@ -13,16 +14,16 @@ import 'package:submission/data/sources/server/tv_server_source_impl.dart';
 import '../../../core/fixture/fixture_reader.dart';
 import 'tv_server_source_test.mocks.dart';
 
-@GenerateMocks([http.Client])
+@GenerateMocks([IOClient])
 void main() {
   const apiKey = '4a8d8611a243a3a3d004b0862d00283e';
   const baseUrl = 'https://api.themoviedb.org/3';
 
   late TvServerSourceImpl source;
-  late MockClient client;
+  late MockIOClient client;
 
   setUp(() {
-    client = MockClient();
+    client = MockIOClient();
     source = TvServerSourceImpl(client: client);
   });
 
