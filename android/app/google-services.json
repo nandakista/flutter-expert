@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "620000037778",
+    "project_id": "skymovie-50b4d",
+    "storage_bucket": "skymovie-50b4d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:620000037778:android:1490919c2abba76b380f4b",
+        "android_client_info": {
+          "package_name": "dicoding.flutter.submission.submission"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "620000037778-b4nbsfc40818qbglji5vcubk0g09l2qi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAaSdxY7rm6pdsGePT6eseWg32u7LZ3zgE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "620000037778-b4nbsfc40818qbglji5vcubk0g09l2qi.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
