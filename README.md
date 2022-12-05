@@ -4,7 +4,7 @@ A project for Submission Flutter Expert Course.
 
 ## Build Status
 
-[![Codemagic build status](https://api.codemagic.io/apps/638d30c07943edc2aebe1314/default-workflow/status_badge.svg)](https://codemagic.io/apps/638d30c07943edc2aebe1314/default-workflow/latest_build)
+[![Codemagic build status](https://api.codemagic.io/apps/638d30c07943edc2aebe1314/638d30c07943edc2aebe1313/status_badge.svg)](https://codemagic.io/apps/638d30c07943edc2aebe1314/638d30c07943edc2aebe1313/latest_build)
 
 ## Getting Started
 
