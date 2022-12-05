@@ -1,6 +1,10 @@
-# submission
+# Sky Movie Submission
 
-A new Flutter project.
+A project for Submission Flutter Expert Course.
+
+## Build Status
+
+[![Codemagic build status](https://api.codemagic.io/apps/638d30c07943edc2aebe1314/default-workflow/status_badge.svg)](https://codemagic.io/apps/638d30c07943edc2aebe1314/default-workflow/latest_build)
 
 ## Getting Started
 
