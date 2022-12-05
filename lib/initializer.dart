@@ -45,6 +45,7 @@ import 'domain/usecases/get_recommended_movies.dart';
 import 'domain/usecases/get_top_rated_movies.dart';
 import 'domain/usecases/get_watchlist_tv_exist_status.dart';
 import 'domain/usecases/search_movie.dart';
+import 'ui/views/search/bloc/search_bloc.dart';
 
 final sl = GetIt.instance;
 
@@ -53,6 +54,12 @@ Future<void> init() async {
   final IOClient client = await getHttpClient();
   sl.registerLazySingleton(() => client);
 
+  // Bloc
+  sl.registerFactory(
+    () => SearchBloc(
+      sl(),
+    ),
+  );
 
   // Provider
   sl.registerFactory(

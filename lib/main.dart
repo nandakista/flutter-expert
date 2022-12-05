@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:submission/core/theme/app_theme.dart';
 import 'package:provider/provider.dart';
 import 'package:submission/ui/views/detail/detail_provider.dart';
@@ -31,6 +32,7 @@ import 'package:submission/ui/views/watchlist/tv/watchlist_tv_view.dart';
 
 import 'core/route_observer.dart';
 import 'firebase_options.dart';
+import 'ui/views/search/bloc/search_bloc.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -48,6 +50,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
+        BlocProvider(
+          create: (_) => di.sl<SearchBloc>(),
+        ),
         ChangeNotifierProvider(
           create: (_) => di.sl<HomeProvider>().init(),
         ),
