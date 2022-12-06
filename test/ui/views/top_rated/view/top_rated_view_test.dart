@@ -1,20 +1,19 @@
+import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/annotations.dart';
-import 'package:mockito/mockito.dart';
-import 'package:provider/provider.dart';
-import 'package:submission/core/constant/network_state.dart';
+import 'package:mocktail/mocktail.dart';
 import 'package:submission/domain/entities/movie.dart';
-import 'package:submission/ui/views/top_rated/top_rated_provider.dart';
+import 'package:submission/ui/views/top_rated/bloc/top_rated_bloc.dart';
 import 'package:submission/ui/views/top_rated/top_rated_view.dart';
 
-import 'top_rated_view_test.mocks.dart';
+class MockTopRatedBloc extends MockBloc<TopRatedEvent, TopRatedState>
+    implements TopRatedBloc {}
 
-@GenerateMocks([TopRatedProvider])
 void main() {
-  late MockTopRatedProvider mockProvider;
+  late MockTopRatedBloc mockBloc;
 
-  setUp(() => mockProvider = MockTopRatedProvider());
+  setUp(() => mockBloc = MockTopRatedBloc());
 
   final tMovieList = [
     const Movie(
@@ -39,18 +38,16 @@ void main() {
   ];
 
   Widget makeTestableWidget(Widget body) {
-    return ChangeNotifierProvider<TopRatedProvider>.value(
-      value: mockProvider,
-      child: MaterialApp(
-        home: body,
-      ),
+    return BlocProvider<TopRatedBloc>(
+      create: (_) => mockBloc,
+      child: MaterialApp(home: body),
     );
   }
 
   testWidgets('''Should display loading indicator when loading state''',
       (widgetTester) async {
     // Arrange
-    when(mockProvider.state).thenReturn(RequestState.loading);
+    when(() => mockBloc.state).thenReturn(TopRatedLoading());
     // Act
     final progressBarFinder = find.byType(CircularProgressIndicator);
     final centerFinder = find.byType(Center);
@@ -63,25 +60,9 @@ void main() {
   testWidgets('''Should display Text with error message when error state''',
       (WidgetTester tester) async {
     // Arrange
-    when(mockProvider.state).thenReturn(RequestState.error);
-    when(mockProvider.message).thenReturn('Error message');
+    when(() => mockBloc.state).thenReturn(const TopRatedError('Error message'));
     // Act
     final textFinder = find.byKey(const Key('error_message'));
-    final centerFinder = find.byType(Center);
-    await tester.pumpWidget(makeTestableWidget(const TopRatedView()));
-    // Assert
-    expect(textFinder, findsOneWidget);
-    expect(centerFinder, findsOneWidget);
-  });
-
-  testWidgets('''Should display Text with empty message when empty state''',
-      (WidgetTester tester) async {
-    // Arrange
-    when(mockProvider.state).thenReturn(RequestState.empty);
-    when(mockProvider.data).thenReturn(<Movie>[]);
-    when(mockProvider.message).thenReturn('Empty message');
-    // Act
-    final textFinder = find.byKey(const Key('empty_message'));
     final centerFinder = find.byType(Center);
     await tester.pumpWidget(makeTestableWidget(const TopRatedView()));
     // Assert
@@ -92,8 +73,7 @@ void main() {
   testWidgets('Should display ListView when state is success',
       (WidgetTester tester) async {
     // Arrange
-    when(mockProvider.state).thenReturn(RequestState.success);
-    when(mockProvider.data).thenReturn(tMovieList);
+    when(() => mockBloc.state).thenReturn(TopRatedHasData(tMovieList));
     // Act
     final listViewFinder = find.byType(ListView);
     await tester.pumpWidget(makeTestableWidget(const TopRatedView()));

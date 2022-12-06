@@ -9,7 +9,6 @@ import 'package:submission/ui/views/home/home_view.dart';
 import 'package:submission/initializer.dart' as di;
 import 'package:submission/ui/views/popular/popular_view.dart';
 import 'package:submission/ui/views/search/search_view.dart';
-import 'package:submission/ui/views/top_rated/top_rated_provider.dart';
 import 'package:submission/ui/views/top_rated/top_rated_view.dart';
 import 'package:submission/ui/views/tv_detail/tv_detail_provider.dart';
 import 'package:submission/ui/views/tv_detail/tv_detail_view.dart';
@@ -32,6 +31,7 @@ import 'firebase_options.dart';
 import 'ui/views/home/bloc/home_bloc.dart';
 import 'ui/views/popular/bloc/popular_bloc.dart';
 import 'ui/views/search/bloc/search_bloc.dart';
+import 'ui/views/top_rated/bloc/top_rated_bloc.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -58,14 +58,14 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (_) => di.sl<PopularBloc>()..add(LoadPopularMovies()),
         ),
+        BlocProvider(
+          create: (_) => di.sl<TopRatedBloc>()..add(LoadTopRatedMovies()),
+        ),
         ChangeNotifierProvider(
           create: (_) => di.sl<TvSearchProvider>(),
         ),
         ChangeNotifierProvider(
           create: (_) => di.sl<WatchlistMovieProvider>(),
-        ),
-        ChangeNotifierProvider(
-          create: (_) => di.sl<TopRatedProvider>().init(),
         ),
         ChangeNotifierProvider(
           create: (_) => di.sl<DetailProvider>(),
