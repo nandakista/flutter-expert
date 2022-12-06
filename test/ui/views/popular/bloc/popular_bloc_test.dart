@@ -5,23 +5,23 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:submission/core/error/failure.dart';
 import 'package:submission/domain/entities/movie.dart';
-import 'package:submission/domain/usecases/get_now_playing_movies.dart';
-import 'package:submission/ui/views/home/bloc/home_bloc.dart';
+import 'package:submission/domain/usecases/get_popular_movies.dart';
+import 'package:submission/ui/views/popular/bloc/popular_bloc.dart';
 
-import 'home_bloc_test.mocks.dart';
+import 'popular_bloc_test.mocks.dart';
 
-@GenerateMocks([GetNowPlayingMovies])
+@GenerateMocks([GetPopularMovies])
 void main() {
-  late HomeBloc homeBloc;
-  late MockGetNowPlayingMovies mockGetNowPlayingMovies;
+  late PopularBloc popularBloc;
+  late MockGetPopularMovies mockGetPopularMovies;
 
   setUp(() {
-    mockGetNowPlayingMovies = MockGetNowPlayingMovies();
-    homeBloc = HomeBloc(mockGetNowPlayingMovies);
+    mockGetPopularMovies = MockGetPopularMovies();
+    popularBloc = PopularBloc(mockGetPopularMovies);
   });
 
-  const tMovieList = [
-    Movie(
+  final tMovieList = [
+    const Movie(
       adult: false,
       backdropPath: '/url.jpg',
       genreIds: [
@@ -39,64 +39,64 @@ void main() {
       video: false,
       voteAverage: 6.8,
       voteCount: 1270,
-    )
+    ),
   ];
 
   test('Initial state should be empty', () {
-    expect(homeBloc.state, HomeInitial());
+    expect(popularBloc.state, PopularInitial());
   });
 
-  blocTest<HomeBloc, HomeState>(
+  blocTest<PopularBloc, PopularState>(
     'Should emit [Loading, HasData] when successfully get data',
     build: () {
-      when(mockGetNowPlayingMovies())
-          .thenAnswer((_) async => const Right(tMovieList));
-      return homeBloc;
+      when(mockGetPopularMovies())
+          .thenAnswer((_) async => Right(tMovieList));
+      return popularBloc;
     },
-    act: (bloc) => bloc.add(LoadNowPlayingMovies()),
+    act: (bloc) => bloc.add(LoadPopularMovies()),
     wait: const Duration(milliseconds: 500),
     expect: () => [
-      HomeLoading(),
-      const HomeHasData(tMovieList),
+      PopularLoading(),
+      PopularHasData(tMovieList),
     ],
     verify: (bloc) {
-      verify(mockGetNowPlayingMovies());
+      verify(mockGetPopularMovies());
     },
   );
 
-  blocTest<HomeBloc, HomeState>(
+  blocTest<PopularBloc, PopularState>(
     'Should emit [Loading, Error] when failed get search',
     build: () {
-      when(mockGetNowPlayingMovies())
+      when(mockGetPopularMovies())
           .thenAnswer((_) async => const Left(ServerFailure('Server Failure')));
-      return homeBloc;
+      return popularBloc;
     },
-    act: (bloc) => bloc.add(LoadNowPlayingMovies()),
+    act: (bloc) => bloc.add(LoadPopularMovies()),
     wait: const Duration(milliseconds: 500),
     expect: () => [
-      HomeLoading(),
-      const HomeError('Server Failure'),
+      PopularLoading(),
+      const PopularError('Server Failure'),
     ],
     verify: (bloc) {
-      verify(mockGetNowPlayingMovies());
+      verify(mockGetPopularMovies());
     },
   );
 
-  blocTest<HomeBloc, HomeState>(
+  blocTest<PopularBloc, PopularState>(
     'Should emit [Loading, Error] when no internet connection',
     build: () {
-      when(mockGetNowPlayingMovies())
+      when(mockGetPopularMovies())
           .thenAnswer((_) async => const Left(ConnectionFailure('No Internet Connection')));
-      return homeBloc;
+      return popularBloc;
     },
-    act: (bloc) => bloc.add(LoadNowPlayingMovies()),
+    act: (bloc) => bloc.add(LoadPopularMovies()),
     wait: const Duration(milliseconds: 500),
     expect: () => [
-      HomeLoading(),
-      const HomeError('No Internet Connection'),
+      PopularLoading(),
+      const PopularError('No Internet Connection'),
     ],
     verify: (bloc) {
-      verify(mockGetNowPlayingMovies());
+      verify(mockGetPopularMovies());
     },
   );
 }

@@ -11,7 +11,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   final GetNowPlayingMovies getNowPlayingMovies;
 
   HomeBloc(this.getNowPlayingMovies) : super(HomeInitial()) {
-    on<LoadData>((event, emit) async {
+    on<LoadNowPlayingMovies>((event, emit) async {
       emit(HomeLoading());
       final result = await getNowPlayingMovies();
       result.fold(

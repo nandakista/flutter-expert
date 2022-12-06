@@ -16,7 +16,7 @@ import 'package:submission/domain/usecases/save_watchlist_tv.dart';
 import 'package:submission/domain/usecases/search_tv.dart';
 import 'package:submission/ui/views/detail/detail_provider.dart';
 import 'package:submission/ui/views/home/bloc/home_bloc.dart';
-import 'package:submission/ui/views/popular/popular_provider.dart';
+import 'package:submission/ui/views/popular/bloc/popular_bloc.dart';
 import 'package:submission/ui/views/top_rated/top_rated_provider.dart';
 import 'package:submission/ui/views/tv_detail/tv_detail_provider.dart';
 import 'package:submission/ui/views/tv_on_air/tv_on_air_provider.dart';
@@ -64,6 +64,11 @@ Future<void> init() async {
       sl<GetNowPlayingMovies>(),
     ),
   );
+  sl.registerFactory(
+    () => PopularBloc(
+      sl<GetPopularMovies>(),
+    ),
+  );
 
   // Provider
   sl.registerFactory(
@@ -103,11 +108,6 @@ Future<void> init() async {
   sl.registerFactory(
     () => WatchlistMovieProvider(
       getWatchlist: sl<GetWatchlistMovie>(),
-    ),
-  );
-  sl.registerFactory(
-    () => PopularProvider(
-      getPopularMovies: sl<GetPopularMovies>(),
     ),
   );
   sl.registerFactory(
