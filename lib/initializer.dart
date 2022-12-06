@@ -18,7 +18,6 @@ import 'package:submission/ui/views/detail/detail_provider.dart';
 import 'package:submission/ui/views/home/bloc/home_bloc.dart';
 import 'package:submission/ui/views/popular/bloc/popular_bloc.dart';
 import 'package:submission/ui/views/tv_detail/tv_detail_provider.dart';
-import 'package:submission/ui/views/tv_popular/tv_popular_provider.dart';
 import 'package:submission/ui/views/tv_top_rated/tv_top_rated_provider.dart';
 import 'package:submission/ui/views/watchlist/movie/watchlist_movie_provider.dart';
 import 'package:submission/ui/views/watchlist/tv/watchlist_tv_provider.dart';
@@ -44,6 +43,7 @@ import 'domain/usecases/search_movie.dart';
 import 'ui/views/search/bloc/search_bloc.dart';
 import 'ui/views/top_rated/bloc/top_rated_bloc.dart';
 import 'ui/views/tv_on_air/bloc/tv_on_air_bloc.dart';
+import 'ui/views/tv_popular/bloc/tv_popular_bloc.dart';
 import 'ui/views/tv_search/bloc/tv_search_bloc.dart';
 
 final sl = GetIt.instance;
@@ -80,8 +80,13 @@ Future<void> init() async {
     ),
   );
   sl.registerFactory(
-        () => TvOnAirBloc(
+    () => TvOnAirBloc(
       sl<GetOnAirTv>(),
+    ),
+  );
+  sl.registerFactory(
+    () => TvPopularBloc(
+      sl<GetPopularTv>(),
     ),
   );
 
@@ -103,11 +108,6 @@ Future<void> init() async {
   sl.registerFactory(
     () => TvTopRatedProvider(
       getTopRatedTv: sl<GetTopRatedTv>(),
-    ),
-  );
-  sl.registerFactory(
-    () => TvPopularProvider(
-      getPopularTv: sl<GetPopularTv>(),
     ),
   );
   sl.registerFactory(
