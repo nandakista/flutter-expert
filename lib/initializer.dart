@@ -18,7 +18,6 @@ import 'package:submission/ui/views/detail/detail_provider.dart';
 import 'package:submission/ui/views/home/bloc/home_bloc.dart';
 import 'package:submission/ui/views/popular/bloc/popular_bloc.dart';
 import 'package:submission/ui/views/tv_detail/tv_detail_provider.dart';
-import 'package:submission/ui/views/tv_on_air/tv_on_air_provider.dart';
 import 'package:submission/ui/views/tv_popular/tv_popular_provider.dart';
 import 'package:submission/ui/views/tv_top_rated/tv_top_rated_provider.dart';
 import 'package:submission/ui/views/watchlist/movie/watchlist_movie_provider.dart';
@@ -44,6 +43,7 @@ import 'domain/usecases/get_watchlist_tv_exist_status.dart';
 import 'domain/usecases/search_movie.dart';
 import 'ui/views/search/bloc/search_bloc.dart';
 import 'ui/views/top_rated/bloc/top_rated_bloc.dart';
+import 'ui/views/tv_on_air/bloc/tv_on_air_bloc.dart';
 import 'ui/views/tv_search/bloc/tv_search_bloc.dart';
 
 final sl = GetIt.instance;
@@ -79,6 +79,11 @@ Future<void> init() async {
       sl<SearchTv>(),
     ),
   );
+  sl.registerFactory(
+        () => TvOnAirBloc(
+      sl<GetOnAirTv>(),
+    ),
+  );
 
   // Provider
   sl.registerFactory(
@@ -93,11 +98,6 @@ Future<void> init() async {
       getWatchlistExist: sl<GetWatchlistTvExistStatus>(),
       saveWatchlist: sl<SaveWatchlistTv>(),
       removeWatchlist: sl<RemoveWatchlistTv>(),
-    ),
-  );
-  sl.registerFactory(
-    () => TvOnAirProvider(
-      getOnAirTv: sl<GetOnAirTv>(),
     ),
   );
   sl.registerFactory(
