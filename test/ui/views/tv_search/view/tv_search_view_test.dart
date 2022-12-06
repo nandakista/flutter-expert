@@ -1,27 +1,26 @@
+import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/annotations.dart';
-import 'package:mockito/mockito.dart';
-import 'package:provider/provider.dart';
-import 'package:submission/core/constant/network_state.dart';
+import 'package:mocktail/mocktail.dart';
 import 'package:submission/domain/entities/tv.dart';
-import 'package:submission/ui/views/tv_search/tv_search_provider.dart';
+import 'package:submission/ui/views/tv_search/bloc/tv_search_bloc.dart';
 import 'package:submission/ui/views/tv_search/tv_search_view.dart';
 
-import 'tv_search_view_test.mocks.dart';
+class MockTvSearchBloc extends MockBloc<TvSearchEvent, TvSearchState>
+    implements TvSearchBloc {}
 
-@GenerateMocks([TvSearchProvider])
 void main() {
-  late MockTvSearchProvider mockProvider;
+  late MockTvSearchBloc mockBloc;
 
-  setUp(() => mockProvider = MockTvSearchProvider());
+  setUp(() {
+    mockBloc = MockTvSearchBloc();
+  });
 
   Widget makeTestableWidget(Widget body) {
-    return ChangeNotifierProvider<TvSearchProvider>.value(
-      value: mockProvider,
-      child: MaterialApp(
-        home: body,
-      ),
+    return BlocProvider<TvSearchBloc>(
+      create: (_) => mockBloc,
+      child: MaterialApp(home: body),
     );
   }
 
@@ -29,7 +28,7 @@ void main() {
       '''Initial state should not display loading, error text, empty text, and list''',
       (widgetTester) async {
     // Arrange
-    when(mockProvider.state).thenReturn(RequestState.initial);
+    when(()=> mockBloc.state).thenReturn(TvSearchInitial());
     // Act
     final progressBarFinder = find.byKey(const Key('loading_indicator_state'));
     final errorFinder = find.byKey(const Key('error_message'));
@@ -46,7 +45,7 @@ void main() {
   testWidgets('''Should display loading indicator when loading state''',
       (widgetTester) async {
     // Arrange
-    when(mockProvider.state).thenReturn(RequestState.loading);
+    when(()=> mockBloc.state).thenReturn(TvSearchLoading());
     // Act
     final progressBarFinder = find.byKey(const Key('loading_indicator_state'));
     final errorFinder = find.byKey(const Key('error_message'));
@@ -80,8 +79,7 @@ void main() {
       ),
     ];
     // Arrange
-    when(mockProvider.state).thenReturn(RequestState.success);
-    when(mockProvider.data).thenReturn(tTvList);
+    when(()=> mockBloc.state).thenReturn(TvSearchHasData(tTvList));
     // Act
     final listViewFinder = find.byType(ListView);
     final progressBarFinder = find.byKey(const Key('loading_indicator_state'));
@@ -98,9 +96,7 @@ void main() {
   testWidgets('''Should display Text with empty message when empty state''',
       (WidgetTester tester) async {
     // Arrange
-    when(mockProvider.state).thenReturn(RequestState.empty);
-    when(mockProvider.data).thenReturn(<Tv>[]);
-    when(mockProvider.message).thenReturn('Empty message');
+    when(()=> mockBloc.state).thenReturn(const TvSearchEmpty('Empty message'));
     // Act
     final listViewFinder = find.byType(ListView);
     final progressBarFinder = find.byKey(const Key('loading_indicator_state'));
@@ -117,8 +113,7 @@ void main() {
   testWidgets('''Should display Text with error message when error state''',
       (WidgetTester tester) async {
     // Arrange
-    when(mockProvider.state).thenReturn(RequestState.error);
-    when(mockProvider.message).thenReturn('Error message');
+    when(()=> mockBloc.state).thenReturn(const TvSearchError('Error message'));
     // Act
     final listViewFinder = find.byType(ListView);
     final progressBarFinder = find.byKey(const Key('loading_indicator_state'));

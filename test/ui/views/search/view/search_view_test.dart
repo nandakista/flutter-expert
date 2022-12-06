@@ -20,7 +20,6 @@ void main() {
   Widget makeTestableWidget(Widget body) {
     return BlocProvider<SearchBloc>(
       create: (_) => mockBloc,
-      // value: mockBloc,
       child: MaterialApp(home: body),
     );
   }

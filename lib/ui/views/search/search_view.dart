@@ -16,8 +16,6 @@ class SearchView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // final provider = Provider.of<SearchProvider>(context, listen: false)
-    //   ..toInitial();
     return Scaffold(
       appBar: AppBar(
         title: const Text('Search'),
