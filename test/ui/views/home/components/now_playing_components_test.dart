@@ -1,27 +1,23 @@
+import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/annotations.dart';
-import 'package:mockito/mockito.dart';
-import 'package:provider/provider.dart';
-import 'package:submission/core/constant/network_state.dart';
+import 'package:mocktail/mocktail.dart';
 import 'package:submission/domain/entities/movie.dart';
+import 'package:submission/ui/views/home/bloc/home_bloc.dart';
 import 'package:submission/ui/views/home/components/now_playing_components.dart';
-import 'package:submission/ui/views/home/home_provider.dart';
 
-import 'now_playing_components_test.mocks.dart';
+class MockHomeBloc extends MockBloc<HomeEvent, HomeState> implements HomeBloc {}
 
-@GenerateMocks([HomeProvider])
 void main() {
-  late MockHomeProvider mockProvider;
+  late MockHomeBloc mockBloc;
 
-  setUp(() => mockProvider = MockHomeProvider());
+  setUp(() => mockBloc = MockHomeBloc());
 
   Widget makeTestableWidget(Widget body) {
-    return ChangeNotifierProvider<HomeProvider>.value(
-      value: mockProvider,
-      child: MaterialApp(
-        home: body,
-      ),
+    return BlocProvider<HomeBloc>(
+      create: (_) => mockBloc,
+      child: MaterialApp(home: body),
     );
   }
 
@@ -50,7 +46,7 @@ void main() {
   testWidgets('''Should display loading indicator when loading state''',
       (widgetTester) async {
     // Arrange
-    when(mockProvider.state).thenReturn(RequestState.loading);
+    when(() => mockBloc.state).thenReturn(HomeLoading());
     // Act
     final progressBarFinder =
         find.byKey(const Key('now_playing_component_loading'));
@@ -63,23 +59,9 @@ void main() {
   testWidgets('''Should display Text with error message when error state''',
       (WidgetTester tester) async {
     // Arrange
-    when(mockProvider.state).thenReturn(RequestState.error);
-    when(mockProvider.message).thenReturn('Error message');
+    when(() => mockBloc.state).thenReturn(const HomeError('Error message'));
     // Act
     final textFinder = find.byKey(const Key('now_playing_component_error'));
-    await tester.pumpWidget(makeTestableWidget(const NowPlayingComponents()));
-    // Assert
-    expect(textFinder, findsOneWidget);
-  });
-
-  testWidgets('''Should display Text with empty message when empty state''',
-      (WidgetTester tester) async {
-    // Arrange
-    when(mockProvider.state).thenReturn(RequestState.empty);
-    when(mockProvider.data).thenReturn(<Movie>[]);
-    when(mockProvider.message).thenReturn('Empty message');
-    // Act
-    final textFinder = find.byKey(const Key('now_playing_component_empty'));
     await tester.pumpWidget(makeTestableWidget(const NowPlayingComponents()));
     // Assert
     expect(textFinder, findsOneWidget);
@@ -88,9 +70,8 @@ void main() {
   testWidgets('Should display ListView when state is success',
       (WidgetTester tester) async {
     // Arrange
-    when(mockProvider.state).thenReturn(RequestState.success);
-    when(mockProvider.data).thenReturn(tMovieList);
-    // ActNowPlayingComponents
+    when(() => mockBloc.state).thenReturn(HomeHasData(tMovieList));
+    // Act
     final listViewFinder = find.byType(GridView);
     await tester.pumpWidget(makeTestableWidget(const NowPlayingComponents()));
     // Assert

@@ -1,6 +1,5 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:rxdart/rxdart.dart';
 import 'package:submission/core/event_transformer.dart';
 import 'package:submission/domain/entities/movie.dart';
 import 'package:submission/domain/usecases/search_movie.dart';
