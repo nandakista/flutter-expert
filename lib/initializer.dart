@@ -17,7 +17,6 @@ import 'package:submission/domain/usecases/search_tv.dart';
 import 'package:submission/ui/views/detail/detail_provider.dart';
 import 'package:submission/ui/views/home/home_provider.dart';
 import 'package:submission/ui/views/popular/popular_provider.dart';
-import 'package:submission/ui/views/search/search_provider.dart';
 import 'package:submission/ui/views/top_rated/top_rated_provider.dart';
 import 'package:submission/ui/views/tv_detail/tv_detail_provider.dart';
 import 'package:submission/ui/views/tv_on_air/tv_on_air_provider.dart';
@@ -104,11 +103,6 @@ Future<void> init() async {
   sl.registerFactory(
     () => WatchlistMovieProvider(
       getWatchlist: sl<GetWatchlistMovie>(),
-    ),
-  );
-  sl.registerFactory(
-    () => SearchProvider(
-      searchMovie: sl<SearchMovie>(),
     ),
   );
   sl.registerFactory(

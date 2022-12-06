@@ -3,14 +3,11 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'dart:async' as _i6;
-import 'dart:ui' as _i7;
+import 'dart:async' as _i3;
 
+import 'package:flutter_bloc/flutter_bloc.dart' as _i4;
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:submission/core/constant/network_state.dart' as _i4;
-import 'package:submission/domain/entities/movie.dart' as _i5;
-import 'package:submission/domain/usecases/search_movie.dart' as _i2;
-import 'package:submission/ui/views/search/search_provider.dart' as _i3;
+import 'package:submission/ui/views/search/bloc/search_bloc.dart' as _i2;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -23,8 +20,8 @@ import 'package:submission/ui/views/search/search_provider.dart' as _i3;
 // ignore_for_file: camel_case_types
 // ignore_for_file: subtype_of_sealed_class
 
-class _FakeSearchMovie_0 extends _i1.SmartFake implements _i2.SearchMovie {
-  _FakeSearchMovie_0(
+class _FakeSearchState_0 extends _i1.SmartFake implements _i2.SearchState {
+  _FakeSearchState_0(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -33,88 +30,123 @@ class _FakeSearchMovie_0 extends _i1.SmartFake implements _i2.SearchMovie {
         );
 }
 
-/// A class which mocks [SearchProvider].
+/// A class which mocks [SearchBloc].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockSearchProvider extends _i1.Mock implements _i3.SearchProvider {
-  MockSearchProvider() {
+class MockSearchBloc extends _i1.Mock implements _i2.SearchBloc {
+  MockSearchBloc() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  _i2.SearchMovie get searchMovie => (super.noSuchMethod(
-        Invocation.getter(#searchMovie),
-        returnValue: _FakeSearchMovie_0(
-          this,
-          Invocation.getter(#searchMovie),
-        ),
-      ) as _i2.SearchMovie);
-  @override
-  String get message => (super.noSuchMethod(
-        Invocation.getter(#message),
-        returnValue: '',
-      ) as String);
-  @override
-  _i4.RequestState get state => (super.noSuchMethod(
+  _i2.SearchState get state => (super.noSuchMethod(
         Invocation.getter(#state),
-        returnValue: _i4.RequestState.initial,
-      ) as _i4.RequestState);
+        returnValue: _FakeSearchState_0(
+          this,
+          Invocation.getter(#state),
+        ),
+      ) as _i2.SearchState);
   @override
-  List<_i5.Movie> get data => (super.noSuchMethod(
-        Invocation.getter(#data),
-        returnValue: <_i5.Movie>[],
-      ) as List<_i5.Movie>);
+  _i3.Stream<_i2.SearchState> get stream => (super.noSuchMethod(
+        Invocation.getter(#stream),
+        returnValue: _i3.Stream<_i2.SearchState>.empty(),
+      ) as _i3.Stream<_i2.SearchState>);
   @override
-  bool get hasListeners => (super.noSuchMethod(
-        Invocation.getter(#hasListeners),
+  bool get isClosed => (super.noSuchMethod(
+        Invocation.getter(#isClosed),
         returnValue: false,
       ) as bool);
   @override
-  void toInitial() => super.noSuchMethod(
+  void add(_i2.SearchEvent? event) => super.noSuchMethod(
         Invocation.method(
-          #toInitial,
+          #add,
+          [event],
+        ),
+        returnValueForMissingStub: null,
+      );
+  @override
+  void onEvent(_i2.SearchEvent? event) => super.noSuchMethod(
+        Invocation.method(
+          #onEvent,
+          [event],
+        ),
+        returnValueForMissingStub: null,
+      );
+  @override
+  void emit(_i2.SearchState? state) => super.noSuchMethod(
+        Invocation.method(
+          #emit,
+          [state],
+        ),
+        returnValueForMissingStub: null,
+      );
+  @override
+  void on<E extends _i2.SearchEvent>(
+    _i4.EventHandler<E, _i2.SearchState>? handler, {
+    _i4.EventTransformer<E>? transformer,
+  }) =>
+      super.noSuchMethod(
+        Invocation.method(
+          #on,
+          [handler],
+          {#transformer: transformer},
+        ),
+        returnValueForMissingStub: null,
+      );
+  @override
+  void onTransition(
+          _i4.Transition<_i2.SearchEvent, _i2.SearchState>? transition) =>
+      super.noSuchMethod(
+        Invocation.method(
+          #onTransition,
+          [transition],
+        ),
+        returnValueForMissingStub: null,
+      );
+  @override
+  _i3.Future<void> close() => (super.noSuchMethod(
+        Invocation.method(
+          #close,
           [],
         ),
-        returnValueForMissingStub: null,
-      );
+        returnValue: _i3.Future<void>.value(),
+        returnValueForMissingStub: _i3.Future<void>.value(),
+      ) as _i3.Future<void>);
   @override
-  _i6.Future<void> onSearchMovie(String? query) => (super.noSuchMethod(
+  void onChange(_i4.Change<_i2.SearchState>? change) => super.noSuchMethod(
         Invocation.method(
-          #onSearchMovie,
-          [query],
-        ),
-        returnValue: _i6.Future<void>.value(),
-        returnValueForMissingStub: _i6.Future<void>.value(),
-      ) as _i6.Future<void>);
-  @override
-  void addListener(_i7.VoidCallback? listener) => super.noSuchMethod(
-        Invocation.method(
-          #addListener,
-          [listener],
+          #onChange,
+          [change],
         ),
         returnValueForMissingStub: null,
       );
   @override
-  void removeListener(_i7.VoidCallback? listener) => super.noSuchMethod(
+  void addError(
+    Object? error, [
+    StackTrace? stackTrace,
+  ]) =>
+      super.noSuchMethod(
         Invocation.method(
-          #removeListener,
-          [listener],
+          #addError,
+          [
+            error,
+            stackTrace,
+          ],
         ),
         returnValueForMissingStub: null,
       );
   @override
-  void dispose() => super.noSuchMethod(
+  void onError(
+    Object? error,
+    StackTrace? stackTrace,
+  ) =>
+      super.noSuchMethod(
         Invocation.method(
-          #dispose,
-          [],
-        ),
-        returnValueForMissingStub: null,
-      );
-  @override
-  void notifyListeners() => super.noSuchMethod(
-        Invocation.method(
-          #notifyListeners,
-          [],
+          #onError,
+          [
+            error,
+            stackTrace,
+          ],
         ),
         returnValueForMissingStub: null,
       );

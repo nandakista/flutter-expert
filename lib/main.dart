@@ -10,7 +10,6 @@ import 'package:submission/ui/views/home/home_view.dart';
 import 'package:submission/initializer.dart' as di;
 import 'package:submission/ui/views/popular/popular_provider.dart';
 import 'package:submission/ui/views/popular/popular_view.dart';
-import 'package:submission/ui/views/search/search_provider.dart';
 import 'package:submission/ui/views/search/search_view.dart';
 import 'package:submission/ui/views/top_rated/top_rated_provider.dart';
 import 'package:submission/ui/views/top_rated/top_rated_view.dart';
@@ -55,9 +54,6 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (_) => di.sl<HomeProvider>().init(),
-        ),
-        ChangeNotifierProvider(
-          create: (_) => di.sl<SearchProvider>(),
         ),
         ChangeNotifierProvider(
           create: (_) => di.sl<TvSearchProvider>(),

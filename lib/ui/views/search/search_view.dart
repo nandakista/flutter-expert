@@ -4,7 +4,6 @@ import 'package:provider/provider.dart';
 import 'package:submission/core/constant/constant.dart';
 import 'package:submission/core/theme/app_style.dart';
 import 'package:submission/core/constant/network_state.dart';
-import 'package:submission/ui/views/search/search_provider.dart';
 import 'package:submission/ui/widgets/card_item.dart';
 
 import '../detail/detail_view.dart';
@@ -49,6 +48,7 @@ class SearchView extends StatelessWidget {
                 if(state is SearchLoading) {
                   return const Expanded(
                     child: Center(
+                      key: Key('loading_indicator_state'),
                       child: CircularProgressIndicator(),
                     ),
                   );
