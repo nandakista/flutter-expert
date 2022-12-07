@@ -1,20 +1,20 @@
+import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/annotations.dart';
-import 'package:mockito/mockito.dart';
-import 'package:provider/provider.dart';
-import 'package:submission/core/constant/network_state.dart';
+import 'package:mocktail/mocktail.dart';
 import 'package:submission/domain/entities/movie.dart';
-import 'package:submission/ui/views/watchlist/movie/watchlist_movie_provider.dart';
+import 'package:submission/ui/views/watchlist/movie/bloc/watchlist_movie_bloc.dart';
 import 'package:submission/ui/views/watchlist/movie/watchlist_movie_view.dart';
 
-import 'watchlist_movie_view_test.mocks.dart';
+class MockWatchlistMovieBloc
+    extends MockBloc<WatchlistMovieEvent, WatchlistMovieState>
+    implements WatchlistMovieBloc {}
 
-@GenerateMocks([WatchlistMovieProvider])
 void main() {
-  late MockWatchlistMovieProvider mockProvider;
+  late MockWatchlistMovieBloc mockBloc;
 
-  setUp(() => mockProvider = MockWatchlistMovieProvider());
+  setUp(() => mockBloc = MockWatchlistMovieBloc());
 
   final tMovieList = [
     const Movie(
@@ -39,20 +39,31 @@ void main() {
   ];
 
   Widget makeTestableWidget(Widget body) {
-    return ChangeNotifierProvider<WatchlistMovieProvider>.value(
-      value: mockProvider,
-      child: MaterialApp(
-        home: body,
-      ),
+    return BlocProvider<WatchlistMovieBloc>(
+      create: (_) => mockBloc,
+      child: MaterialApp(home: body),
     );
   }
+
+  testWidgets('''Should display Text with error message when error state''',
+      (WidgetTester tester) async {
+    // Arrange
+    when(() => mockBloc.state)
+        .thenReturn(const WatchlistMovieError('Error message'));
+    // Act
+    final textFinder = find.byKey(const Key('error_message'));
+    final centerFinder = find.byType(Center);
+    await tester.pumpWidget(makeTestableWidget(const WatchlistMovieView()));
+    // Assert
+    expect(textFinder, findsOneWidget);
+    expect(centerFinder, findsOneWidget);
+  });
 
   testWidgets('''Should display Text with empty message when empty state''',
       (WidgetTester tester) async {
     // Arrange
-    when(mockProvider.state).thenReturn(RequestState.empty);
-    when(mockProvider.data).thenReturn(<Movie>[]);
-    when(mockProvider.message).thenReturn('Empty message');
+    when(() => mockBloc.state)
+        .thenReturn(const WatchlistMovieEmpty('Empty message'));
     // Act
     final textFinder = find.byKey(const Key('empty_message'));
     final centerFinder = find.byType(Center);
@@ -65,8 +76,7 @@ void main() {
   testWidgets('Should display ListView when state is success',
       (WidgetTester tester) async {
     // Arrange
-    when(mockProvider.state).thenReturn(RequestState.success);
-    when(mockProvider.data).thenReturn(tMovieList);
+    when(() => mockBloc.state).thenReturn(WatchlistMovieHasData(tMovieList));
     // Act
     final listViewFinder = find.byType(ListView);
     await tester.pumpWidget(makeTestableWidget(const WatchlistMovieView()));

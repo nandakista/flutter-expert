@@ -65,7 +65,7 @@ void main() {
   );
 
   blocTest<PopularBloc, PopularState>(
-    'Should emit [Loading, Error] when failed get search',
+    'Should emit [Loading, Error] when failed get data',
     build: () {
       when(mockGetPopularMovies())
           .thenAnswer((_) async => const Left(ServerFailure('Server Failure')));

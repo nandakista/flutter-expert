@@ -110,22 +110,9 @@ void main() {
     expect(textFinder, findsOneWidget);
   });
 
-  // testWidgets(
-  //     '''Should display Text with error message when recommended state is error''',
-  //     (WidgetTester tester) async {
-  //   // Arrange
-  //   when(mockProvider.recommendationState).thenReturn(RequestState.error);
-  //   when(mockProvider.message).thenReturn('Error message');
-  //   // Act
-  //   final textFinder = find.byKey(const Key('error_recommend_message'));
-  //   await tester.pumpWidget(makeTestableWidget(const RecommendedTvComponent()));
-  //   // Assert
-  //   expect(textFinder, findsOneWidget);
-  // });
-
   testWidgets(
       'Should display Detail Content and Recommended Tv when '
-      'detail state is loaded and recommendation state is success',
+      'detail state is HasData and recommendation state is HasData',
       (WidgetTester tester) async {
     // Arrange
     when(() => mockBloc.state).thenReturn(TvDetailHasData(
@@ -141,7 +128,7 @@ void main() {
 
   testWidgets(
       'Should display Detail Content and Empty Message in Recommend Tv '
-      'when detail state is loaded and recommendation state is empty',
+      'when detail state is HasData and recommendation state is empty',
       (WidgetTester tester) async {
     // Arrange
     when(() => mockBloc.state).thenReturn(const TvDetailHasData(

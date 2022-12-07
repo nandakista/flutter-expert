@@ -42,7 +42,7 @@ void main() {
   final tMovieList = <Movie>[tMovieModel];
   const tQuery = 'black adam';
 
-  test('initial state should be empty', () {
+  test('verify initial state', () {
     expect(searchBloc.state, SearchInitial());
   });
 

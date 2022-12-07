@@ -218,7 +218,7 @@ void main() {
   );
 
   blocTest<DetailBloc, DetailState>(
-    'when request with no internet connection Should emit [Loading, Error]',
+    'when request detail movie with no internet connection Should emit [Loading, Error]',
     build: () {
       when(mockGetDetailMovie(tMovieId)).thenAnswer(
           (_) async => const Left(ConnectionFailure('No Internet')));
@@ -244,12 +244,12 @@ void main() {
   );
 
   blocTest<DetailBloc, DetailState>(
-    'when request with no internet connection Should emit [Loading, Error]',
+    'when request get recommended tv with no internet connection Should emit [Loading, Error]',
     build: () {
-      when(mockGetDetailMovie(tMovieId)).thenAnswer(
+      when(mockGetDetailMovie(tMovieId))
+          .thenAnswer((_) async => const Right(tMovieDetail));
+      when(mockGetRecommendedMovies(tMovieId)).thenAnswer(
           (_) async => const Left(ConnectionFailure('No Internet')));
-      when(mockGetRecommendedMovies(tMovieId))
-          .thenAnswer((_) async => Right(tMovieList));
       when(mockGetWatchlistMovieExistStatus(tMovieId))
           .thenAnswer((_) async => true);
       return detailBloc;

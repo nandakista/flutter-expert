@@ -1,4 +1,3 @@
-
 import 'package:bloc_test/bloc_test.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -43,7 +42,7 @@ void main() {
     ),
   ];
 
-  test('Initial state should be empty', () {
+  test('Verify Initial state', () {
     expect(topRatedBloc.state, TopRatedInitial());
   });
 
@@ -66,7 +65,7 @@ void main() {
   );
 
   blocTest<TopRatedBloc, TopRatedState>(
-    'Should emit [Loading, Error] when failed get search',
+    'Should emit [Loading, Error] when failed get data',
     build: () {
       when(mockGetTopRatedMovies())
           .thenAnswer((_) async => const Left(ServerFailure('Server Failure')));

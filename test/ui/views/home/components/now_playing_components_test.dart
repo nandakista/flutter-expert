@@ -67,7 +67,7 @@ void main() {
     expect(textFinder, findsOneWidget);
   });
 
-  testWidgets('Should display ListView when state is success',
+  testWidgets('Should display ListView when state is HasData',
       (WidgetTester tester) async {
     // Arrange
     when(() => mockBloc.state).thenReturn(HomeHasData(tMovieList));

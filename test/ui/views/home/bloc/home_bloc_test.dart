@@ -42,7 +42,7 @@ void main() {
     )
   ];
 
-  test('Initial state should be empty', () {
+  test('Verify Initial state', () {
     expect(homeBloc.state, HomeInitial());
   });
 
@@ -65,7 +65,7 @@ void main() {
   );
 
   blocTest<HomeBloc, HomeState>(
-    'Should emit [Loading, Error] when failed get search',
+    'Should emit [Loading, Error] when failed get data',
     build: () {
       when(mockGetNowPlayingMovies())
           .thenAnswer((_) async => const Left(ServerFailure('Server Failure')));

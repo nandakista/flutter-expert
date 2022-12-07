@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:provider/provider.dart';
 import 'package:submission/core/constant/constant.dart';
 import 'package:submission/core/theme/app_style.dart';
-import 'package:submission/core/constant/network_state.dart';
 import 'package:submission/ui/widgets/card_item.dart';
 
 import '../detail/detail_view.dart';
