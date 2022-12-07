@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:submission/core/theme/app_theme.dart';
 import 'package:provider/provider.dart';
-import 'package:submission/ui/views/detail/detail_provider.dart';
 import 'package:submission/ui/views/detail/detail_view.dart';
 import 'package:submission/ui/views/home/home_view.dart';
 import 'package:submission/initializer.dart' as di;
@@ -24,6 +23,7 @@ import 'package:submission/ui/views/watchlist/tv/watchlist_tv_view.dart';
 
 import 'core/route_observer.dart';
 import 'firebase_options.dart';
+import 'ui/views/detail/bloc/detail_bloc.dart';
 import 'ui/views/home/bloc/home_bloc.dart';
 import 'ui/views/popular/bloc/popular_bloc.dart';
 import 'ui/views/search/bloc/search_bloc.dart';
@@ -67,8 +67,8 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (_) => di.sl<WatchlistMovieProvider>(),
         ),
-        ChangeNotifierProvider(
-          create: (_) => di.sl<DetailProvider>(),
+        BlocProvider(
+          create: (_) => di.sl<DetailBloc>(),
         ),
         BlocProvider(
           create: (_) => di.sl<TvOnAirBloc>()..add(LoadOnAirTv()),

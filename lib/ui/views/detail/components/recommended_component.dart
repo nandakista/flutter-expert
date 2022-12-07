@@ -1,11 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:submission/core/constant/network_state.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:submission/core/theme/app_style.dart';
+import 'package:submission/ui/views/detail/bloc/detail_bloc.dart';
 import 'package:submission/ui/views/detail/detail_view.dart';
-
-import '../detail_provider.dart';
 
 class RecommendedComponent extends StatelessWidget {
   const RecommendedComponent({Key? key}) : super(key: key);
@@ -20,12 +18,10 @@ class RecommendedComponent extends StatelessWidget {
           style: AppStyle.subtitle4,
         ),
         const Divider(),
-        Consumer<DetailProvider>(
-          builder: (context, provider, child) {
-            switch (provider.recommendationState) {
-              case RequestState.initial:
-                return Container();
-              case RequestState.empty:
+        BlocBuilder<DetailBloc, DetailState>(
+          builder: (context, state) {
+            if(state is DetailHasData) {
+              if(state.recommendedMovie.isEmpty) {
                 return Column(
                   children: const [
                     SizedBox(height: 4),
@@ -37,60 +33,46 @@ class RecommendedComponent extends StatelessWidget {
                     ),
                   ],
                 );
-              case RequestState.loading:
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
-              case RequestState.success:
-                if (provider.recommendedMovies.isEmpty) {
-                  return Center(
-                    child: Text(provider.message),
-                  );
-                } else {
-                  return SizedBox(
-                    height: 150,
-                    child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: provider.recommendedMovies.length,
-                      itemBuilder: (context, index) {
-                        final movie = provider.recommendedMovies[index];
-                        return Padding(
-                          padding: const EdgeInsets.all(4.0),
-                          child: InkWell(
-                            onTap: () {
-                              Navigator.pushReplacementNamed(
-                                context,
-                                DetailView.route,
-                                arguments: movie.id,
-                              );
-                            },
-                            child: ClipRRect(
-                              borderRadius: const BorderRadius.all(
-                                Radius.circular(8),
+              } else {
+                return SizedBox(
+                  height: 150,
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: state.recommendedMovie.length,
+                    itemBuilder: (context, index) {
+                      final movie = state.recommendedMovie[index];
+                      return Padding(
+                        padding: const EdgeInsets.all(4.0),
+                        child: InkWell(
+                          onTap: () {
+                            Navigator.pushReplacementNamed(
+                              context,
+                              DetailView.route,
+                              arguments: movie.id,
+                            );
+                          },
+                          child: ClipRRect(
+                            borderRadius: const BorderRadius.all(
+                              Radius.circular(8),
+                            ),
+                            child: CachedNetworkImage(
+                              imageUrl:
+                              'https://image.tmdb.org/t/p/w500${movie.posterPath}',
+                              placeholder: (context, url) => const Center(
+                                child: CircularProgressIndicator(),
                               ),
-                              child: CachedNetworkImage(
-                                imageUrl:
-                                    'https://image.tmdb.org/t/p/w500${movie.posterPath}',
-                                placeholder: (context, url) => const Center(
-                                  child: CircularProgressIndicator(),
-                                ),
-                                errorWidget: (context, url, error) =>
-                                    const Icon(Icons.error),
-                              ),
+                              errorWidget: (context, url, error) =>
+                              const Icon(Icons.error),
                             ),
                           ),
-                        );
-                      },
-                    ),
-                  );
-                }
-              case RequestState.error:
-                return Center(
-                  child: Text(
-                    key: const Key('error_recommend_message'),
-                    provider.message,
+                        ),
+                      );
+                    },
                   ),
                 );
+              }
+            } else {
+              return Container();
             }
           },
         ),

@@ -1,35 +1,37 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:submission/core/constant/constant.dart';
-import 'package:submission/ui/views/detail/detail_provider.dart';
+import 'package:submission/ui/views/detail/bloc/detail_bloc.dart';
 import 'package:submission/ui/widgets/colored_status_bar.dart';
 
-import '../../../core/constant/network_state.dart';
 import 'components/detail_content_view.dart';
 import 'components/recommended_component.dart';
 
-class DetailView extends StatefulWidget {
+class DetailView extends StatelessWidget {
   static const route = '/detail';
   const DetailView({Key? key, required this.id}) : super(key: key);
 
   final int id;
 
-  @override
-  State<DetailView> createState() => _DetailViewState();
-}
-
-class _DetailViewState extends State<DetailView> {
-  @override
-  void initState() {
-    Future.microtask(() {
-      Provider.of<DetailProvider>(context, listen: false)
-          .loadMovieDetail(widget.id);
-      Provider.of<DetailProvider>(context, listen: false)
-          .loadRecommendedMovie(widget.id);
-      Provider.of<DetailProvider>(context, listen: false)
-          .loadWatchlistExistStatus(widget.id);
-    });
-    super.initState();
+  void _mapBlocListener(BuildContext context, DetailState state) {
+    if (state is DetailHasData) {
+      if (state.watchlistMessage != '') {
+        if (state.watchlistMessage == 'Added to Watchlist' ||
+            state.watchlistMessage == 'Removed from Watchlist') {
+          ScaffoldMessenger.of(context)
+              .showSnackBar(SnackBar(content: Text(state.watchlistMessage)));
+        } else {
+          showDialog(
+            context: context,
+            builder: (context) {
+              return AlertDialog(
+                content: Text(state.watchlistMessage),
+              );
+            },
+          );
+        }
+      }
+    }
   }
 
   @override
@@ -39,53 +41,51 @@ class _DetailViewState extends State<DetailView> {
       brightness: Brightness.light,
       child: Scaffold(
         bottomNavigationBar: SafeArea(
-          child: Consumer<DetailProvider>(builder: (context, provider, child) {
-            if (provider.detailState == RequestState.success) {
-              provider.hasAddedToWatchlist;
-              return Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                child: ElevatedButton(
-                  onPressed: () async {
-                    if (provider.hasAddedToWatchlist == false) {
-                      await provider.addWatchlist(provider.detailMovie);
-                    } else {
-                      await provider.removeFromWatchlist(provider.detailMovie);
-                    }
-                    if (mounted) {
-                      _buildAlertSnackBar(context, provider.watchlistMessage);
-                    }
-                  },
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Icon(
-                        provider.hasAddedToWatchlist ? Icons.check : Icons.add,
-                        color: Colors.white,
-                      ),
-                      const SizedBox(width: 4),
-                      const Text(
-                        'Watchlist',
-                        style: TextStyle(color: Colors.white),
-                      ),
-                    ],
+          child: BlocConsumer<DetailBloc, DetailState>(
+            listener: _mapBlocListener,
+            builder: (context, state) {
+              if (state is DetailHasData) {
+                return Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  child: ElevatedButton(
+                    onPressed: () async {
+                      if (state.hasAddedToWatchList == false) {
+                        context.read<DetailBloc>().add(
+                            AddWatchlist(state.detail, state.recommendedMovie));
+                      } else {
+                        context.read<DetailBloc>().add(RemoveFromWatchlist(
+                            state.detail, state.recommendedMovie));
+                      }
+                    },
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(
+                          state.hasAddedToWatchList ? Icons.check : Icons.add,
+                          color: Colors.white,
+                        ),
+                        const SizedBox(width: 4),
+                        const Text(
+                          'Watchlist',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-              );
-            } else {
-              return const SizedBox.shrink();
-            }
-          }),
+                );
+              } else {
+                return const SizedBox.shrink();
+              }
+            },
+          ),
         ),
         body: Stack(
           children: [
-            Consumer<DetailProvider>(
-              builder: (context, provider, child) {
-                if (provider.detailState == RequestState.loading) {
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
-                } else if (provider.detailState == RequestState.success) {
-                  final movie = provider.detailMovie;
+            BlocBuilder<DetailBloc, DetailState>(
+              bloc: context.read<DetailBloc>()..add(LoadDetailMovies(id)),
+              builder: (context, state) {
+                if (state is DetailHasData) {
+                  final movie = state.detail;
                   return SafeArea(
                     child: DetailContent(
                       key: const Key('detail_content'),
@@ -100,10 +100,14 @@ class _DetailViewState extends State<DetailView> {
                       recommendedView: const RecommendedComponent(),
                     ),
                   );
-                } else {
+                } else if (state is DetailError) {
                   return Text(
                     key: const Key('error_message'),
-                    provider.message,
+                    state.message,
+                  );
+                } else {
+                  return const Center(
+                    child: CircularProgressIndicator(),
                   );
                 }
               },
@@ -123,22 +127,5 @@ class _DetailViewState extends State<DetailView> {
         ),
       ),
     );
-  }
-
-  _buildAlertSnackBar(BuildContext context, String message) {
-    if (message == 'Added to Watchlist' ||
-        message == 'Removed from Watchlist') {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text(message)));
-    } else {
-      showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            content: Text(message),
-          );
-        },
-      );
-    }
   }
 }

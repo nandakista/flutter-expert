@@ -14,7 +14,7 @@ import 'package:submission/domain/usecases/remove_watchlist_tv.dart';
 import 'package:submission/domain/usecases/save_watchlist_movie.dart';
 import 'package:submission/domain/usecases/save_watchlist_tv.dart';
 import 'package:submission/domain/usecases/search_tv.dart';
-import 'package:submission/ui/views/detail/detail_provider.dart';
+import 'package:submission/ui/views/detail/bloc/detail_bloc.dart';
 import 'package:submission/ui/views/home/bloc/home_bloc.dart';
 import 'package:submission/ui/views/popular/bloc/popular_bloc.dart';
 import 'package:submission/ui/views/tv_detail/tv_detail_provider.dart';
@@ -94,6 +94,15 @@ Future<void> init() async {
       sl<GetTopRatedTv>(),
     ),
   );
+  sl.registerFactory(
+    () => DetailBloc(
+      getDetailMovie: sl<GetDetailMovie>(),
+      getRecommendationsMovies: sl<GetRecommendedMovies>(),
+      getWatchlistExist: sl<GetWatchlistMovieExistStatus>(),
+      saveWatchlist: sl<SaveWatchlistMovie>(),
+      removeWatchlist: sl<RemoveWatchlistMovie>(),
+    ),
+  );
 
   // Provider
   sl.registerFactory(
@@ -113,15 +122,6 @@ Future<void> init() async {
   sl.registerFactory(
     () => WatchlistMovieProvider(
       getWatchlist: sl<GetWatchlistMovie>(),
-    ),
-  );
-  sl.registerFactory(
-    () => DetailProvider(
-      getDetailMovie: sl<GetDetailMovie>(),
-      getRecommendationsMovies: sl<GetRecommendedMovies>(),
-      getWatchlistExist: sl<GetWatchlistMovieExistStatus>(),
-      saveWatchlist: sl<SaveWatchlistMovie>(),
-      removeWatchlist: sl<RemoveWatchlistMovie>(),
     ),
   );
 

@@ -1,24 +1,23 @@
+import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/annotations.dart';
-import 'package:mockito/mockito.dart';
-import 'package:provider/provider.dart';
-import 'package:submission/core/constant/network_state.dart';
+import 'package:mocktail/mocktail.dart';
+
 import 'package:submission/domain/entities/genre.dart';
 import 'package:submission/domain/entities/movie.dart';
 import 'package:submission/domain/entities/movie_detail.dart';
+import 'package:submission/ui/views/detail/bloc/detail_bloc.dart';
 import 'package:submission/ui/views/detail/components/detail_content_view.dart';
-import 'package:submission/ui/views/detail/components/recommended_component.dart';
-import 'package:submission/ui/views/detail/detail_provider.dart';
 import 'package:submission/ui/views/detail/detail_view.dart';
 
-import 'detail_view_test.mocks.dart';
+class MockDetailBloc extends MockBloc<DetailEvent, DetailState>
+    implements DetailBloc {}
 
-@GenerateMocks([DetailProvider])
 void main() {
-  late MockDetailProvider mockProvider;
+  late MockDetailBloc mockDetailBloc;
 
-  setUp(() => mockProvider = MockDetailProvider());
+  setUp(() => mockDetailBloc = MockDetailBloc());
 
   const tMovieId = 1;
   const tMovieDetail = MovieDetail(
@@ -69,18 +68,16 @@ void main() {
   ];
 
   Widget makeTestableWidget(Widget body) {
-    return ChangeNotifierProvider<DetailProvider>.value(
-      value: mockProvider,
-      child: MaterialApp(
-        home: body,
-      ),
+    return BlocProvider<DetailBloc>(
+      create: (_) => mockDetailBloc,
+      child: MaterialApp(home: body),
     );
   }
 
   testWidgets('''Should display loading indicator when loading state''',
       (widgetTester) async {
     // Arrange
-    when(mockProvider.detailState).thenReturn(RequestState.loading);
+    when(() => mockDetailBloc.state).thenReturn(DetailLoading());
     // Act
     final progressBarFinder = find.byType(CircularProgressIndicator);
     await widgetTester
@@ -93,8 +90,8 @@ void main() {
       '''Should display Text with error message when detail state is error''',
       (WidgetTester tester) async {
     // Arrange
-    when(mockProvider.detailState).thenReturn(RequestState.error);
-    when(mockProvider.message).thenReturn('Error message');
+    when(() => mockDetailBloc.state)
+        .thenReturn(const DetailError('Error message'));
     // Act
     final textFinder = find.byKey(const Key('error_message'));
     await tester.pumpWidget(makeTestableWidget(const DetailView(id: tMovieId)));
@@ -103,28 +100,15 @@ void main() {
   });
 
   testWidgets(
-      '''Should display Text with error message when recommended state is error''',
-      (WidgetTester tester) async {
-    // Arrange
-    when(mockProvider.recommendationState).thenReturn(RequestState.error);
-    when(mockProvider.message).thenReturn('Error message');
-    // Act
-    final textFinder = find.byKey(const Key('error_recommend_message'));
-    await tester.pumpWidget(makeTestableWidget(const RecommendedComponent()));
-    // Assert
-    expect(textFinder, findsOneWidget);
-  });
-
-  testWidgets(
       'Should display Detail Content and Recommended Movie when '
-      'detail state is loaded and recommendation state is success',
+      'detail state is [HasData] and recommendation state is not empty',
       (WidgetTester tester) async {
     // Arrange
-    when(mockProvider.detailState).thenReturn(RequestState.success);
-    when(mockProvider.detailMovie).thenReturn(tMovieDetail);
-    when(mockProvider.recommendationState).thenReturn(RequestState.success);
-    when(mockProvider.recommendedMovies).thenReturn(tMovieList);
-    when(mockProvider.hasAddedToWatchlist).thenReturn(false);
+    when(() => mockDetailBloc.state).thenReturn(DetailHasData(
+      detail: tMovieDetail,
+      recommendedMovie: tMovieList,
+      hasAddedToWatchList: false,
+    ));
     // Act
     final detailContentFinder = find.byType(DetailContent);
     final recommendedListViewFinder = find.byType(ListView);
@@ -136,14 +120,13 @@ void main() {
 
   testWidgets(
       'Should display Detail Content and Empty Message in Recommend Movie '
-      'when detail state is loaded and recommendation state is empty',
+      'when state is [HasData] and recommendation movie is empty',
       (WidgetTester tester) async {
     // Arrange
-    when(mockProvider.detailState).thenReturn(RequestState.success);
-    when(mockProvider.detailMovie).thenReturn(tMovieDetail);
-    when(mockProvider.recommendationState).thenReturn(RequestState.empty);
-    when(mockProvider.recommendedMovies).thenReturn(List<Movie>.empty());
-    when(mockProvider.hasAddedToWatchlist).thenReturn(false);
+    when(() => mockDetailBloc.state).thenReturn(const DetailHasData(
+        detail: tMovieDetail,
+        recommendedMovie: [],
+        hasAddedToWatchList: false));
     // Act
     final detailContentFinder = find.byType(DetailContent);
     final recommendedEmptyMsgKeyFinder = find.byKey(
