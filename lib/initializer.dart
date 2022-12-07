@@ -17,7 +17,6 @@ import 'package:submission/domain/usecases/search_tv.dart';
 import 'package:submission/ui/views/detail/bloc/detail_bloc.dart';
 import 'package:submission/ui/views/home/bloc/home_bloc.dart';
 import 'package:submission/ui/views/popular/bloc/popular_bloc.dart';
-import 'package:submission/ui/views/tv_detail/tv_detail_provider.dart';
 import 'package:submission/ui/views/watchlist/movie/watchlist_movie_provider.dart';
 import 'package:submission/ui/views/watchlist/tv/watchlist_tv_provider.dart';
 
@@ -41,6 +40,7 @@ import 'domain/usecases/get_watchlist_tv_exist_status.dart';
 import 'domain/usecases/search_movie.dart';
 import 'ui/views/search/bloc/search_bloc.dart';
 import 'ui/views/top_rated/bloc/top_rated_bloc.dart';
+import 'ui/views/tv_detail/bloc/tv_detail_bloc.dart';
 import 'ui/views/tv_on_air/bloc/tv_on_air_bloc.dart';
 import 'ui/views/tv_popular/bloc/tv_popular_bloc.dart';
 import 'ui/views/tv_search/bloc/tv_search_bloc.dart';
@@ -103,20 +103,20 @@ Future<void> init() async {
       removeWatchlist: sl<RemoveWatchlistMovie>(),
     ),
   );
-
-  // Provider
   sl.registerFactory(
-    () => WatchlistTvProvider(
-      getWatchlist: sl<GetWatchlistTv>(),
-    ),
-  );
-  sl.registerFactory(
-    () => TvDetailProvider(
+        () => TvDetailBloc(
       getDetailTv: sl<GetDetailTv>(),
       getRecommendationsTv: sl<GetRecommendedTv>(),
       getWatchlistExist: sl<GetWatchlistTvExistStatus>(),
       saveWatchlist: sl<SaveWatchlistTv>(),
       removeWatchlist: sl<RemoveWatchlistTv>(),
+    ),
+  );
+
+  // Provider
+  sl.registerFactory(
+    () => WatchlistTvProvider(
+      getWatchlist: sl<GetWatchlistTv>(),
     ),
   );
   sl.registerFactory(

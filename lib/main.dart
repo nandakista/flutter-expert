@@ -9,7 +9,6 @@ import 'package:submission/initializer.dart' as di;
 import 'package:submission/ui/views/popular/popular_view.dart';
 import 'package:submission/ui/views/search/search_view.dart';
 import 'package:submission/ui/views/top_rated/top_rated_view.dart';
-import 'package:submission/ui/views/tv_detail/tv_detail_provider.dart';
 import 'package:submission/ui/views/tv_detail/tv_detail_view.dart';
 import 'package:submission/ui/views/tv_on_air/tv_on_air_view.dart';
 import 'package:submission/ui/views/tv_popular/tv_popular_view.dart';
@@ -28,6 +27,7 @@ import 'ui/views/home/bloc/home_bloc.dart';
 import 'ui/views/popular/bloc/popular_bloc.dart';
 import 'ui/views/search/bloc/search_bloc.dart';
 import 'ui/views/top_rated/bloc/top_rated_bloc.dart';
+import 'ui/views/tv_detail/bloc/tv_detail_bloc.dart';
 import 'ui/views/tv_on_air/bloc/tv_on_air_bloc.dart';
 import 'ui/views/tv_popular/bloc/tv_popular_bloc.dart';
 import 'ui/views/tv_search/bloc/tv_search_bloc.dart';
@@ -79,8 +79,8 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (_) => di.sl<TvTopRatedBloc>()..add(LoadTopRatedTv()),
         ),
-        ChangeNotifierProvider(
-          create: (_) => di.sl<TvDetailProvider>(),
+        BlocProvider(
+          create: (_) => di.sl<TvDetailBloc>(),
         ),
         ChangeNotifierProvider(
           create: (_) => di.sl<WatchlistTvProvider>(),

@@ -1,35 +1,37 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:submission/core/constant/constant.dart';
-import 'package:submission/core/constant/network_state.dart';
 import 'package:submission/ui/views/detail/components/detail_content_view.dart';
-import 'package:submission/ui/views/tv_detail/tv_detail_provider.dart';
 import 'package:submission/ui/widgets/colored_status_bar.dart';
 
+import 'bloc/tv_detail_bloc.dart';
 import 'components/recommended_tv_component.dart';
 
-class TvDetailView extends StatefulWidget {
+class TvDetailView extends StatelessWidget {
   static const route = '/tv/detail';
   const TvDetailView({Key? key, required this.id}) : super(key: key);
 
   final int id;
 
-  @override
-  State<TvDetailView> createState() => _TvDetailViewState();
-}
-
-class _TvDetailViewState extends State<TvDetailView> {
-  @override
-  void initState() {
-    Future.microtask(() {
-      Provider.of<TvDetailProvider>(context, listen: false)
-          .loadTvDetail(widget.id);
-      Provider.of<TvDetailProvider>(context, listen: false)
-          .loadRecommendedTv(widget.id);
-      Provider.of<TvDetailProvider>(context, listen: false)
-          .loadWatchlistExistStatus(widget.id);
-    });
-    super.initState();
+  void _mapBlocListener(BuildContext context, TvDetailState state) {
+    if (state is TvDetailHasData) {
+      if (state.watchlistMessage != '') {
+        if (state.watchlistMessage == 'Added to Watchlist' ||
+            state.watchlistMessage == 'Removed from Watchlist') {
+          ScaffoldMessenger.of(context)
+              .showSnackBar(SnackBar(content: Text(state.watchlistMessage)));
+        } else {
+          showDialog(
+            context: context,
+            builder: (context) {
+              return AlertDialog(
+                content: Text(state.watchlistMessage),
+              );
+            },
+          );
+        }
+      }
+    }
   }
 
   @override
@@ -39,30 +41,27 @@ class _TvDetailViewState extends State<TvDetailView> {
       brightness: Brightness.light,
       child: Scaffold(
         bottomNavigationBar: SafeArea(
-          child: Consumer<TvDetailProvider>(
-            builder: (context, provider, child) {
-              if (provider.detailState == RequestState.success) {
-                provider.hasAddedToWatchlist;
+          child: BlocConsumer<TvDetailBloc, TvDetailState>(
+            listener: _mapBlocListener,
+            builder: (context, state) {
+              if (state is TvDetailHasData) {
                 return Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
                   child: ElevatedButton(
                     onPressed: () async {
-                      if (provider.hasAddedToWatchlist == false) {
-                        await provider.addWatchlist(provider.detailTv);
+                      if (state.hasAddedToWatchList == false) {
+                        context.read<TvDetailBloc>().add(
+                            AddWatchlist(state.detail, state.recommendedTv));
                       } else {
-                        await provider.removeFromWatchlist(provider.detailTv);
-                      }
-                      if (mounted) {
-                        _buildAlertSnackBar(context, provider.watchlistMessage);
+                        context.read<TvDetailBloc>().add(RemoveFromWatchlist(
+                            state.detail, state.recommendedTv));
                       }
                     },
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Icon(
-                          provider.hasAddedToWatchlist
-                              ? Icons.check
-                              : Icons.add,
+                          state.hasAddedToWatchList ? Icons.check : Icons.add,
                           color: Colors.white,
                         ),
                         const SizedBox(width: 4),
@@ -82,14 +81,11 @@ class _TvDetailViewState extends State<TvDetailView> {
         ),
         body: Stack(
           children: [
-            Consumer<TvDetailProvider>(
-              builder: (context, provider, child) {
-                if (provider.detailState == RequestState.loading) {
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
-                } else if (provider.detailState == RequestState.success) {
-                  final tv = provider.detailTv;
+            BlocBuilder<TvDetailBloc, TvDetailState>(
+              bloc: context.read<TvDetailBloc>()..add(LoadDetailTv(id)),
+              builder: (context, state) {
+                if (state is TvDetailHasData) {
+                  final tv = state.detail;
                   return SafeArea(
                     child: DetailContent(
                       key: const Key('detail_content'),
@@ -103,10 +99,14 @@ class _TvDetailViewState extends State<TvDetailView> {
                       recommendedView: const RecommendedTvComponent(),
                     ),
                   );
-                } else {
+                } else if (state is TvDetailError) {
                   return Text(
                     key: const Key('error_message'),
-                    provider.message,
+                    state.message,
+                  );
+                } else {
+                  return const Center(
+                    child: CircularProgressIndicator(),
                   );
                 }
               },
@@ -126,22 +126,5 @@ class _TvDetailViewState extends State<TvDetailView> {
         ),
       ),
     );
-  }
-
-  _buildAlertSnackBar(BuildContext context, String message) {
-    if (message == 'Added to Watchlist' ||
-        message == 'Removed from Watchlist') {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text(message)));
-    } else {
-      showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            content: Text(message),
-          );
-        },
-      );
-    }
   }
 }
