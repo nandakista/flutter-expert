@@ -1,20 +1,19 @@
+import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/annotations.dart';
-import 'package:mockito/mockito.dart';
-import 'package:provider/provider.dart';
-import 'package:submission/core/constant/network_state.dart';
+import 'package:mocktail/mocktail.dart';
 import 'package:submission/domain/entities/tv.dart';
-import 'package:submission/ui/views/watchlist/tv/watchlist_tv_provider.dart';
+import 'package:submission/ui/views/watchlist/tv/bloc/watchlist_tv_bloc.dart';
 import 'package:submission/ui/views/watchlist/tv/watchlist_tv_view.dart';
 
-import 'watchlist_tv_view_test.mocks.dart';
+class MockWatchlistTvBloc extends MockBloc<WatchlistTvEvent, WatchlistTvState>
+    implements WatchlistTvBloc {}
 
-@GenerateMocks([WatchlistTvProvider])
 void main() {
-  late MockWatchlistTvProvider mockProvider;
+  late MockWatchlistTvBloc mockBloc;
 
-  setUp(() => mockProvider = MockWatchlistTvProvider());
+  setUp(() => mockBloc = MockWatchlistTvBloc());
 
   final tTvList = [
     const Tv(
@@ -34,10 +33,9 @@ void main() {
     ),
   ];
 
-
   Widget makeTestableWidget(Widget body) {
-    return ChangeNotifierProvider<WatchlistTvProvider>.value(
-      value: mockProvider,
+    return BlocProvider<WatchlistTvBloc>.value(
+      value: mockBloc,
       child: MaterialApp(
         home: body,
       ),
@@ -45,29 +43,27 @@ void main() {
   }
 
   testWidgets('''Should display Text with empty message when empty state''',
-          (WidgetTester tester) async {
-        // Arrange
-        when(mockProvider.state).thenReturn(RequestState.empty);
-        when(mockProvider.data).thenReturn(<Tv>[]);
-        when(mockProvider.message).thenReturn('Empty message');
-        // Act
-        final textFinder = find.byKey(const Key('empty_message'));
-        final centerFinder = find.byType(Center);
-        await tester.pumpWidget(makeTestableWidget(const WatchlistTvView()));
-        // Assert
-        expect(textFinder, findsOneWidget);
-        expect(centerFinder, findsOneWidget);
-      });
+      (WidgetTester tester) async {
+    // Arrange
+    when(() => mockBloc.state)
+        .thenReturn(const WatchlistTvEmpty('Empty message'));
+    // Act
+    final textFinder = find.byKey(const Key('empty_message'));
+    final centerFinder = find.byType(Center);
+    await tester.pumpWidget(makeTestableWidget(const WatchlistTvView()));
+    // Assert
+    expect(textFinder, findsOneWidget);
+    expect(centerFinder, findsOneWidget);
+  });
 
   testWidgets('Should display ListView when state is success',
-          (WidgetTester tester) async {
-        // Arrange
-        when(mockProvider.state).thenReturn(RequestState.success);
-        when(mockProvider.data).thenReturn(tTvList);
-        // Act
-        final listViewFinder = find.byType(ListView);
-        await tester.pumpWidget(makeTestableWidget(const WatchlistTvView()));
-        // Assert
-        expect(listViewFinder, findsOneWidget);
-      });
+      (WidgetTester tester) async {
+    // Arrange
+    when(() => mockBloc.state).thenReturn(WatchlistTvHasData(tTvList));
+    // Act
+    final listViewFinder = find.byType(ListView);
+    await tester.pumpWidget(makeTestableWidget(const WatchlistTvView()));
+    // Assert
+    expect(listViewFinder, findsOneWidget);
+  });
 }

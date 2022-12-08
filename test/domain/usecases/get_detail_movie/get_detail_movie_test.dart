@@ -2,7 +2,6 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-import 'package:submission/domain/entities/movie.dart';
 import 'package:submission/domain/entities/movie_detail.dart';
 import 'package:submission/domain/repositories/movie_repository.dart';
 import 'package:submission/domain/usecases/get_detail_movie.dart';

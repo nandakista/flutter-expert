@@ -29,7 +29,7 @@ class WatchlistMovieView extends StatelessWidget {
                       context,
                       DetailView.route,
                       arguments: movie.id,
-                    ).then((value) {
+                    ).then((_) {
                       context
                           .read<WatchlistMovieBloc>()
                           .add(LoadWatchlistMovie());

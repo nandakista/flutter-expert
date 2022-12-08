@@ -16,7 +16,6 @@ import 'package:submission/ui/views/tv_home/tv_home_view.dart';
 import 'package:submission/ui/views/tv_search/tv_search_view.dart';
 import 'package:submission/ui/views/tv_top_rated/tv_top_rated_view.dart';
 import 'package:submission/ui/views/watchlist/movie/bloc/watchlist_movie_bloc.dart';
-import 'package:submission/ui/views/watchlist/tv/watchlist_tv_provider.dart';
 import 'package:submission/ui/views/watchlist/watchlist_view.dart';
 import 'package:submission/ui/views/watchlist/tv/watchlist_tv_view.dart';
 
@@ -32,6 +31,7 @@ import 'ui/views/tv_on_air/bloc/tv_on_air_bloc.dart';
 import 'ui/views/tv_popular/bloc/tv_popular_bloc.dart';
 import 'ui/views/tv_search/bloc/tv_search_bloc.dart';
 import 'ui/views/tv_top_rated/bloc/tv_top_rated_bloc.dart';
+import 'ui/views/watchlist/tv/bloc/watchlist_tv_bloc.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -82,8 +82,8 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (_) => di.sl<TvDetailBloc>(),
         ),
-        ChangeNotifierProvider(
-          create: (_) => di.sl<WatchlistTvProvider>(),
+        BlocProvider(
+          create: (_) => di.sl<WatchlistTvBloc>()..add(LoadWatchlistTv()),
         ),
       ],
       child: MaterialApp(
