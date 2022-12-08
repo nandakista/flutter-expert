@@ -1,9 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:submission/core/constant/constant.dart';
-import 'package:submission/ui/views/detail/detail_view.dart';
-
-import '../../domain/entities/movie.dart';
 
 class CoverItem extends StatelessWidget {
   const CoverItem({

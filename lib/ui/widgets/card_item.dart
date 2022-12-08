@@ -1,13 +1,8 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:submission/core/theme/app_style.dart';
-import 'package:submission/ui/views/detail/detail_view.dart';
 import 'package:submission/ui/widgets/sky_box.dart';
 import 'package:submission/ui/widgets/sky_image.dart';
-
-import '../../core/constant/constant.dart';
-import '../../domain/entities/movie.dart';
 
 class CardItem extends StatelessWidget {
   const CardItem({
