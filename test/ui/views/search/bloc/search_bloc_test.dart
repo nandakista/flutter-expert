@@ -64,6 +64,23 @@ void main() {
   );
 
   blocTest<SearchBloc, SearchState>(
+    'Should emit [Loading, Empty] when data is gotten successfully but empty',
+    build: () {
+      when(mockSearchMovies(tQuery)).thenAnswer((_) async => const Right([]));
+      return searchBloc;
+    },
+    act: (bloc) => bloc.add(const OnQueryChanged(tQuery)),
+    wait: const Duration(milliseconds: 500),
+    expect: () => [
+      SearchLoading(),
+      const SearchEmpty('Oops we could not find what you were looking for!'),
+    ],
+    verify: (bloc) {
+      verify(mockSearchMovies(tQuery));
+    },
+  );
+
+  blocTest<SearchBloc, SearchState>(
     'Should emit [Loading, Error] when get search is unsuccessful',
     build: () {
       when(mockSearchMovies(tQuery))
